@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:transparent;overflow:hidden;
+    font-family:'Segoe UI',Tahoma,sans-serif;color:#e6eaf0;
+    user-select:none;cursor:default;-webkit-app-region:drag}
+  #wrap{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:20px;
+    transition:opacity .45s ease, transform .45s cubic-bezier(.4,0,.2,1)}
+  #wrap.out{opacity:0;transform:scale(1.5)}
+  .disc{position:relative;width:250px;height:250px;display:grid;place-items:center}
+  .disc::before{content:'';position:absolute;inset:14px;border-radius:50%;
+    background:radial-gradient(circle at 50% 32%, #1b1630 0%, #0d1017 62%, #08090d 100%);
+    box-shadow:0 0 44px rgba(123,108,255,.34), inset 0 0 34px rgba(0,0,0,.75)}
+  .ring{position:absolute;inset:0}
+  .r1{animation:spin 1.15s linear infinite!important;transform-origin:50% 50%;transform-box:view-box}
+  .r2{animation:spinRev 1.9s linear infinite!important;transform-origin:50% 50%;transform-box:view-box}
+  .logo{position:relative;width:82px;height:82px;border-radius:22px;
+    background:linear-gradient(135deg,#7b6cff,#22e5c8);display:grid;place-items:center;
+    box-shadow:0 0 32px rgba(123,108,255,.6);
+    animation:pulse 1.7s ease-in-out infinite!important}
+  .title{font-size:22px;font-weight:700;letter-spacing:.4px;text-align:center;
+    background:linear-gradient(90deg,#9d90ff,#5cf0da);-webkit-background-clip:text;
+    background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 2px 14px rgba(0,0,0,.95))}
+  .sub{font-family:Consolas,'Courier New',monospace;font-size:10.5px;letter-spacing:3px;
+    color:#95a0b4;text-transform:uppercase;margin-top:-12px;text-shadow:0 2px 10px rgba(0,0,0,.95)}
+  .status{font-family:Consolas,'Courier New',monospace;font-size:10px;letter-spacing:1.6px;
+    color:#6b7688;height:13px;text-shadow:0 2px 10px rgba(0,0,0,.95)}
+  .dots{display:flex;gap:7px}
+  .dots i{width:6px;height:6px;border-radius:50%;display:block;
+    animation:blink 1.2s ease-in-out infinite!important}
+  .dots i:nth-child(1){background:#7b6cff}
+  .dots i:nth-child(2){background:#22e5c8;animation-delay:.2s!important}
+  .dots i:nth-child(3){background:#7b6cff;animation-delay:.4s!important}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spinRev{to{transform:rotate(-360deg)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  @keyframes blink{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+</style>
+</head>
+<body>
+  <div id="wrap">
+    <div class="disc">
+      <svg class="ring r1" viewBox="0 0 250 250">
+        <circle cx="125" cy="125" r="112" fill="none" stroke="rgba(40,48,70,.85)" stroke-width="5"/>
+        <circle cx="125" cy="125" r="112" fill="none" stroke="url(#gr)" stroke-width="5" stroke-linecap="round" stroke-dasharray="200 505"/>
+        <defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#22e5c8"/></linearGradient></defs>
+      </svg>
+      <svg class="ring r2" viewBox="0 0 250 250">
+        <circle cx="125" cy="125" r="94" fill="none" stroke="rgba(26,32,48,.8)" stroke-width="3"/>
+        <circle cx="125" cy="125" r="94" fill="none" stroke="#22e5c8" stroke-width="3" stroke-linecap="round" stroke-dasharray="66 525" opacity=".85"/>
+      </svg>
+      <div class="logo">
+        <svg viewBox="0 0 96 96" style="width:48px;height:48px">
+          <path d="M48 20C58 32 60 48 54 66L42 66C36 48 38 32 48 20Z" fill="#fff"/>
+          <circle cx="48" cy="40" r="7" fill="#7b6cff"/>
+          <path d="M42 66L36 78 44 70Z" fill="#e0dcff"/>
+          <path d="M54 66L60 78 52 70Z" fill="#e0dcff"/>
+          <ellipse cx="48" cy="74" rx="5" ry="9" fill="#ffcf5c"/>
+        </svg>
+      </div>
+    </div>
+    <div class="title">Set Computer Ty.ppw</div>
+    <div class="sub">Power By Chubby.com</div>
+    <div class="status" id="st">INITIALIZING ENGINE…</div>
+    <div class="dots"><i></i><i></i><i></i></div>
+  </div>
+<script>
+  (function(){
+    var msgs=['INITIALIZING ENGINE…','READING SYSTEM SPEC…','LOADING TWEAK MODULES…','PREPARING OPTIMIZER…','ALMOST READY…'];
+    var i=0, el=document.getElementById('st');
+    var t=setInterval(function(){ i++; if(i<msgs.length){ if(el) el.textContent=msgs[i]; } else clearInterval(t); },1100);
+    window.__exit=function(){ var w=document.getElementById('wrap'); if(w) w.className='out'; };
+  })();
+</script>
+</body>
+</html>

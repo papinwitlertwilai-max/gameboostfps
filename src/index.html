@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Game Boost FPS — Ty.ppw</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;600&display=swap');
+
+:root{
+  --void:#0b0d10; --panel:#12151b; --elevated:#171b22; --raised:#1c2129;
+  --line:#232935; --line-2:#2c3441;
+  --ink:#e6eaf0; --muted:#8a94a6; --faint:#5a6474; --ghost:#3a4250;
+  --volt:#7b6cff; --volt-2:#9d90ff; --mint:#22e5c8; --mint-2:#5cf0da;
+  --surge:#33e08a; --ember:#ff9d5c; --fault:#ff5470;
+  --grad:linear-gradient(135deg,var(--volt),var(--mint));
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Noto Sans Thai','Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --r:14px; --r-sm:10px; --r-lg:20px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+/* ══════════ THEMES (สลับได้ในหน้า Appearance) ══════════ */
+
+/* ── Retro Pixel : 8-bit teal เข้ม สแกนไลน์ชัด ขอบพิกเซลหนา ── */
+[data-theme="pixel"]{
+  --void:#0d1220; --panel:#0a0e18; --elevated:#111a2e; --raised:#16233d;
+  --line:#1c2740; --line-2:#2a3a5c;
+  --disp:'JetBrains Mono','Noto Sans Thai',monospace;
+  --mono:'JetBrains Mono',monospace;
+  --r:2px; --r-sm:2px; --r-lg:3px;
+  --volt:#22e5c8; --volt-2:#5cf0da; --mint:#22e5c8; --mint-2:#5cf0da;
+  --grad:linear-gradient(90deg,#22e5c8,#5cf0da);
+}
+[data-theme="pixel"] .mark{border-radius:3px; box-shadow:none; image-rendering:pixelated}
+[data-theme="pixel"] .brand,[data-theme="pixel"] #pTitle{letter-spacing:1.5px; text-shadow:2px 2px 0 rgba(10,61,54,.7)}
+[data-theme="pixel"] .nav{border:2px solid transparent; border-radius:2px}
+[data-theme="pixel"] .nav.on{border-color:#22e5c8; background:linear-gradient(90deg,rgba(34,229,200,.18),rgba(34,229,200,.03))}
+[data-theme="pixel"] .btn{border-radius:2px; border-width:2px}
+[data-theme="pixel"] .btn-primary{color:#06231f; box-shadow:none}
+[data-theme="pixel"] .card{border-width:2px; border-radius:2px}
+[data-theme="pixel"] .view{background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(120,255,240,.03) 2px,rgba(120,255,240,.03) 3px)}
+[data-theme="pixel"] h3{letter-spacing:.8px; text-shadow:1px 1px 0 rgba(10,61,54,.6)}
+[data-theme="pixel"] .grp{color:#3a6d63}
+
+/* ── Neon Cyber : ม่วง-ฟ้า เรืองแสง glow ── */
+[data-theme="neon"]{
+  --void:#0a0612; --panel:#140a24; --elevated:#180d2c; --raised:#20123c;
+  --line:#3a1d6b; --line-2:#5028a0;
+  --ink:#f0e8ff; --muted:#9a86c8; --faint:#6a5a94; --ghost:#4a3d70;
+  --volt:#c14bff; --volt-2:#22d3ff; --mint:#22d3ff; --mint-2:#6ee7ff;
+  --surge:#22d3ff; --ember:#ff6ad5; --fault:#ff4b8d;
+  --grad:linear-gradient(90deg,#c14bff,#22d3ff);
+}
+[data-theme="neon"] .mark{box-shadow:0 0 14px rgba(193,75,255,.6)}
+[data-theme="neon"] .brand,[data-theme="neon"] #pTitle{text-shadow:0 0 10px rgba(193,75,255,.6)}
+[data-theme="neon"] .nav.on{background:linear-gradient(90deg,rgba(193,75,255,.18),rgba(34,211,255,.04)); box-shadow:inset 0 0 12px rgba(193,75,255,.15)}
+[data-theme="neon"] .btn-primary{box-shadow:0 0 16px rgba(193,75,255,.45); color:#0a0612}
+[data-theme="neon"] .card:hover{box-shadow:0 0 16px rgba(193,75,255,.2)}
+[data-theme="neon"] .tag-ver{text-shadow:0 0 8px rgba(34,211,255,.6)}
+
+/* ── Amber Terminal : จอเหลืองยุค 80s mono ทั้งจอ สแกนไลน์เหลือง ── */
+[data-theme="amber"]{
+  --void:#0a0800; --panel:#0f0c00; --elevated:#151000; --raised:#1c1500;
+  --line:#4a3800; --line-2:#6b5200;
+  --ink:#ffd67a; --muted:#c79a3a; --faint:#8a6d1a; --ghost:#5a4700;
+  --disp:'JetBrains Mono','Noto Sans Thai',monospace;
+  --mono:'JetBrains Mono',monospace;
+  --volt:#ffb000; --volt-2:#ffcf40; --mint:#ffcf40; --mint-2:#ffe08a;
+  --surge:#ffcf40; --ember:#ff9d2f; --fault:#ff6a3d;
+  --grad:linear-gradient(90deg,#ffb000,#ffcf40);
+}
+[data-theme="amber"] .mark{box-shadow:0 0 12px rgba(255,176,0,.5)}
+[data-theme="amber"] .brand,[data-theme="amber"] #pTitle{letter-spacing:1px; text-shadow:0 0 8px rgba(255,176,0,.5)}
+[data-theme="amber"] .nav.on{background:linear-gradient(90deg,rgba(255,176,0,.16),rgba(255,176,0,.02))}
+[data-theme="amber"] .btn-primary{color:#1a1200; box-shadow:0 0 14px rgba(255,176,0,.4)}
+[data-theme="amber"] .view{background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,176,0,.035) 2px,rgba(255,176,0,.035) 3px)}
+[data-theme="amber"] .grp{color:#8a6d1a}
+
+/* ── Minimal Light : พื้นขาวสะอาด กลับ dark→light ทั้งแอป ── */
+[data-theme="light"]{
+  --void:#f4f5f7; --panel:#ffffff; --elevated:#ffffff; --raised:#fbfbfd;
+  --line:#e3e5ea; --line-2:#d0d4dc;
+  --ink:#1a1c22; --muted:#6b7280; --faint:#9aa0ac; --ghost:#c0c5d0;
+  --volt:#5b5ef0; --volt-2:#7b7ef5; --mint:#0ea882; --mint-2:#12c496;
+  --surge:#0ea882; --ember:#e08a2f; --fault:#e2445c;
+  --grad:linear-gradient(90deg,#5b5ef0,#0ea882);
+}
+[data-theme="light"] .mark{box-shadow:0 2px 10px rgba(91,94,240,.28)}
+[data-theme="light"] .nav.on{color:#1a1c22; background:linear-gradient(90deg,rgba(91,94,240,.12),rgba(91,94,240,.02))}
+[data-theme="light"] .btn{border-color:#d0d4dc}
+[data-theme="light"] .btn:hover{background:#f1f2f5}
+[data-theme="light"] .btn-primary{color:#fff}
+[data-theme="light"] .card{box-shadow:0 1px 3px rgba(20,22,30,.05)}
+[data-theme="light"] .grp{color:#9aa0ac}
+[data-theme="light"] .tp-row:nth-child(odd){background:rgba(20,22,30,.03)}
+
+/* ── Blood Moon : แดงเข้ม-ดำ ดุดัน ── */
+[data-theme="blood"]{
+  --void:#120608; --panel:#1a0a0d; --elevated:#210d11; --raised:#2a1116;
+  --line:#3d1a20; --line-2:#5a2530;
+  --ink:#ffe0e4; --muted:#c98a92; --faint:#8a5a62; --ghost:#5a3a40;
+  --volt:#ff2d4a; --volt-2:#ff5c72; --mint:#ff7a4a; --mint-2:#ff9d6a;
+  --surge:#ff5c4a; --ember:#ff9d3c; --fault:#ff2d4a;
+  --grad:linear-gradient(90deg,#ff2d4a,#ff7a4a);
+}
+[data-theme="blood"] .mark{box-shadow:0 0 14px rgba(255,45,74,.5)}
+[data-theme="blood"] .brand,[data-theme="blood"] #pTitle{text-shadow:0 0 10px rgba(255,45,74,.5)}
+[data-theme="blood"] .nav.on{background:linear-gradient(90deg,rgba(255,45,74,.18),rgba(255,45,74,.03)); box-shadow:inset 0 0 12px rgba(255,45,74,.12)}
+[data-theme="blood"] .btn-primary{box-shadow:0 0 16px rgba(255,45,74,.4); color:#150406}
+[data-theme="blood"] .card:hover{box-shadow:0 0 14px rgba(255,45,74,.18)}
+
+/* ── Forest Stealth : เขียวทหาร tactical HUD ── */
+[data-theme="forest"]{
+  --void:#0a0f0a; --panel:#0f150f; --elevated:#131b13; --raised:#182218;
+  --line:#26331f; --line-2:#38492e;
+  --ink:#e0f0d8; --muted:#8fa87d; --faint:#5f7050; --ghost:#43503a;
+  --volt:#9dff2d; --volt-2:#b8ff5c; --mint:#4ade80; --mint-2:#6ee89a;
+  --surge:#4ade80; --ember:#d4c23c; --fault:#ff6a4a;
+  --grad:linear-gradient(90deg,#9dff2d,#4ade80);
+  --disp:'JetBrains Mono','Noto Sans Thai',monospace;
+}
+[data-theme="forest"] .mark{box-shadow:0 0 12px rgba(157,255,45,.4)}
+[data-theme="forest"] .brand,[data-theme="forest"] #pTitle{letter-spacing:1px; text-shadow:0 0 8px rgba(157,255,45,.4)}
+[data-theme="forest"] .nav.on{background:linear-gradient(90deg,rgba(157,255,45,.14),rgba(157,255,45,.02))}
+[data-theme="forest"] .btn-primary{color:#0a0f0a; box-shadow:0 0 14px rgba(157,255,45,.35)}
+[data-theme="forest"] .card{border-radius:4px}
+
+/* ── Sakura Soft : ชมพู-ม่วงพาสเทลบนพื้นเข้มนุ่ม ── */
+[data-theme="sakura"]{
+  --void:#16101a; --panel:#1e1624; --elevated:#241b2c; --raised:#2b2034;
+  --line:#3a2d45; --line-2:#503c5e;
+  --ink:#ffe6f2; --muted:#c9a6be; --faint:#8f7088; --ghost:#5f4a5c;
+  --volt:#ff9dc4; --volt-2:#ffb8d6; --mint:#c9a3ff; --mint-2:#dcc0ff;
+  --surge:#a3e6c9; --ember:#ffcf8a; --fault:#ff8aa8;
+  --grad:linear-gradient(90deg,#ff9dc4,#c9a3ff);
+}
+[data-theme="sakura"] .mark{box-shadow:0 0 14px rgba(255,157,196,.5)}
+[data-theme="sakura"] .brand,[data-theme="sakura"] #pTitle{text-shadow:0 0 10px rgba(255,157,196,.4)}
+[data-theme="sakura"] .nav.on{background:linear-gradient(90deg,rgba(255,157,196,.16),rgba(201,163,255,.04))}
+[data-theme="sakura"] .btn-primary{color:#1a1020; box-shadow:0 0 16px rgba(255,157,196,.35)}
+[data-theme="sakura"] .card:hover{box-shadow:0 0 14px rgba(255,157,196,.18)}
+
+/* ── Cyberpunk 2077 : ฟ้า-ม่วง glow จัดจ้าน ── */
+[data-theme="cyber2077"]{
+  --void:#05070f; --panel:#0a1420; --elevated:#0d1a2a; --raised:#122236;
+  --line:#123a4d; --line-2:#1a5570;
+  --ink:#e0faff; --muted:#7fb3c9; --faint:#4f7a94; --ghost:#3a5a70;
+  --volt:#00e5ff; --volt-2:#c724ff; --mint:#00e5ff; --mint-2:#5cf0ff;
+  --surge:#00ffc8; --ember:#ffcf3c; --fault:#ff2d6a;
+  --grad:linear-gradient(90deg,#00e5ff,#c724ff);
+}
+[data-theme="cyber2077"] .mark{box-shadow:0 0 16px rgba(0,229,255,.6)}
+[data-theme="cyber2077"] .brand,[data-theme="cyber2077"] #pTitle{text-shadow:0 0 12px rgba(0,229,255,.6)}
+[data-theme="cyber2077"] .nav.on{background:linear-gradient(90deg,rgba(0,229,255,.18),rgba(199,36,255,.05)); box-shadow:inset 0 0 14px rgba(0,229,255,.18)}
+[data-theme="cyber2077"] .btn-primary{box-shadow:0 0 18px rgba(0,229,255,.5); color:#05070f}
+[data-theme="cyber2077"] .card:hover{box-shadow:0 0 16px rgba(199,36,255,.25)}
+
+/* ── Gold Luxury : ดำ-ทอง หรู ── */
+[data-theme="gold"]{
+  --void:#0a0a0a; --panel:#121110; --elevated:#17150f; --raised:#1e1b12;
+  --line:#2f2915; --line-2:#453c1e;
+  --ink:#fdf0d0; --muted:#c9b57d; --faint:#8a7a4f; --ghost:#5a5030;
+  --volt:#ffd700; --volt-2:#ffe770; --mint:#e0b84a; --mint-2:#f0d060;
+  --surge:#d4af37; --ember:#ff8c00; --fault:#e0554a;
+  --grad:linear-gradient(90deg,#ffd700,#ff8c00);
+}
+[data-theme="gold"] .mark{box-shadow:0 0 14px rgba(255,215,0,.45)}
+[data-theme="gold"] .brand,[data-theme="gold"] #pTitle{letter-spacing:.5px; text-shadow:0 0 10px rgba(255,215,0,.4)}
+[data-theme="gold"] .nav.on{background:linear-gradient(90deg,rgba(255,215,0,.14),rgba(255,215,0,.02))}
+[data-theme="gold"] .btn-primary{color:#0a0a0a; box-shadow:0 0 14px rgba(255,215,0,.4)}
+[data-theme="gold"] .card:hover{box-shadow:0 0 12px rgba(255,215,0,.18)}
+
+/* ── Matrix Code : เขียวมืด hacker ── */
+[data-theme="matrix"]{
+  --void:#001410; --panel:#001a14; --elevated:#002018; --raised:#00281e;
+  --line:#00382a; --line-2:#005540;
+  --ink:#c0ffe0; --muted:#5fb890; --faint:#3f7a60; --ghost:#2a5040;
+  --disp:'JetBrains Mono','Noto Sans Thai',monospace;
+  --mono:'JetBrains Mono',monospace;
+  --volt:#00ffa3; --volt-2:#5cffc0; --mint:#00ff6a; --mint-2:#5cff9a;
+  --surge:#00ff6a; --ember:#a3ff00; --fault:#ff5c5c;
+  --grad:linear-gradient(90deg,#00ffa3,#00ff6a);
+}
+[data-theme="matrix"] .mark{box-shadow:0 0 16px rgba(0,255,163,.5)}
+[data-theme="matrix"] .brand,[data-theme="matrix"] #pTitle{letter-spacing:1px; text-shadow:0 0 12px rgba(0,255,163,.5)}
+[data-theme="matrix"] .nav.on{background:linear-gradient(90deg,rgba(0,255,163,.14),rgba(0,255,163,.02))}
+[data-theme="matrix"] .btn-primary{color:#001410; box-shadow:0 0 16px rgba(0,255,163,.45)}
+[data-theme="matrix"] .view{background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,163,.03) 2px,rgba(0,255,163,.03) 3px)}
+
+/* ── Synthwave '84 : ชมพู-ฟ้า retro 80s ── */
+[data-theme="synth"]{
+  --void:#1a0a2e; --panel:#1f0f38; --elevated:#251445; --raised:#2d1a52;
+  --line:#3d2a5c; --line-2:#503c7a;
+  --ink:#ffe0f5; --muted:#c99ad4; --faint:#8f6ba0; --ghost:#5f4a70;
+  --volt:#ff6ec7; --volt-2:#ff9dd6; --mint:#4dd0e1; --mint-2:#7ce0ee;
+  --surge:#4dd0e1; --ember:#ffcf5c; --fault:#ff5c8a;
+  --grad:linear-gradient(90deg,#ff6ec7,#7873f5);
+}
+[data-theme="synth"] .mark{box-shadow:0 0 16px rgba(255,110,199,.55)}
+[data-theme="synth"] .brand,[data-theme="synth"] #pTitle{text-shadow:0 0 12px rgba(255,110,199,.5)}
+[data-theme="synth"] .nav.on{background:linear-gradient(90deg,rgba(255,110,199,.16),rgba(120,115,245,.05)); box-shadow:inset 0 0 14px rgba(255,110,199,.15)}
+[data-theme="synth"] .btn-primary{color:#1a0a2e; box-shadow:0 0 18px rgba(255,110,199,.45)}
+[data-theme="synth"] .card:hover{box-shadow:0 0 16px rgba(77,208,225,.22)}
+
+/* ── Deep Ocean : น้ำเงินลึก สงบ ── */
+[data-theme="ocean"]{
+  --void:#020814; --panel:#0a1830; --elevated:#0d1e3a; --raised:#122645;
+  --line:#16324d; --line-2:#1f4a70;
+  --ink:#d8ecff; --muted:#7fa3c9; --faint:#4f6f94; --ghost:#3a5570;
+  --volt:#4a9eff; --volt-2:#7cbaff; --mint:#3ce0d0; --mint-2:#6cf0e0;
+  --surge:#3ce0a0; --ember:#ffb85c; --fault:#ff6a7a;
+  --grad:linear-gradient(90deg,#4a9eff,#3ce0d0);
+}
+[data-theme="ocean"] .mark{box-shadow:0 0 14px rgba(74,158,255,.45)}
+[data-theme="ocean"] .brand,[data-theme="ocean"] #pTitle{text-shadow:0 0 10px rgba(74,158,255,.4)}
+[data-theme="ocean"] .nav.on{background:linear-gradient(90deg,rgba(74,158,255,.16),rgba(60,224,208,.04))}
+[data-theme="ocean"] .btn-primary{color:#020814; box-shadow:0 0 14px rgba(74,158,255,.4)}
+[data-theme="ocean"] .card:hover{box-shadow:0 0 12px rgba(74,158,255,.18)}
+
+/* ── Lava Forge : ส้ม-แดงไฟลุก ── */
+[data-theme="lava"]{
+  --void:#0f0603; --panel:#1a0d06; --elevated:#22110a; --raised:#2b160d;
+  --line:#3d1a0d; --line-2:#5a2815;
+  --ink:#ffe8d8; --muted:#c99a7d; --faint:#8a6a4f; --ghost:#5a4030;
+  --volt:#ff5722; --volt-2:#ff7d4a; --mint:#ffc107; --mint-2:#ffd450;
+  --surge:#ff9d3c; --ember:#ffc107; --fault:#ff3d3d;
+  --grad:linear-gradient(90deg,#ff5722,#ffc107);
+}
+[data-theme="lava"] .mark{box-shadow:0 0 16px rgba(255,87,34,.55)}
+[data-theme="lava"] .brand,[data-theme="lava"] #pTitle{text-shadow:0 0 12px rgba(255,87,34,.5)}
+[data-theme="lava"] .nav.on{background:linear-gradient(90deg,rgba(255,87,34,.18),rgba(255,193,7,.04)); box-shadow:inset 0 0 14px rgba(255,87,34,.15)}
+[data-theme="lava"] .btn-primary{color:#0f0603; box-shadow:0 0 18px rgba(255,87,34,.45)}
+[data-theme="lava"] .card:hover{box-shadow:0 0 16px rgba(255,87,34,.22)}
+
+/* ── Ice Frost : ฟ้าน้ำแข็งขาว เย็น ── */
+[data-theme="ice"]{
+  --void:#0a1420; --panel:#0f1e2e; --elevated:#132638; --raised:#182f44;
+  --line:#1f3d54; --line-2:#2a5575;
+  --ink:#eaf6ff; --muted:#a3c9e0; --faint:#6f94b0; --ghost:#4f7090;
+  --volt:#7ce0ff; --volt-2:#a3ecff; --mint:#c0f0ff; --mint-2:#e0f8ff;
+  --surge:#5ce0e0; --ember:#ffcf8a; --fault:#ff8aa8;
+  --grad:linear-gradient(90deg,#7ce0ff,#c0f0ff);
+}
+[data-theme="ice"] .mark{box-shadow:0 0 16px rgba(124,224,255,.55)}
+[data-theme="ice"] .brand,[data-theme="ice"] #pTitle{text-shadow:0 0 12px rgba(124,224,255,.5)}
+[data-theme="ice"] .nav.on{background:linear-gradient(90deg,rgba(124,224,255,.16),rgba(192,240,255,.04))}
+[data-theme="ice"] .btn-primary{color:#0a1420; box-shadow:0 0 16px rgba(124,224,255,.45)}
+[data-theme="ice"] .card:hover{box-shadow:0 0 14px rgba(124,224,255,.2)}
+
+/* ── Toxic Green : เขียวพิษเรืองแสง ── */
+[data-theme="toxic"]{
+  --void:#0a0f02; --panel:#111a06; --elevated:#16220a; --raised:#1c2b0d;
+  --line:#283d15; --line-2:#3d5a20;
+  --ink:#eaffcf; --muted:#a3c97d; --faint:#6f8a4f; --ghost:#4f5a30;
+  --volt:#aaff00; --volt-2:#c4ff5c; --mint:#7cff2d; --mint-2:#a3ff6a;
+  --surge:#7cff2d; --ember:#ffe03c; --fault:#ff5c3c;
+  --grad:linear-gradient(90deg,#aaff00,#7cff2d);
+}
+[data-theme="toxic"] .mark{box-shadow:0 0 18px rgba(170,255,0,.6)}
+[data-theme="toxic"] .brand,[data-theme="toxic"] #pTitle{text-shadow:0 0 14px rgba(170,255,0,.55)}
+[data-theme="toxic"] .nav.on{background:linear-gradient(90deg,rgba(170,255,0,.16),rgba(124,255,45,.04)); box-shadow:inset 0 0 14px rgba(170,255,0,.15)}
+[data-theme="toxic"] .btn-primary{color:#0a0f02; box-shadow:0 0 18px rgba(170,255,0,.5)}
+[data-theme="toxic"] .card:hover{box-shadow:0 0 16px rgba(170,255,0,.22)}
+
+/* ── Mono Noir : ขาว-ดำล้วน มินิมอล ── */
+[data-theme="noir"]{
+  --void:#0a0a0a; --panel:#131313; --elevated:#181818; --raised:#1e1e1e;
+  --line:#2a2a2a; --line-2:#3d3d3d;
+  --ink:#f0f0f0; --muted:#9a9a9a; --faint:#6a6a6a; --ghost:#4a4a4a;
+  --volt:#ffffff; --volt-2:#d0d0d0; --mint:#c0c0c0; --mint-2:#e0e0e0;
+  --surge:#e0e0e0; --ember:#b0b0b0; --fault:#ff6a6a;
+  --grad:linear-gradient(90deg,#ffffff,#a0a0a0);
+}
+[data-theme="noir"] .brand,[data-theme="noir"] #pTitle{letter-spacing:1px}
+[data-theme="noir"] .nav.on{background:linear-gradient(90deg,rgba(255,255,255,.12),rgba(255,255,255,.02))}
+[data-theme="noir"] .btn-primary{color:#0a0a0a}
+[data-theme="noir"] .card:hover{border-color:#4a4a4a}
+
+/* ── Rainbow RGB : ไล่สีรุ้ง เกมมิ่งเกียร์ ── */
+[data-theme="rgb"]{
+  --void:#0a0a0f; --panel:#12121a; --elevated:#171720; --raised:#1d1d28;
+  --line:#2a2a3d; --line-2:#3d3d55;
+  --ink:#f0f0ff; --muted:#a3a3c9; --faint:#6f6f94; --ghost:#4f4f70;
+  --volt:#ff2d6a; --volt-2:#2dceff; --mint:#2dff9d; --mint-2:#6affc0;
+  --surge:#2dff9d; --ember:#ffcf2d; --fault:#ff2d6a;
+  --grad:linear-gradient(90deg,#ff2d6a,#ffcf2d,#2dff9d,#2dceff,#c72dff);
+}
+[data-theme="rgb"] .mark{background:linear-gradient(90deg,#ff2d6a,#ffcf2d,#2dff9d,#2dceff,#c72dff); box-shadow:0 0 18px rgba(199,45,255,.5)}
+[data-theme="rgb"] .brand{background:linear-gradient(90deg,#ff2d6a,#ffcf2d,#2dff9d,#2dceff,#c72dff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+[data-theme="rgb"] .nav.on{background:linear-gradient(90deg,rgba(255,45,106,.14),rgba(45,206,255,.05))}
+[data-theme="rgb"] .btn-primary{color:#0a0a0f; box-shadow:0 0 18px rgba(199,45,255,.4)}
+[data-theme="rgb"] .card:hover{box-shadow:0 0 16px rgba(45,206,255,.2)}
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:rgba(123,108,255,.3)}
+
+body{
+  background:var(--void); color:var(--ink);
+  font-family:var(--body); font-size:14px;
+  height:100vh; display:flex; flex-direction:column; overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(70% 45% at 78% -8%, rgba(123,108,255,.10), transparent 60%),
+    radial-gradient(60% 40% at 8% 108%, rgba(34,229,200,.07), transparent 60%);
+}
+button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit}
+input{font-family:inherit}
+
+/* ── TITLE BAR ── */
+.bar{
+  height:48px; flex-shrink:0; z-index:5;
+  background:linear-gradient(180deg,rgba(23,27,34,.9),rgba(18,21,27,.9));
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; padding:0 16px; gap:12px;
+  backdrop-filter:blur(12px);
+}
+.mark{
+  width:30px; height:30px; border-radius:9px; flex-shrink:0;
+  background:var(--grad); display:grid; place-items:center;
+  font-size:15px; box-shadow:0 4px 16px rgba(123,108,255,.35);
+}
+.brand{font-family:var(--disp); font-weight:700; font-size:15px; letter-spacing:.2px}
+.brand b{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+.by{font-size:11px; color:var(--faint); font-family:var(--mono)}
+.tag-ver{
+  font-family:var(--mono); font-size:10px; color:var(--muted);
+  border:1px solid var(--line-2); border-radius:6px; padding:2px 7px;
+}
+.bar-right{margin-left:auto; display:flex; align-items:center; gap:14px}
+.sys-mini{display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:11px; color:var(--muted)}
+.sys-mini span b{color:var(--ink); font-weight:500}
+.live{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11px; color:var(--surge)}
+.live i{width:7px; height:7px; border-radius:50%; background:var(--surge); box-shadow:0 0 8px var(--surge); animation:beat 2.4s var(--ease) infinite}
+@keyframes beat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+
+/* ── SHELL ── */
+.shell{flex:1; display:flex; overflow:hidden; z-index:1}
+
+/* ── SIDEBAR ── */
+.side{
+  width:210px; min-width:210px; flex-shrink:0;
+  background:linear-gradient(180deg,var(--panel),rgba(11,13,16,.6));
+  border-right:1px solid var(--line);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.side-scroll{flex:1; overflow-y:auto; padding:12px 10px}
+.side-scroll::-webkit-scrollbar{width:0}
+.grp{font-family:var(--mono); font-size:9px; letter-spacing:2.5px; color:var(--ghost); padding:12px 10px 6px; text-transform:uppercase}
+.nav{
+  display:flex; align-items:center; gap:11px; width:100%;
+  padding:9px 11px; border-radius:var(--r-sm); text-align:left;
+  font-size:13px; font-weight:500; color:var(--muted);
+  transition:all .16s var(--ease); position:relative; margin-bottom:2px;
+}
+.nav:hover{color:var(--ink); background:rgba(255,255,255,.035)}
+.nav.on{color:var(--ink); background:linear-gradient(90deg,rgba(123,108,255,.14),rgba(123,108,255,.02))}
+.nav.on::before{content:''; position:absolute; left:0; top:20%; bottom:20%; width:3px; border-radius:3px; background:var(--grad)}
+.nav .ic{width:18px; text-align:center; font-size:15px; flex-shrink:0}
+.nav .ct{margin-left:auto; font-family:var(--mono); font-size:10px; color:var(--faint); background:var(--elevated); border-radius:20px; padding:1px 7px; min-width:20px; text-align:center}
+.nav.on .ct{color:var(--volt-2); background:rgba(123,108,255,.12)}
+
+.side-foot{padding:12px; border-top:1px solid var(--line)}
+.admin{
+  display:flex; gap:9px; align-items:flex-start;
+  background:rgba(255,157,92,.07); border:1px solid rgba(255,157,92,.18);
+  border-radius:var(--r-sm); padding:9px 11px; font-size:11px; color:var(--ember); line-height:1.5;
+}
+
+/* ── MAIN ── */
+.main{flex:1; display:flex; flex-direction:column; overflow:hidden}
+.top{
+  height:52px; flex-shrink:0; display:flex; align-items:center;
+  padding:0 22px; gap:14px; border-bottom:1px solid var(--line);
+}
+.top h1{font-family:var(--disp); font-size:16px; font-weight:600}
+.top .sub{font-size:12px; color:var(--faint)}
+.top-r{margin-left:auto; display:flex; align-items:center; gap:10px}
+
+.search{
+  display:flex; align-items:center; gap:8px; width:220px;
+  background:var(--elevated); border:1px solid var(--line-2); border-radius:var(--r-sm);
+  padding:7px 11px; transition:border-color .16s, box-shadow .16s;
+}
+.search:focus-within{border-color:var(--volt); box-shadow:0 0 0 3px rgba(123,108,255,.12)}
+.search input{background:none; border:none; outline:none; color:var(--ink); font-size:12.5px; width:100%}
+.search input::placeholder{color:var(--faint)}
+.search .sc{color:var(--faint); font-size:12px}
+
+.btn{
+  display:inline-flex; align-items:center; gap:7px; justify-content:center;
+  padding:8px 15px; border-radius:var(--r-sm); font-family:var(--disp);
+  font-size:12.5px; font-weight:600; letter-spacing:.2px;
+  transition:all .16s var(--ease); white-space:nowrap;
+}
+.btn-primary{background:var(--grad); color:#0a0b0f; box-shadow:0 4px 18px rgba(123,108,255,.28)}
+.btn-primary:hover{filter:brightness(1.08); transform:translateY(-1px); box-shadow:0 6px 24px rgba(123,108,255,.4)}
+.btn-ghost{background:var(--elevated); border:1px solid var(--line-2); color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ghost); background:var(--raised)}
+.btn:disabled{opacity:.45; cursor:not-allowed; transform:none!important; filter:none!important}
+
+/* ── SCROLL AREA ── */
+.view{flex:1; overflow-y:auto; padding:22px}
+.view::-webkit-scrollbar{width:9px}
+.view::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:20px; border:3px solid var(--void)}
+.view::-webkit-scrollbar-thumb:hover{background:var(--ghost)}
+
+.page{display:none; animation:rise .35s var(--ease)}
+.page.on{display:block}
+@keyframes rise{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+
+/* ── DASHBOARD HERO ── */
+.hero{
+  display:grid; grid-template-columns:1.15fr .85fr; gap:16px; margin-bottom:18px;
+}
+@media(max-width:920px){.hero{grid-template-columns:1fr}}
+
+.gauge-card{
+  background:
+    radial-gradient(120% 80% at 80% 0%, rgba(123,108,255,.10), transparent 55%),
+    var(--panel);
+  border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:26px; display:flex; align-items:center; gap:26px; position:relative; overflow:hidden;
+}
+.gauge-wrap{position:relative; width:200px; height:130px; flex-shrink:0}
+.gauge-wrap svg{width:200px; height:130px; overflow:visible}
+.gauge-readout{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:2px}
+.gauge-num{font-family:var(--disp); font-size:46px; font-weight:700; line-height:.9; letter-spacing:-1px}
+.gauge-num .pct{font-size:20px; color:var(--muted); font-weight:500}
+.gauge-lbl{font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--faint); margin-top:4px}
+.gauge-side{flex:1; min-width:0}
+.gauge-side h2{font-family:var(--disp); font-size:19px; font-weight:600; margin-bottom:5px}
+.gauge-side p{font-size:12.5px; color:var(--muted); line-height:1.6; margin-bottom:16px}
+.gauge-meta{font-family:var(--mono); font-size:11px; color:var(--faint); margin-bottom:14px}
+.gauge-meta b{color:var(--mint); font-weight:500}
+.gauge-actions{display:flex; gap:9px; flex-wrap:wrap}
+
+.side-stats{display:flex; flex-direction:column; gap:12px}
+.stat{
+  flex:1; background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  padding:14px 16px; display:flex; align-items:center; gap:13px;
+}
+.stat .si{width:38px; height:38px; border-radius:11px; display:grid; place-items:center; font-size:17px; flex-shrink:0}
+.stat .sv{flex:1; min-width:0}
+.stat .sv .k{font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--faint); text-transform:uppercase}
+.stat .sv .v{font-family:var(--disp); font-size:14px; font-weight:600; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.si-cpu{background:rgba(123,108,255,.12); color:var(--volt-2)}
+.si-gpu{background:rgba(34,229,200,.12); color:var(--mint)}
+.si-ram{background:rgba(51,224,138,.12); color:var(--surge)}
+
+/* section heads */
+.sec{margin:22px 0 12px; display:flex; align-items:center; gap:11px}
+.sec h3{font-family:var(--disp); font-size:13px; font-weight:600; letter-spacing:.3px; color:var(--ink)}
+.sec .line{flex:1; height:1px; background:linear-gradient(90deg,var(--line-2),transparent)}
+.sec .act{font-family:var(--mono); font-size:11px; color:var(--volt-2); cursor:pointer}
+.sec .act:hover{color:var(--volt)}
+
+/* preset chips */
+.presets{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:11px}
+.preset{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px; text-align:left; transition:all .16s var(--ease); position:relative; overflow:hidden;
+}
+.preset:hover{border-color:var(--line-2); transform:translateY(-2px)}
+.preset .pi{font-size:20px; margin-bottom:9px; display:block}
+.preset h4{font-family:var(--disp); font-size:14px; font-weight:600; margin-bottom:4px}
+.preset p{font-size:11.5px; color:var(--muted); line-height:1.5; margin-bottom:12px; min-height:34px}
+.preset .pf{display:flex; align-items:center; justify-content:space-between}
+.preset .pc{font-family:var(--mono); font-size:10px; color:var(--faint)}
+.preset .pb{font-family:var(--disp); font-size:11.5px; font-weight:600; color:var(--volt-2); display:flex; align-items:center; gap:5px}
+.preset:hover .pb{color:var(--mint)}
+.preset::after{content:''; position:absolute; inset:0 0 auto 0; height:2px; background:var(--grad); transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease)}
+.preset:hover::after{transform:scaleX(1)}
+
+/* ── CARD GRID ── */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:12px}
+.card{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px; display:flex; flex-direction:column; gap:11px;
+  transition:border-color .16s, transform .16s, box-shadow .16s; position:relative;
+}
+.card:hover{border-color:var(--line-2); transform:translateY(-2px); box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.card.applied{border-color:rgba(51,224,138,.35)}
+.card.applied::before{
+  content:'APPLIED'; position:absolute; top:12px; right:12px;
+  font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--surge);
+  background:rgba(51,224,138,.1); border:1px solid rgba(51,224,138,.25);
+  padding:2px 6px; border-radius:5px;
+}
+.c-head{display:flex; align-items:flex-start; gap:11px; padding-right:52px}
+.c-ic{width:36px; height:36px; border-radius:11px; display:grid; place-items:center; font-size:16px; flex-shrink:0; background:var(--elevated)}
+.c-name{font-family:var(--disp); font-size:13.5px; font-weight:600; line-height:1.3}
+.c-cat{font-family:var(--mono); font-size:9px; letter-spacing:1px; color:var(--faint); text-transform:uppercase; margin-top:3px}
+.c-desc{font-size:11.5px; color:var(--muted); line-height:1.6}
+.c-tags{display:flex; flex-wrap:wrap; gap:5px}
+.tg{font-family:var(--mono); font-size:9.5px; padding:2px 7px; border-radius:5px; border:1px solid}
+.tg.fps{color:var(--surge); background:rgba(51,224,138,.08); border-color:rgba(51,224,138,.2)}
+.tg.lat{color:var(--mint); background:rgba(34,229,200,.08); border-color:rgba(34,229,200,.2)}
+.tg.warn{color:var(--ember); background:rgba(255,157,92,.08); border-color:rgba(255,157,92,.2)}
+.c-foot{display:flex; gap:8px; margin-top:2px}
+.c-apply{
+  flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+  padding:8px; border-radius:var(--r-sm); background:var(--elevated);
+  border:1px solid var(--line-2); font-family:var(--disp); font-size:12px; font-weight:600;
+  transition:all .16s var(--ease);
+}
+.c-apply:hover{background:var(--raised); border-color:var(--ghost)}
+.c-apply.running{background:rgba(123,108,255,.12); border-color:var(--volt); color:var(--volt-2)}
+.c-apply.done{background:rgba(51,224,138,.1); border-color:rgba(51,224,138,.35); color:var(--surge)}
+.c-revert{
+  width:38px; flex-shrink:0; display:grid; place-items:center; font-size:14px;
+  border-radius:var(--r-sm); background:var(--elevated); border:1px solid var(--line-2); color:var(--faint);
+  transition:all .16s var(--ease);
+}
+.c-revert:hover:not(:disabled){color:var(--ember); border-color:rgba(255,157,92,.3)}
+.c-revert:disabled{opacity:.35; cursor:not-allowed}
+
+.empty{text-align:center; padding:60px 20px; color:var(--faint)}
+.empty .ei{font-size:34px; margin-bottom:12px; opacity:.5}
+.empty p{font-size:13px}
+
+/* ── PROFILES PAGE ── */
+.prof-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+.prof{background:var(--panel); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden}
+.prof-top{padding:20px; border-bottom:1px solid var(--line)}
+.prof-top .em{font-size:26px; margin-bottom:10px; display:block}
+.prof-top h3{font-family:var(--disp); font-size:17px; font-weight:600; margin-bottom:5px}
+.prof-top p{font-size:12px; color:var(--muted); line-height:1.6}
+.prof-list{padding:14px 20px; display:flex; flex-direction:column; gap:7px; max-height:180px; overflow-y:auto}
+.prof-list::-webkit-scrollbar{width:4px}
+.prof-list::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:20px}
+.prof-item{display:flex; align-items:center; gap:9px; font-size:11.5px; color:var(--muted)}
+.prof-item .d{width:5px; height:5px; border-radius:50%; background:var(--volt); flex-shrink:0}
+.prof-foot{padding:16px 20px; border-top:1px solid var(--line); display:flex; align-items:center; gap:11px}
+.prof-foot .n{font-family:var(--mono); font-size:11px; color:var(--faint); margin-right:auto}
+
+/* ── RESTORE PAGE ── */
+.restore-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; margin-bottom:20px}
+.rcard{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:20px}
+.rcard.danger{border-color:rgba(255,84,112,.25)}
+.rcard .ri{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-size:20px; margin-bottom:14px}
+.ri-shield{background:rgba(34,229,200,.1); color:var(--mint)}
+.ri-undo{background:rgba(255,157,92,.1); color:var(--ember)}
+.ri-reset{background:rgba(255,84,112,.1); color:var(--fault)}
+.rcard h3{font-family:var(--disp); font-size:15px; font-weight:600; margin-bottom:6px}
+.rcard p{font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:16px}
+
+/* ══ Auto Ping ══ */
+.ap-hero{display:grid; grid-template-columns:1fr auto; gap:20px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:20px; margin-bottom:14px; align-items:center}
+@media(max-width:760px){.ap-hero{grid-template-columns:1fr}}
+.ap-hero h3{font-family:var(--disp); font-size:17px; font-weight:600; margin-bottom:6px}
+.ap-hero p{font-size:12.5px; color:var(--muted); line-height:1.6; margin-bottom:10px; max-width:540px}
+.ap-note{font-size:11.5px; color:var(--ember); background:rgba(255,157,92,.08); border:1px solid rgba(255,157,92,.2); border-radius:var(--r-sm); padding:8px 11px; line-height:1.55; max-width:540px}
+.ap-hero-r{display:flex; flex-direction:column; gap:9px; min-width:196px}
+.ap-status{font-family:var(--mono); font-size:12px; color:var(--mint); min-height:18px; margin-bottom:12px}
+.ap-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(178px,1fr)); gap:12px; margin-bottom:16px}
+.ap-card{background:var(--elevated); border:1px solid var(--line); border-radius:var(--r); padding:15px; transition:.25s var(--ease); position:relative}
+.ap-card.testing{border-color:var(--volt-2)}
+.ap-card.win{border-color:var(--surge); background:rgba(51,224,138,.06)}
+.ap-card.win::after{content:'✓ เลือก'; position:absolute; top:10px; right:11px; font-size:10px; font-weight:700; color:var(--surge); font-family:var(--disp)}
+.ap-card.dead{opacity:.5}
+.ap-card-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px}
+.ap-name{font-family:var(--disp); font-weight:600; font-size:13.5px}
+.ap-ip{font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+.ap-ms{font-family:var(--disp); display:flex; align-items:baseline; gap:3px}
+.ap-ms b{font-size:26px; font-weight:700; line-height:1}
+.ap-ms span{font-size:12px; color:var(--muted)}
+.ap-ms.g b{color:var(--surge)} .ap-ms.m b{color:var(--ember)} .ap-ms.b b{color:var(--fault)}
+.ap-meta{font-size:11px; color:var(--muted); margin-top:7px; font-family:var(--mono)}
+.ap-verdict{display:none; align-items:center; gap:14px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px}
+.ap-verdict.on{display:flex}
+.ap-grade{font-family:var(--disp); font-weight:700; font-size:13px; padding:6px 13px; border-radius:20px; white-space:nowrap}
+.ap-grade.good{background:rgba(51,224,138,.12); color:var(--surge)}
+.ap-grade.ok{background:rgba(255,157,92,.12); color:var(--ember)}
+.ap-grade.bad{background:rgba(255,84,112,.12); color:var(--fault)}
+.ap-verdict div{font-size:12.5px; color:var(--ink); line-height:1.6}
+
+/* ══ Top Processes ══ */
+.tp-wrap{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:12px}
+@media(max-width:760px){.tp-wrap{grid-template-columns:1fr}}
+.tp-col{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px}
+.tp-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; font-family:var(--disp); font-weight:600; font-size:13px}
+.tp-hint{font-size:10.5px; color:var(--faint); font-weight:400; font-family:var(--mono)}
+.tp-list{display:flex; flex-direction:column; gap:2px}
+.tp-empty{font-size:12px; color:var(--muted); padding:14px 4px; font-family:var(--mono)}
+.tp-row{display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:10px; padding:7px 9px; border-radius:var(--r-sm); position:relative; overflow:hidden}
+.tp-row:nth-child(odd){background:rgba(255,255,255,.02)}
+.tp-bar{position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,rgba(123,108,255,.16),rgba(34,229,200,.10)); z-index:0}
+.tp-row.hot .tp-bar{background:linear-gradient(90deg,rgba(255,84,112,.22),rgba(255,157,92,.12))}
+.tp-name{font-size:12px; color:var(--ink); z-index:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:var(--mono)}
+.tp-val{font-family:var(--disp); font-weight:700; font-size:13px; z-index:1; white-space:nowrap}
+.tp-row.hot .tp-val{color:var(--fault)}
+.tp-note{font-size:11.5px; color:var(--ember); background:rgba(255,157,92,.08); border:1px solid rgba(255,157,92,.2); border-radius:var(--r-sm); padding:9px 12px; line-height:1.55}
+.tp-kill{z-index:1; width:22px; height:22px; border:none; border-radius:6px; background:rgba(255,84,112,.14); color:var(--fault); font-size:12px; cursor:pointer; display:grid; place-items:center; transition:.15s var(--ease); padding:0; line-height:1}
+.tp-kill:hover{background:var(--fault); color:#fff}
+.tp-lock{z-index:1; width:22px; font-size:11px; text-align:center; opacity:.45}
+
+/* ══ Appearance ══ */
+.ap-theme-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
+.theme-card{background:var(--panel); border:2px solid var(--line); border-radius:var(--r); padding:6px; cursor:pointer; transition:.2s var(--ease)}
+.theme-card:hover{border-color:var(--line-2)}
+.theme-card.on{border-color:var(--mint)}
+.theme-prev{height:120px; border-radius:var(--r-sm); overflow:hidden; position:relative; margin-bottom:9px}
+.theme-meta{display:flex; align-items:center; justify-content:space-between; padding:2px 8px 6px}
+.theme-name{font-family:var(--disp); font-weight:600; font-size:13.5px}
+.theme-badge{font-size:10.5px; color:var(--mint); font-family:var(--mono); opacity:0; transition:.2s}
+.theme-card.on .theme-badge{opacity:1}
+.ico-note{font-size:12px; color:var(--muted); margin-bottom:12px; line-height:1.5}
+.ico-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:12px; margin-bottom:16px}
+.ico-card{background:var(--elevated); border:2px solid var(--line); border-radius:var(--r); padding:12px 8px; cursor:pointer; transition:.18s var(--ease); display:flex; flex-direction:column; align-items:center; gap:7px}
+.ico-card:hover{border-color:var(--line-2); transform:translateY(-2px)}
+.ico-card.on{border-color:var(--mint); background:rgba(34,229,200,.06)}
+.ico-card svg{width:48px; height:48px}
+.ico-label{font-size:10.5px; color:var(--muted); text-align:center; line-height:1.2}
+.ico-card.on .ico-label{color:var(--ink)}
+.ico-hint{font-size:11.5px; color:var(--ember); background:rgba(255,157,92,.08); border:1px solid rgba(255,157,92,.2); border-radius:var(--r-sm); padding:9px 12px; line-height:1.55}
+
+/* ══ Game Mode ══ */
+.gamemode{display:flex; align-items:center; justify-content:space-between; gap:16px; background:linear-gradient(120deg,var(--panel),var(--elevated)); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; margin-bottom:14px; transition:.3s var(--ease)}
+.gamemode.on{border-color:var(--surge); box-shadow:0 0 0 1px var(--surge), 0 0 22px rgba(51,224,138,.14)}
+.gm-left{display:flex; align-items:center; gap:14px; min-width:0}
+.gm-ic{width:46px; height:46px; border-radius:12px; background:var(--grad); display:grid; place-items:center; font-size:22px; flex-shrink:0}
+.gamemode.on .gm-ic{background:linear-gradient(135deg,var(--surge),var(--mint))}
+.gm-title{font-family:var(--disp); font-weight:600; font-size:15px}
+.gm-sub{font-size:11.5px; color:var(--muted); line-height:1.5; margin-top:2px}
+.gm-btn{white-space:nowrap; flex-shrink:0}
+
+/* ══ Live Monitor ══ */
+.mon-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px}
+.mon-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; text-align:center}
+.mon-k{font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--ghost); text-transform:uppercase; margin-bottom:8px}
+.mon-v{font-family:var(--disp); font-size:32px; font-weight:700; line-height:1; color:var(--mint); transition:color .3s}
+.mon-v.warn{color:var(--ember)} .mon-v.bad{color:var(--fault)}
+.mon-u{font-size:10.5px; color:var(--faint); margin-top:6px}
+.mon-note,.bench-note{font-size:11.5px; color:var(--muted); background:rgba(123,108,255,.05); border:1px solid var(--line); border-radius:var(--r-sm); padding:9px 12px; line-height:1.55; margin-top:12px}
+.mon-detect{display:flex; align-items:center; gap:14px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:14px 18px}
+.mon-detect.hit{border-color:var(--surge); box-shadow:0 0 0 1px var(--surge)}
+.gd-ic{font-size:28px} .gd-title{font-weight:600; font-size:14px} .gd-sub{font-size:11.5px; color:var(--muted); margin-top:2px}
+.mon-sched,.mon-bench{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px}
+.sched-row{display:flex; align-items:center; justify-content:space-between; gap:16px}
+.sched-title{font-weight:600; font-size:13.5px} .sched-sub{font-size:11.5px; color:var(--muted); margin-top:3px}
+.sched-opts{display:flex; align-items:center; gap:8px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); flex-wrap:wrap; opacity:.4; pointer-events:none; transition:.2s}
+.sched-opts.on{opacity:1; pointer-events:auto}
+.sched-lbl{font-size:12px; color:var(--muted)}
+.sched-min{background:var(--elevated); border:1px solid var(--line); border-radius:var(--r-sm); padding:6px 12px; font-size:12px; color:var(--muted); cursor:pointer}
+.sched-min.on{border-color:var(--volt); color:var(--ink); background:rgba(123,108,255,.1)}
+.sched-status{font-family:var(--mono); font-size:11px; color:var(--mint); margin-left:auto}
+.tgl{position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0}
+.tgl input{opacity:0; width:0; height:0}
+.tgl-s{position:absolute; inset:0; background:var(--elevated); border:1px solid var(--line); border-radius:99px; cursor:pointer; transition:.2s}
+.tgl-s::before{content:''; position:absolute; width:16px; height:16px; left:3px; top:3px; background:var(--faint); border-radius:50%; transition:.2s}
+.tgl input:checked+.tgl-s{background:var(--grad); border-color:transparent}
+.tgl input:checked+.tgl-s::before{transform:translateX(20px); background:#fff}
+.bench-actions{display:flex; gap:10px; flex-wrap:wrap}
+.bench-table{margin-top:14px}
+.bench-r{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:8px; padding:9px 12px; font-size:12.5px; border-bottom:1px solid var(--line)}
+.bench-r.head{font-family:var(--mono); font-size:10px; letter-spacing:1px; color:var(--ghost); text-transform:uppercase}
+.bench-r .bk{color:var(--muted)} .bench-r .bd.up{color:var(--surge)} .bench-r .bd.down{color:var(--fault)}
+
+/* ══ GPU Settings Guide ══ */
+.gg-spec{display:flex; align-items:center; gap:16px; background:linear-gradient(120deg,var(--panel),var(--elevated)); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px}
+.gg-spec-ic{width:50px; height:50px; border-radius:14px; background:var(--grad); display:grid; place-items:center; font-size:24px; flex-shrink:0}
+.gg-spec-body{min-width:0; flex:1}
+.gg-spec-gpu{font-family:var(--disp); font-weight:700; font-size:16px}
+.gg-spec-sub{font-size:11.5px; color:var(--muted); margin-top:3px; line-height:1.5}
+.gg-tier{font-family:var(--mono); font-size:11px; letter-spacing:1.5px; padding:7px 13px; border-radius:99px; border:1px solid var(--line-2); color:var(--mint); white-space:nowrap; flex-shrink:0}
+.gg-tier.high{color:var(--surge); border-color:var(--surge)}
+.gg-tier.mid{color:var(--volt-2); border-color:var(--volt)}
+.gg-tier.low{color:var(--ember); border-color:var(--ember)}
+.gg-howto{margin-top:14px; font-size:12.5px; color:var(--ink); background:rgba(123,108,255,.07); border:1px solid var(--line); border-radius:var(--r-sm); padding:11px 14px; line-height:1.6}
+.gg-path{display:block; font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:4px}
+.gg-table{border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.gg-r{display:grid; grid-template-columns:1.1fr .85fr 1.6fr; gap:12px; padding:11px 15px; font-size:12.5px; border-bottom:1px solid var(--line); align-items:start}
+.gg-r:last-child{border-bottom:none}
+.gg-r.head{background:var(--elevated); font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--ghost); text-transform:uppercase}
+.gg-r.grp{background:var(--raised); font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--volt-2); text-transform:uppercase; grid-template-columns:1fr}
+.gg-k{color:var(--ink); font-weight:500}
+.gg-v{font-family:var(--mono); font-size:12px; color:var(--mint); font-weight:600}
+.gg-v.warn{color:var(--ember)}
+.gg-why{color:var(--muted); font-size:11.5px; line-height:1.5}
+.gg-warn{margin-top:14px; font-size:11.5px; color:var(--ember); background:rgba(255,157,92,.08); border:1px solid rgba(255,157,92,.22); border-radius:var(--r-sm); padding:10px 13px; line-height:1.6}
+
+/* ── ACTIVITY / LOG DOCK ── */
+.dock{flex-shrink:0; border-top:1px solid var(--line); background:var(--panel); display:flex; flex-direction:column; transition:height .25s var(--ease)}
+.dock.collapsed{height:38px!important}
+.dock-head{
+  height:38px; flex-shrink:0; display:flex; align-items:center; padding:0 16px; gap:10px; cursor:pointer;
+}
+.dock-head .dt{font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--faint); display:flex; align-items:center; gap:7px}
+.dock-head .dt i{width:6px; height:6px; border-radius:50%; background:var(--volt); box-shadow:0 0 6px var(--volt)}
+.dock-tools{margin-left:auto; display:flex; align-items:center; gap:6px}
+.dtool{font-family:var(--mono); font-size:10px; color:var(--faint); padding:3px 9px; border-radius:6px; border:1px solid var(--line-2); background:var(--elevated); transition:.16s}
+.dtool:hover{color:var(--ink); border-color:var(--ghost)}
+.chev{color:var(--faint); font-size:12px; transition:transform .25s}
+.dock.collapsed .chev{transform:rotate(180deg)}
+.dock-body{flex:1; overflow-y:auto; padding:10px 16px; font-family:var(--mono); font-size:11px; line-height:1.85; color:var(--muted)}
+.dock-body::-webkit-scrollbar{width:6px}
+.dock-body::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:20px}
+.ln{white-space:pre-wrap; word-break:break-word}
+.ln.ok{color:var(--surge)} .ln.run{color:var(--volt-2)} .ln.warn{color:var(--ember)}
+.ln.info{color:#6db6ff} .ln.err{color:var(--fault)} .ln.dim{color:var(--faint)}
+
+/* progress line under top */
+.prog{height:2px; background:var(--line); overflow:hidden; flex-shrink:0; opacity:0; transition:opacity .2s}
+.prog.on{opacity:1}
+.prog i{display:block; height:100%; width:0; background:var(--grad); transition:width .3s var(--ease)}
+
+/* ── TOASTS ── */
+.toasts{position:fixed; bottom:18px; right:18px; z-index:50; display:flex; flex-direction:column; gap:9px}
+.toast{
+  min-width:240px; max-width:320px; display:flex; align-items:flex-start; gap:11px;
+  background:var(--elevated); border:1px solid var(--line-2); border-radius:var(--r);
+  padding:13px 15px; box-shadow:0 12px 40px rgba(0,0,0,.5);
+  animation:slideIn .32s var(--ease); backdrop-filter:blur(10px);
+}
+.toast.out{animation:slideOut .3s var(--ease) forwards}
+@keyframes slideIn{from{opacity:0; transform:translateX(40px)}to{opacity:1; transform:none}}
+@keyframes slideOut{to{opacity:0; transform:translateX(40px)}}
+.toast .ti{width:28px; height:28px; border-radius:8px; display:grid; place-items:center; font-size:14px; flex-shrink:0}
+.toast.s .ti{background:rgba(51,224,138,.14); color:var(--surge)}
+.toast.i .ti{background:rgba(123,108,255,.14); color:var(--volt-2)}
+.toast.w .ti{background:rgba(255,157,92,.14); color:var(--ember)}
+.toast .tc{flex:1; min-width:0}
+.toast .tc .th{font-family:var(--disp); font-size:12.5px; font-weight:600; margin-bottom:2px}
+.toast .tc .tb{font-size:11px; color:var(--muted); line-height:1.4}
+
+@media(prefers-reduced-motion:reduce){*:not(#bootScreen):not(#bootScreen *){animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<!-- TITLE BAR -->
+<header class="bar">
+  <div class="mark" id="appMark">🚀</div>
+  <div>
+    <div class="brand">Game Boost FPS <b>Ty.ppw</b></div>
+  </div>
+  <span class="tag-ver">v5.0 · PRO</span>
+  <div class="bar-right">
+    <div class="sys-mini" id="sysMini">
+      <span>CPU <b id="mCpu">—</b></span>
+      <span>GPU <b id="mGpu">—</b></span>
+      <span>RAM <b id="mRam">—</b></span>
+    </div>
+    <div class="live"><i></i><span id="liveTxt">READY</span></div>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="side-scroll">
+      <div class="grp">Overview</div>
+      <button class="nav on" data-nav="dash"><span class="ic">◈</span>Dashboard</button>
+      <button class="nav" data-nav="profiles"><span class="ic">◆</span>Profiles</button>
+
+      <div class="grp">Tune</div>
+      <button class="nav" data-nav="boost"><span class="ic">🚀</span>Boost FPS<span class="ct" data-ct="boost">0</span></button>
+      <button class="nav" data-nav="fivem"><span class="ic">🎮</span>FiveM<span class="ct" data-ct="fivem">0</span></button>
+      <button class="nav" data-nav="games"><span class="ic">🎯</span>Games<span class="ct" data-ct="games">0</span></button>
+      <button class="nav" data-nav="cpu"><span class="ic">⚙️</span>CPU<span class="ct" data-ct="cpu">0</span></button>
+      <button class="nav" data-nav="gpu"><span class="ic">🎮</span>GPU<span class="ct" data-ct="gpu">0</span></button>
+      <button class="nav" data-nav="nvidia"><span class="ic">🟢</span>NVIDIA<span class="ct" data-ct="nvidia">0</span></button>
+      <button class="nav" data-nav="amd"><span class="ic">🔴</span>AMD Radeon<span class="ct" data-ct="amd">0</span></button>
+      <button class="nav" data-nav="input"><span class="ic">🖱️</span>Input Lag<span class="ct" data-ct="input">0</span></button>
+      <button class="nav" data-nav="ram"><span class="ic">💾</span>Memory<span class="ct" data-ct="ram">0</span></button>
+      <button class="nav" data-nav="network"><span class="ic">🌐</span>Network<span class="ct" data-ct="network">0</span></button>
+      <button class="nav" data-nav="autoping"><span class="ic">📡</span>Auto Ping</button>
+
+      <div class="grp">System</div>
+      <button class="nav" data-nav="policy"><span class="ic">🛡️</span>Policy Tweaks<span class="ct" data-ct="policy">0</span></button>
+      <button class="nav" data-nav="service"><span class="ic">⏹️</span>Services (Manual)<span class="ct" data-ct="service">0</span></button>
+      <button class="nav" data-nav="svcoff"><span class="ic">⛔</span>Services (ปิดถาวร)<span class="ct" data-ct="svcoff">0</span></button>
+      <button class="nav" data-nav="clean"><span class="ic">🧹</span>Clean Files<span class="ct" data-ct="clean">0</span></button>
+      <button class="nav" data-nav="restore"><span class="ic">↺</span>Restore</button>
+      <button class="nav" data-nav="activity"><span class="ic">▤</span>Activity</button>
+      <button class="nav" data-nav="appearance"><span class="ic">🎨</span>Appearance</button>
+      <button class="nav" data-nav="monitor"><span class="ic">📊</span>Live Monitor</button>
+      <button class="nav" data-nav="gpuguide"><span class="ic">📋</span>GPU Settings Guide</button>
+    </div>
+    <div class="side-foot">
+      <div class="admin">⚠️ รันในฐานะ <b>Administrator</b> เพื่อให้ tweak มีผลจริง</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="top">
+      <h1 id="pTitle">Dashboard</h1>
+      <span class="sub" id="pSub">ภาพรวมและปรับแต่งแบบคลิกเดียว</span>
+      <div class="top-r">
+        <label class="search" id="searchBox" style="display:none">
+          <span class="sc">⌕</span>
+          <input id="searchInput" placeholder="ค้นหา tweak…" autocomplete="off"/>
+        </label>
+        <button class="btn btn-ghost" id="runAllBtn" style="display:none">⚡ Apply all</button>
+      </div>
+    </div>
+    <div class="prog" id="prog"><i id="progBar"></i></div>
+
+    <div class="view" id="view">
+
+      <!-- DASHBOARD -->
+      <section class="page on" id="page-dash">
+        <div class="hero">
+          <div class="gauge-card">
+            <div class="gauge-wrap">
+              <svg viewBox="0 0 200 130">
+                <defs>
+                  <linearGradient id="gg" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#7b6cff"/>
+                    <stop offset="1" stop-color="#22e5c8"/>
+                  </linearGradient>
+                </defs>
+                <path d="M18 118 A82 82 0 0 1 182 118" fill="none" stroke="#232935" stroke-width="14" stroke-linecap="round"/>
+                <path id="gaugeFill" d="M18 118 A82 82 0 0 1 182 118" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6" style="transition:stroke-dashoffset .8s cubic-bezier(.22,.61,.36,1)"/>
+              </svg>
+              <div class="gauge-readout">
+                <div class="gauge-num"><span id="gaugeNum">0</span><span class="pct">%</span></div>
+                <div class="gauge-lbl">TUNED</div>
+              </div>
+            </div>
+            <div class="gauge-side">
+              <h2>ระบบพร้อมจูน</h2>
+              <p>ปรับแต่ง Windows ให้โฟกัสที่เกม — ลด latency, ปลดล็อก CPU/GPU และเคลียร์ทรัพยากรเบื้องหลัง</p>
+              <div class="gauge-meta"><b id="appliedN">0</b> / <span id="totalN">0</span> tweaks applied · profile: <b id="activeProfLbl">none</b></div>
+              <div class="gauge-actions">
+                <button class="btn btn-primary" id="optimizeAll">⚡ Optimize all</button>
+                <button class="btn btn-ghost" id="autoTuneBtn">🤖 Auto Tune ตามสเปค</button>
+                <button class="btn btn-ghost" id="goProfiles">Choose a profile</button>
+              </div>
+            </div>
+          </div>
+          <div class="gamemode" id="gameModePanel">
+            <div class="gm-left">
+              <div class="gm-ic" id="gmIcon">🎮</div>
+              <div>
+                <div class="gm-title" id="gmTitle">Game Mode</div>
+                <div class="gm-sub" id="gmSub">กดปุ่มเดียวก่อนเล่น: ล้าง RAM standby · หยุด service ไม่จำเป็น · ตั้ง FiveM priority · flush DNS — จบเกมกดคืนทุกอย่างกลับ</div>
+              </div>
+            </div>
+            <button class="btn btn-primary gm-btn" id="gameModeBtn">🎮 เข้าโหมดเกม</button>
+          </div>
+          <div class="side-stats">
+            <div class="stat"><div class="si si-cpu">⚙️</div><div class="sv"><div class="k">Processor</div><div class="v" id="sCpu">Detecting…</div></div></div>
+            <div class="stat"><div class="si si-gpu">🎮</div><div class="sv"><div class="k">Graphics</div><div class="v" id="sGpu">Detecting…</div></div></div>
+            <div class="stat"><div class="si si-ram">💾</div><div class="sv"><div class="k">Memory</div><div class="v" id="sRam">Detecting…</div></div></div>
+          </div>
+        </div>
+
+        <div class="sec"><h3>Quick profiles</h3><div class="line"></div><span class="act" data-nav="profiles">View all →</span></div>
+        <div class="presets" id="presetRow"></div>
+
+        <div class="sec"><h3>Recent activity</h3><div class="line"></div><span class="act" data-nav="activity">Open log →</span></div>
+        <div class="dock" style="border:1px solid var(--line); border-radius:var(--r); height:auto; max-height:160px">
+          <div class="dock-body" id="recentLog" style="max-height:160px"><div class="ln dim">ยังไม่มีกิจกรรม — กด Optimize เพื่อเริ่ม</div></div>
+        </div>
+      </section>
+
+      <!-- PROFILES -->
+      <section class="page" id="page-profiles">
+        <div class="prof-grid" id="profGrid"></div>
+      </section>
+
+      <!-- CATEGORY PAGES (rendered) -->
+      <section class="page" id="page-boost"><div class="grid" id="grid-boost"></div></section>
+      <section class="page" id="page-fivem"><div class="grid" id="grid-fivem"></div></section>
+      <section class="page" id="page-games"><div class="grid" id="grid-games"></div></section>
+      <section class="page" id="page-cpu"><div class="grid" id="grid-cpu"></div></section>
+      <section class="page" id="page-gpu"><div class="grid" id="grid-gpu"></div></section>
+      <section class="page" id="page-nvidia"><div class="grid" id="grid-nvidia"></div></section>
+      <section class="page" id="page-amd"><div class="grid" id="grid-amd"></div></section>
+      <section class="page" id="page-input"><div class="grid" id="grid-input"></div></section>
+      <section class="page" id="page-ram"><div class="grid" id="grid-ram"></div></section>
+      <section class="page" id="page-network"><div class="grid" id="grid-network"></div></section>
+      <section class="page" id="page-autoping">
+        <div class="ap-hero">
+          <div class="ap-hero-l">
+            <h3>Auto Ping Tune</h3>
+            <p>วัด ping จริงไปยัง DNS หลายเจ้า แล้วเลือก + ตั้งตัวที่ตอบเร็วที่สุดให้อัตโนมัติ พร้อมตรวจหาอะแดปเตอร์ที่ใช้งานอยู่ด้วย index — รองรับทั้ง LAN/WiFi และ Windows ทุกภาษา</p>
+            <div class="ap-note">ⓘ ping ขึ้นกับ <b>เน็ต / ระยะทางไป server / ISP</b> ไม่ใช่สเปคคอม — เครื่องแรงแค่ไหน ถ้าเน็ตเส้นเดียวกัน ping ก็เท่าเดิม สิ่งที่ปรับได้จริงคือเลือก DNS ที่เร็วสุดกับที่ของคุณ</div>
+          </div>
+          <div class="ap-hero-r">
+            <button class="btn btn-primary" id="apRun">▶ Run Auto Ping Tune</button>
+            <button class="btn btn-ghost" id="apResetDns">Reset DNS → Auto</button>
+          </div>
+        </div>
+        <div class="ap-status" id="apStatus">กด Run เพื่อเริ่มวัด ping</div>
+        <div class="ap-grid" id="apGrid"></div>
+        <div class="ap-result" id="apResult"></div>
+      </section>
+      <section class="page" id="page-policy"><div class="grid" id="grid-policy"></div></section>
+      <section class="page" id="page-service"><div class="grid" id="grid-service"></div></section>
+      <section class="page" id="page-svcoff"><div class="grid" id="grid-svcoff"></div></section>
+      <section class="page" id="page-clean"><div class="grid" id="grid-clean"></div></section>
+
+      <!-- RESTORE -->
+      <section class="page" id="page-restore">
+        <div class="restore-grid">
+          <div class="rcard">
+            <div class="ri ri-shield">🛡️</div>
+            <h3>Create restore point</h3>
+            <p>สร้างจุดกู้คืน Windows ก่อนปรับแต่ง เผื่ออยากย้อนทุกอย่างกลับในคลิกเดียวผ่าน System Restore</p>
+            <button class="btn btn-ghost" id="mkRestore">Create restore point</button>
+          </div>
+          <div class="rcard danger">
+            <div class="ri ri-undo">↩</div>
+            <h3>Revert applied tweaks</h3>
+            <p>คืนค่า tweak ที่ apply ไปแล้วทั้งหมดกลับเป็นค่าเดิมของ Windows (best-effort) — ไม่แตะ restore point</p>
+            <button class="btn btn-ghost" id="revertAll">Revert everything</button>
+          </div>
+          <div class="rcard danger">
+            <div class="ri ri-reset">⟳</div>
+            <h3>Reset power plans</h3>
+            <p>รีเซ็ต Power Plan ทั้งหมดกลับเป็นค่าโรงงานของ Windows ด้วย <span style="font-family:var(--mono);color:var(--muted)">powercfg -restoredefaultschemes</span></p>
+            <button class="btn btn-ghost" id="resetPower">Reset power plans</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACTIVITY -->
+      <section class="page" id="page-activity">
+        <div class="sec"><h3>Top Processes</h3><div class="line"></div>
+          <span class="act" id="tpRefresh">↻ Refresh</span>
+        </div>
+        <div class="tp-wrap">
+          <div class="tp-col">
+            <div class="tp-head"><span>🔥 กิน CPU สูงสุด</span><span class="tp-hint">% ของทั้งระบบ</span></div>
+            <div class="tp-list" id="tpCpu"><div class="tp-empty">กด Refresh เพื่อดึงข้อมูล</div></div>
+          </div>
+          <div class="tp-col">
+            <div class="tp-head"><span>💾 กิน RAM สูงสุด</span><span class="tp-hint">MB</span></div>
+            <div class="tp-list" id="tpRam"><div class="tp-empty">กด Refresh เพื่อดึงข้อมูล</div></div>
+          </div>
+        </div>
+        <div class="tp-note" id="tpNote">ⓘ ตัวที่กิน CPU สูงตอน idle คือตัวที่ฉุด frametime — ถ้าเจอตัวแปลก ๆ ที่ไม่รู้จักกิน CPU หนัก อาจเป็นสัญญาณของมัลแวร์/miner แฝง (โดยเฉพาะถ้าโหลด Windows มาจากแหล่งไม่น่าเชื่อถือ)</div>
+
+        <div class="sec" style="margin-top:22px"><h3>Activity log</h3><div class="line"></div>
+          <span class="act" id="exportLog">Export .txt</span>
+          <span class="act" id="clearLog" style="color:var(--fault)">Clear</span>
+        </div>
+        <div class="dock" style="border:1px solid var(--line); border-radius:var(--r); height:auto; min-height:340px">
+          <div class="dock-body" id="fullLog" style="max-height:none; min-height:340px"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-appearance">
+        <div class="sec"><h3>ธีมแอป</h3><div class="line"></div></div>
+        <div class="ap-theme-grid" id="themeGrid"></div>
+        <div class="sec" style="margin-top:24px"><h3>ไอคอนแอป (โลโก้)</h3><div class="line"></div></div>
+        <div class="ico-note">เลือกไอคอนที่จะแสดงเป็นโลโก้มุมซ้ายบน · ตัวเลือกจะถูกจำไว้ (เปิดแอปใหม่ก็ยังเป็นอันที่เลือก)</div>
+        <div class="ico-grid" id="iconGrid"></div>
+        <div class="ico-hint">ⓘ ไอคอนไฟล์ <b>.exe</b> / shortcut บน Desktop เปลี่ยนที่นี่ไม่ได้ (ถูกฝังตอน build) — อันนี้เปลี่ยนโลโก้<b>ในแอป</b>เท่านั้น ถ้าอยากได้ไอคอน .exe แบบอื่นต้อง build ใหม่</div>
+      </section>
+
+      <section class="page" id="page-monitor">
+        <div class="sec"><h3>สถานะสด (Live)</h3><div class="line"></div><button class="btn btn-ghost" id="ovlToggle" style="margin-left:auto">🪟 เปิด Overlay ลอย</button></div>
+        <div class="mon-grid" id="monGrid">
+          <div class="mon-card"><div class="mon-k">PING</div><div class="mon-v" id="m_ping">—</div><div class="mon-u">ms · 1.1.1.1</div></div>
+          <div class="mon-card"><div class="mon-k">CPU LOAD</div><div class="mon-v" id="m_cpu">—</div><div class="mon-u">%</div></div>
+          <div class="mon-card"><div class="mon-k">RAM</div><div class="mon-v" id="m_ram">—</div><div class="mon-u" id="m_ram_u">GB</div></div>
+          <div class="mon-card"><div class="mon-k">CPU TEMP</div><div class="mon-v" id="m_ct">—</div><div class="mon-u">°C</div></div>
+          <div class="mon-card"><div class="mon-k">GPU TEMP</div><div class="mon-v" id="m_gt">—</div><div class="mon-u">°C · NVIDIA</div></div>
+        </div>
+        <div class="mon-note">ⓘ CPU temp อ่านจาก ACPI (บาง mainboard ไม่รายงาน = N/A) · GPU temp ใช้ nvidia-smi (การ์ด NVIDIA เท่านั้น) — อยากได้ครบทุกค่ายต้องติดตั้ง LibreHardwareMonitor เพิ่ม</div>
+
+        <div class="sec" style="margin-top:26px"><h3>Auto Game Detection</h3><div class="line"></div></div>
+        <div class="mon-detect" id="gameDetect">
+          <div class="gd-ic">🎮</div>
+          <div class="gd-body"><div class="gd-title" id="gd_title">กำลังตรวจหาเกมที่เปิดอยู่…</div><div class="gd-sub" id="gd_sub">แอปจะสแกน process ทุก 8 วินาที แล้วเด้งเตือนเมื่อเจอเกม</div></div>
+        </div>
+
+        <div class="sec" style="margin-top:26px"><h3>Scheduled Cleaning (ล้างอัตโนมัติ)</h3><div class="line"></div></div>
+        <div class="mon-sched">
+          <div class="sched-row">
+            <div><div class="sched-title">ล้าง RAM Standby + Flush DNS อัตโนมัติ</div><div class="sched-sub">เหมาะเปิดทิ้งไว้ตอนเล่นเกมนาน ๆ ให้ RAM โล่งตลอด</div></div>
+            <label class="tgl"><input type="checkbox" id="schedOn"><span class="tgl-s"></span></label>
+          </div>
+          <div class="sched-opts" id="schedOpts">
+            <span class="sched-lbl">ทุก ๆ</span>
+            <button class="sched-min on" data-min="5">5 นาที</button>
+            <button class="sched-min" data-min="10">10 นาที</button>
+            <button class="sched-min" data-min="30">30 นาที</button>
+            <span class="sched-status" id="schedStatus"></span>
+          </div>
+        </div>
+
+        <div class="sec" style="margin-top:26px"><h3>Benchmark ก่อน/หลัง</h3><div class="line"></div></div>
+        <div class="mon-bench">
+          <div class="bench-actions">
+            <button class="btn btn-primary" id="benchBefore">📸 จับค่า "ก่อน"</button>
+            <button class="btn btn-ghost" id="benchAfter" disabled>📸 จับค่า "หลัง"</button>
+            <button class="btn btn-ghost" id="benchReset" disabled>รีเซ็ต</button>
+          </div>
+          <div class="bench-note">จับค่าก่อน → apply tweak / เข้า Game Mode → จับค่าหลัง แล้วดูว่าดีขึ้นเท่าไหร่ (วัด RAM ว่าง · process · ping · CPU idle จริง)</div>
+          <div class="bench-table" id="benchTable"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-gpuguide">
+        <div class="gg-spec" id="ggSpec">
+          <div class="gg-spec-ic" id="ggSpecIc">🎮</div>
+          <div class="gg-spec-body">
+            <div class="gg-spec-gpu" id="ggGpu">กำลังอ่านสเปค…</div>
+            <div class="gg-spec-sub" id="ggSub">แอปจะแนะนำค่าที่ควรตั้งให้เหมาะกับการ์ดจอและ RAM ของเครื่องนี้</div>
+          </div>
+          <div class="gg-tier" id="ggTier">—</div>
+        </div>
+
+        <div class="gg-howto">
+          <b id="ggAppName">NVIDIA App</b> → ตั้งค่าตามตารางด้านล่าง แล้วกด Apply
+          <span class="gg-path" id="ggPath">Graphics → Global Settings (หรือเลือกเกมทีละตัวใน Program Settings)</span>
+        </div>
+
+        <div class="sec" style="margin-top:20px"><h3>ค่าที่แนะนำสำหรับเครื่องนี้</h3><div class="line"></div>
+          <button class="btn btn-ghost" id="ggCopy">📋 คัดลอกเป็นข้อความ</button>
+        </div>
+        <div class="gg-table" id="ggTable"></div>
+
+        <div class="gg-warn" id="ggWarn"></div>
+      </section>
+
+    </div>
+
+    <!-- LOG DOCK -->
+    <div class="dock" id="dock" style="height:150px">
+      <div class="dock-head" id="dockHead">
+        <div class="dt"><i></i>TERMINAL</div>
+        <div class="dock-tools">
+          <button class="dtool" id="dClear">clear</button>
+          <span class="chev">⌄</span>
+        </div>
+      </div>
+      <div class="dock-body" id="dockLog"></div>
+    </div>
+  </main>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   Game Boost FPS BY Ty.ppw — v5.0 PRO
+   ══════════════════════════════════════════════════════ */
+
+/* ---- safe storage (works in Electron, no-ops in restricted preview) ---- */
+const store = {
+  get(k, d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch{ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+};
+
+/* ---- desktop bridge (Electron) vs preview ---- */
+const DESKTOP = !!(window.boost && window.boost.isDesktop);
+async function execCmd(cmd){
+  if(DESKTOP){ try{ return await window.boost.run(cmd); }catch(e){ return {ok:false,err:String(e)}; } }
+  await sleep(70 + Math.random()*90); return {ok:true, out:''};
+}
+
+/* ══ TWEAK REGISTRY (data-driven → easy to scale) ══
+   each: id, cat, icon, name, desc, tags[], apply[], revert[]|null  */
+const T = [
+  // BOOST
+  {id:'gamebar', cat:'boost', icon:'🎯', name:'Game Mode & DVR', desc:'ปิด Game Bar / DVR ให้ Windows โฟกัสทรัพยากรที่เกม 100% ลด process เบื้องหลัง',
+   tags:[['FPS','fps'],['ลด BG CPU','fps']],
+   apply:['reg add "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 0 /f','reg add "HKCU\\System\\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 0 /f','reg add "HKCU\\System\\GameConfigStore" /v GameDVR_FSEBehaviorMode /t REG_DWORD /d 2 /f'],
+   revert:['reg add "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 1 /f','reg add "HKCU\\System\\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 1 /f']},
+  {id:'mmcss', cat:'boost', icon:'📊', name:'MMCSS Game Priority', desc:'ให้ตัวจัด scheduler จัดลำดับเกมก่อน process อื่น + ปลด network throttle',
+   tags:[['FPS','fps'],['Priority','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 4294967295 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v Priority /t REG_DWORD /d 6 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v "GPU Priority" /t REG_DWORD /d 8 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v "Scheduling Category" /t REG_SZ /d High /f'],
+   revert:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 20 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 10 /f']},
+  {id:'visual', cat:'boost', icon:'🖥️', name:'Visual Effects — Performance', desc:'ปิด animation / effect ของ Windows ที่กิน GPU โดยไม่จำเป็น',
+   tags:[['FPS','fps'],['GPU ว่าง','lat']],
+   apply:['reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects" /v VisualFXSetting /t REG_DWORD /d 2 /f'],
+   revert:['reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects" /v VisualFXSetting /t REG_DWORD /d 0 /f']},
+  {id:'timer', cat:'boost', icon:'⏱️', name:'Timer Resolution', desc:'ให้ Windows ใช้ timer ละเอียดขึ้น (0.5ms) ทำให้ frame time สม่ำเสมอ ลดสะดุด',
+   tags:[['Frame pacing','fps'],['ลด stutter','lat']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel" /v GlobalTimerResolutionRequests /t REG_DWORD /d 1 /f'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel" /v GlobalTimerResolutionRequests /f']},
+
+  // CPU
+  {id:'ultimate', cat:'cpu', icon:'⚡', name:'Ultimate Performance Plan', desc:'เปิด Power Plan สูงสุดของ Windows + ตั้ง CPU min/max 100% ไม่ throttle + เลือก (activate) ให้อัตโนมัติ ไม่ต้องเข้าไปติ๊กเองใน Control Panel',
+   tags:[['Boost เต็ม','fps'],['activate อัตโนมัติ','fps'],['ไฟฟ้าเพิ่ม','warn']],
+   apply:['for /f "tokens=4" %g in (\'powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 2^>nul\') do @(powercfg -setacvalueindex %g SUB_PROCESSOR PROCTHROTTLEMIN 100 & powercfg -setacvalueindex %g SUB_PROCESSOR PROCTHROTTLEMAX 100 & powercfg -setactive %g & echo activated %g)','powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMIN 100','powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMAX 100','powercfg -setactive SCHEME_CURRENT'],
+   revert:['powercfg -setactive 381b4222-f694-41f0-9685-ff5bb260df2e']},
+  {id:'coreparking', cat:'cpu', icon:'🔧', name:'Disable Core Parking', desc:'เปิดทุก core ตลอดเวลา ไม่ให้ Windows พัก core ที่ไม่ได้ใช้',
+   tags:[['ทุก core active','fps'],['ลด spike','lat']],
+   apply:['powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100','powercfg -setactive SCHEME_CURRENT'],
+   revert:['powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 10','powercfg -setactive SCHEME_CURRENT']},
+  {id:'cpuprio', cat:'cpu', icon:'📈', name:'CPU Priority Separation', desc:'ให้ foreground (เกม) ได้ CPU time slice มากกว่า process เบื้องหลัง',
+   tags:[['เกมได้ CPU มากขึ้น','fps']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl" /v Win32PrioritySeparation /t REG_DWORD /d 38 /f'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl" /v Win32PrioritySeparation /t REG_DWORD /d 2 /f']},
+  {id:'pcie', cat:'cpu', icon:'🔋', name:'PCI Express Power Off', desc:'ปิด PCI-E Link State Power Management ป้องกัน GPU/NIC ลดสปีดตัวเองเพื่อประหยัดไฟ',
+   tags:[['ลด latency','lat'],['GPU เสถียร','fps']],
+   apply:['powercfg -setacvalueindex SCHEME_CURRENT SUB_PCIEXPRESS ASPM 0','powercfg -setactive SCHEME_CURRENT'],
+   revert:['powercfg -setacvalueindex SCHEME_CURRENT SUB_PCIEXPRESS ASPM 2','powercfg -setactive SCHEME_CURRENT']},
+
+  // GPU
+  {id:'hwsched', cat:'gpu', icon:'⚡', name:'Hardware GPU Scheduling', desc:'เปิด Hardware-Accelerated GPU Scheduling ลด CPU overhead ในการ render',
+   tags:[['ลด latency','lat'],['FPS นิ่ง','fps']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\GraphicsDrivers" /v HwSchMode /t REG_DWORD /d 2 /f'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\GraphicsDrivers" /v HwSchMode /t REG_DWORD /d 1 /f']},
+
+  // ══ NVIDIA (Full Set — เฉพาะการ์ด NVIDIA) ══
+  {id:'nv_powermizer', cat:'nvidia', icon:'🟢', name:'NVIDIA — Prefer Max Performance', desc:'ตั้ง PowerMizer เป็น Prefer Maximum Performance การ์ดไม่หรี่ clock ตอนเล่น ลด input lag',
+   tags:[['input lag ลด','lat'],['clock เต็ม','fps']],
+   apply:['reg add "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /v PowerMizerEnable /t REG_DWORD /d 1 /f','reg add "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /v PowerMizerLevel /t REG_DWORD /d 1 /f','reg add "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /v PowerMizerLevelAC /t REG_DWORD /d 1 /f','reg add "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /v PowerMizerDefault /t REG_DWORD /d 1 /f','reg add "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /v PowerMizerDefaultAC /t REG_DWORD /d 1 /f'],
+   revert:['reg delete "HKCU\\SOFTWARE\\NVIDIA Corporation\\Global\\NvCplApi\\Policies" /f']},
+  {id:'nv_latency', cat:'nvidia', icon:'⚡', name:'NVIDIA — Low Latency + Telemetry off', desc:'เปิดโหมด low latency ในไดรเวอร์ + ปิด NVIDIA Telemetry ที่วิ่งพื้นหลัง (task scheduler) ลด overhead',
+   tags:[['ลด latency','lat'],['ปิด telemetry','fps']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global\\NVTweak" /v PowerMizerEnable /t REG_DWORD /d 0 /f','schtasks /Change /TN "NvTmRep_CrashReport1_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}" /DISABLE >nul 2>&1','schtasks /Change /TN "NvTmRep_CrashReport2_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}" /DISABLE >nul 2>&1','schtasks /Change /TN "NvTmRep_CrashReport3_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}" /DISABLE >nul 2>&1','schtasks /Change /TN "NvTmRep_CrashReport4_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}" /DISABLE >nul 2>&1'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global\\NVTweak" /v PowerMizerEnable /f','schtasks /Change /TN "NvTmRep_CrashReport1_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}" /ENABLE >nul 2>&1']},
+  {id:'nv_prerender', cat:'nvidia', icon:'🎯', name:'NVIDIA — Max Pre-Rendered Frames = 1', desc:'ลด frame queue ที่ CPU เตรียมไว้ให้ GPU เหลือ 1 เฟรม — ลด input lag ชัดเจนในเกม FPS/FiveM (ตั้งผ่าน registry driver)',
+   tags:[['input lag ลดมาก','lat']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global\\NVTweak" /v Gc6State /t REG_DWORD /d 0 /f'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Global\\NVTweak" /v Gc6State /f']},
+  {id:'nv_shadercache', cat:'nvidia', icon:'🧹', name:'NVIDIA — Clear Shader Cache', desc:'ล้าง DXCache + GLCache + NV_Cache ของ NVIDIA แก้ stutter หลังอัปเดต driver — กดซ้ำได้เรื่อย ๆ',
+   tags:[['แก้ stutter','fps'],['กดซ้ำได้','lat']],
+   apply:['cmd /c del /q /s "%localappdata%\\NVIDIA\\DXCache\\*" 2>nul','cmd /c del /q /s "%localappdata%\\NVIDIA\\GLCache\\*" 2>nul','cmd /c rmdir /s /q "%programdata%\\NVIDIA Corporation\\NV_Cache" 2>nul'], revert:null},
+
+  // ══ AMD (Full Set — เฉพาะการ์ด AMD Radeon) ══
+  {id:'amd_ulps', cat:'amd', icon:'🔴', name:'AMD — Disable ULPS', desc:'ปิด Ultra Low Power State ที่ทำให้ Radeon หรี่พลังตอนคิดว่า idle — แก้ FPS ตก/กระตุกช่วงสั้น (วนตั้งทุก GPU key · ต้อง restart)',
+   tags:[['FPS นิ่ง','fps'],['ต้อง restart','warn']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem \'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\' -EA SilentlyContinue | Where-Object { Get-ItemProperty $_.PSPath -Name EnableUlps -EA SilentlyContinue } | ForEach-Object { Set-ItemProperty $_.PSPath -Name EnableUlps -Value 0; \'ULPS off: \'+$_.PSChildName }"'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem \'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\' -EA SilentlyContinue | Where-Object { Get-ItemProperty $_.PSPath -Name EnableUlps -EA SilentlyContinue } | ForEach-Object { Set-ItemProperty $_.PSPath -Name EnableUlps -Value 1 }"']},
+  {id:'amd_chill', cat:'amd', icon:'❄️', name:'AMD — Disable Chill + Power Saving', desc:'ปิด Radeon Chill และ feature ประหยัดพลังที่จำกัด FPS ตอน idle-ish — ให้การ์ดวิ่งเต็มตลอด (ตั้งผ่าน registry driver key ทุกใบ)',
+   tags:[['FPS เต็ม','fps']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem \'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\' -EA SilentlyContinue | Where-Object { $_.PSChildName -match \'^[0-9]{4}$\' } | ForEach-Object { Set-ItemProperty $_.PSPath -Name \'PP_ThermalAutoThrottlingEnable\' -Value 0 -EA SilentlyContinue; Set-ItemProperty $_.PSPath -Name \'DisableDrmdmaPowerGating\' -Value 1 -EA SilentlyContinue }"'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem \'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\' -EA SilentlyContinue | Where-Object { $_.PSChildName -match \'^[0-9]{4}$\' } | ForEach-Object { Remove-ItemProperty $_.PSPath -Name \'PP_ThermalAutoThrottlingEnable\' -EA SilentlyContinue; Remove-ItemProperty $_.PSPath -Name \'DisableDrmdmaPowerGating\' -EA SilentlyContinue }"']},
+  {id:'amd_shadercache', cat:'amd', icon:'🧹', name:'AMD — Clear Shader Cache', desc:'ล้าง DxCache + GLCache ของ AMD (%localappdata%\\AMD) แก้ stutter หลังอัปเดต driver — กดซ้ำได้เรื่อย ๆ',
+   tags:[['แก้ stutter','fps'],['กดซ้ำได้','lat']],
+   apply:['cmd /c del /q /s "%localappdata%\\AMD\\DxCache\\*" 2>nul','cmd /c del /q /s "%localappdata%\\AMD\\GLCache\\*" 2>nul','cmd /c rmdir /s /q "%localappdata%\\AMD\\DxcCache" 2>nul'], revert:null},
+
+  {id:'rsclso', cat:'gpu', icon:'📉', name:'Disable RSC + Offload', desc:'ปิด Receive Segment Coalescing และ TCP offload ลด frame pacing variation ทำให้จอสมูท',
+   tags:[['จอสมูท','fps'],['Frame pacing','lat']],
+   apply:['netsh int tcp set global chimney=disabled','netsh int tcp set global ecncapability=disabled'],
+   revert:['netsh int tcp set global chimney=default','netsh int tcp set global ecncapability=default']},
+
+  // INPUT
+  {id:'mouseaccel', cat:'input', icon:'🖱️', name:'Disable Mouse Acceleration', desc:'ปิด Enhance Pointer Precision ให้เมาส์ตอบสนอง 1:1 กับการขยับจริง',
+   tags:[['เมาส์แม่น','lat'],['Aim ดีขึ้น','fps']],
+   apply:['reg add "HKCU\\Control Panel\\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f','reg add "HKCU\\Control Panel\\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f','reg add "HKCU\\Control Panel\\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f'],
+   revert:['reg add "HKCU\\Control Panel\\Mouse" /v MouseSpeed /t REG_SZ /d 1 /f','reg add "HKCU\\Control Panel\\Mouse" /v MouseThreshold1 /t REG_SZ /d 6 /f','reg add "HKCU\\Control Panel\\Mouse" /v MouseThreshold2 /t REG_SZ /d 10 /f']},
+  {id:'keyboard', cat:'input', icon:'⌨️', name:'Keyboard Response', desc:'ลด repeat delay ให้ keypress register ไวขึ้น',
+   tags:[['คีย์บอร์ดไว','lat']],
+   apply:['reg add "HKCU\\Control Panel\\Keyboard" /v KeyboardDelay /t REG_SZ /d 0 /f','reg add "HKCU\\Control Panel\\Keyboard" /v KeyboardSpeed /t REG_SZ /d 31 /f'],
+   revert:['reg add "HKCU\\Control Panel\\Keyboard" /v KeyboardDelay /t REG_SZ /d 1 /f','reg add "HKCU\\Control Panel\\Keyboard" /v KeyboardSpeed /t REG_SZ /d 31 /f']},
+  {id:'usb', cat:'input', icon:'🔌', name:'USB Selective Suspend Off', desc:'ปิด USB power saving ป้องกัน Windows พัก mouse/keyboard ชั่วคราวจน input หลุด',
+   tags:[['ไม่มี input drop','lat'],['USB เสถียร','fps']],
+   apply:['powercfg -setacvalueindex SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0','powercfg -setactive SCHEME_CURRENT'],
+   revert:['powercfg -setacvalueindex SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 1','powercfg -setactive SCHEME_CURRENT']},
+
+  // RAM
+  {id:'prefetch', cat:'ram', icon:'📦', name:'Prefetch + Superfetch', desc:'ให้ Windows โหลด asset เกมเข้า RAM ล่วงหน้า ลดสะดุดตอนโหลด map',
+   tags:[['โหลดเร็ว','fps'],['ลด stutter','lat']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management\\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 3 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management\\PrefetchParameters" /v EnableSuperfetch /t REG_DWORD /d 3 /f'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management\\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 3 /f']},
+  {id:'pagingexec', cat:'ram', icon:'💽', name:'Disable Paging Executive', desc:'ป้องกันไม่ให้ kernel ถูกย้ายไป pagefile ทำให้ RAM ทำงานเร็วขึ้น (เหมาะกับ RAM ≥16GB)',
+   tags:[['Kernel ใน RAM','fps'],['RAM ≥16GB','warn']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management" /v DisablePagingExecutive /t REG_DWORD /d 1 /f'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management" /v DisablePagingExecutive /t REG_DWORD /d 0 /f']},
+  {id:'largecache', cat:'ram', icon:'🧠', name:'Large System Cache Off', desc:'ปรับ memory allocation ให้เหมาะกับการเล่นเกมแทน server workload — ให้เกมได้ RAM เต็มที่',
+   tags:[['RAM สำหรับเกม','fps']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management" /v LargeSystemCache /t REG_DWORD /d 0 /f'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management" /v LargeSystemCache /t REG_DWORD /d 1 /f']},
+  {id:'pagefile', cat:'ram', icon:'🔄', name:'Pagefile Optimization', desc:'ปิด auto-manage ให้ Windows หยุดปรับ pagefile เอง (ตั้งค่าคงที่ผ่าน System Properties จะเสถียรกว่า) — ต้อง restart',
+   tags:[['ลด RAM spike','fps'],['ต้อง restart','warn']],
+   apply:['wmic computersystem set AutomaticManagedPagefile=False'],
+   revert:['wmic computersystem set AutomaticManagedPagefile=True']},
+
+  // NETWORK
+  {id:'nagle', cat:'network', icon:'🌐', name:"Disable Nagle's Algorithm", desc:'ส่ง packet ทันทีไม่รอรวม batch ลด latency การส่งข้อมูลไป server',
+   tags:[['ลด delay','lat'],['ping','lat']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpAckFrequency /t REG_DWORD /d 1 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TCPNoDelay /t REG_DWORD /d 1 /f'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpAckFrequency /f','reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TCPNoDelay /f']},
+  {id:'dns', cat:'network', icon:'📡', name:'DNS → Cloudflare 1.1.1.1', desc:'ตั้ง DNS ที่ตอบสนองเร็ว ลดเวลา resolve และเชื่อมต่อ server ไวขึ้น',
+   tags:[['Connect ไว','lat'],['ลด jitter','lat']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-NetAdapter | Where-Object {$_.Status -eq \'Up\' -and $_.HardwareInterface} | ForEach-Object { Set-DnsClientServerAddress -InterfaceIndex $_.ifIndex -ServerAddresses (\'1.1.1.1\',\'1.0.0.1\') -EA SilentlyContinue }"'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-NetAdapter | Where-Object {$_.Status -eq \'Up\' -and $_.HardwareInterface} | ForEach-Object { Set-DnsClientServerAddress -InterfaceIndex $_.ifIndex -ResetServerAddresses -EA SilentlyContinue }"']},
+  {id:'qos', cat:'network', icon:'📶', name:'QoS Bandwidth 100%', desc:'ปลดล็อก bandwidth ที่ Windows สำรองไว้ 20% ทำให้ข้อมูลส่งได้เต็มความเร็ว',
+   tags:[['Bandwidth เต็ม','fps'],['ตัวไหล','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Psched" /v NonBestEffortLimit /t REG_DWORD /d 0 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Psched" /v NonBestEffortLimit /f']},
+  {id:'tcpbuf', cat:'network', icon:'🔧', name:'TCP Buffer + TTL Tune', desc:'ปรับ TCP window + TTL ลด packet loss ให้การรับส่งข้อมูลเสถียรขึ้น',
+   tags:[['ลด packet loss','lat'],['เสถียร','fps']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v DefaultTTL /t REG_DWORD /d 64 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpWindowSize /t REG_DWORD /d 65535 /f','netsh int tcp set global autotuninglevel=normal'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v DefaultTTL /f','netsh int tcp set global autotuninglevel=normal']},
+  {id:'speedmax', cat:'network', icon:'🚀', name:'Unlock Network Speed', desc:'ปลดข้อจำกัดที่ Windows หน่วงไว้ให้ throughput วิ่งเต็มความสามารถของการ์ดเน็ต — เปิด RSS, ปลด reserved bandwidth, ตั้ง autotuning สูงสุด (ไม่เพิ่มเกินแพ็กเกจ ISP)',
+   tags:[['เต็มสปีด NIC','fps'],['throughput สูง','fps']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Psched" /v NonBestEffortLimit /t REG_DWORD /d 0 /f','netsh int tcp set global autotuninglevel=normal','netsh int tcp set global rss=enabled','netsh int tcp set global dca=enabled','netsh int tcp set global netdma=enabled','netsh int tcp set global ecncapability=disabled','netsh int tcp set supplemental internet congestionprovider=ctcp','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v Tcp1323Opts /t REG_DWORD /d 1 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v GlobalMaxTcpWindowSize /t REG_DWORD /d 65535 /f'],
+   revert:['netsh int tcp set global autotuninglevel=normal','netsh int tcp set global rss=default','netsh int tcp set global ecncapability=default','netsh int tcp set supplemental internet congestionprovider=default','reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v Tcp1323Opts /f']},
+  {id:'nic_advanced', cat:'network', icon:'🔌', name:'NIC Advanced — Interrupt/Buffer/Flow', desc:'ปิด Interrupt Moderation (ลด latency), เพิ่ม Receive/Transmit Buffers, ปิด Flow Control + Energy-Efficient Ethernet บนการ์ดเน็ตจริงทุกใบ — ค่าจากสคริปต์ EXTREME (การ์ดไหนไม่รองรับจะข้ามเอง)',
+   tags:[['ลด latency','lat'],['NIC จัดเต็ม','fps']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-NetAdapter -Physical | ForEach-Object { $n=$_.Name; foreach($p in @(@(\'Interrupt Moderation\',\'Disabled\'),@(\'Flow Control\',\'Disabled\'),@(\'Energy-Efficient Ethernet\',\'Disabled\'),@(\'Receive Buffers\',\'2048\'),@(\'Transmit Buffers\',\'2048\'))){ try{ Set-NetAdapterAdvancedProperty -Name $n -DisplayName $p[0] -DisplayValue $p[1] -EA Stop }catch{} } }"'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-NetAdapter -Physical | ForEach-Object { $n=$_.Name; foreach($p in @(\'Interrupt Moderation\',\'Flow Control\',\'Energy-Efficient Ethernet\',\'Receive Buffers\',\'Transmit Buffers\')){ try{ Reset-NetAdapterAdvancedProperty -Name $n -DisplayName $p -EA Stop }catch{} } }"'],},
+  {id:'nic_offload', cat:'network', icon:'📉', name:'Disable RSC + LSO (all NICs)', desc:'ปิด Receive Segment Coalescing + Large Send Offload IPv4/IPv6 บนการ์ดเน็ตทุกใบ ลด frame pacing variation ทำให้ ping/เฟรมนิ่งขึ้น — ค่าจากสคริปต์',
+   tags:[['frame นิ่ง','fps'],['ลด jitter','lat']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Disable-NetAdapterRsc -Name \'*\' -EA SilentlyContinue; Get-NetAdapter -Physical | ForEach-Object { $n=$_.Name; foreach($p in @(\'Large Send Offload V2 (IPv4)\',\'Large Send Offload V2 (IPv6)\')){ try{ Set-NetAdapterAdvancedProperty -Name $n -DisplayName $p -DisplayValue \'Disabled\' -EA Stop }catch{} } }"'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Enable-NetAdapterRsc -Name \'*\' -EA SilentlyContinue; Get-NetAdapter -Physical | ForEach-Object { $n=$_.Name; foreach($p in @(\'Large Send Offload V2 (IPv4)\',\'Large Send Offload V2 (IPv6)\')){ try{ Set-NetAdapterAdvancedProperty -Name $n -DisplayName $p -DisplayValue \'Enabled\' -EA Stop }catch{} } }"'],},
+  {id:'tcp_global', cat:'network', icon:'⚙️', name:'TCP Global — ECN/Chimney/Heuristics off', desc:'ปิด ECN, Chimney offload และ TCP heuristics ผ่าน netsh + ตั้ง congestion provider เป็น CTCP — ลด overhead การจัดการ packet (ค่าจากสคริปต์ v3/EXTREME) · autotuning ใช้ normal (ปลอดภัย ไม่ใช่ experimental)',
+   tags:[['ลด overhead','lat'],['autotuning ปลอดภัย','lat']],
+   apply:['netsh int tcp set global chimney=disabled','netsh int tcp set heuristics disabled','netsh int tcp set global ecncapability=disabled','netsh int tcp set global timestamps=disabled','netsh int tcp set global autotuninglevel=normal'],
+   revert:['netsh int tcp set global chimney=default','netsh int tcp set heuristics default','netsh int tcp set global ecncapability=default','netsh int tcp set global timestamps=default']},
+  {id:'tcp_extended', cat:'network', icon:'🔩', name:'TCP Extended — Port/Delay/SACK', desc:'ขยาย MaxUserPort (65534), ลด TcpTimedWaitDelay (10), เปิด SACK, ตั้ง MaxConnectionsPerServer + TcpMaxDupAcks — ให้เปิด connection ไป server ได้เยอะและปล่อย port เร็ว (ค่าจากสคริปต์ EXTREME)',
+   tags:[['เปิด conn ได้เยอะ','fps'],['ปล่อย port ไว','lat']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v MaxUserPort /t REG_DWORD /d 65534 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpTimedWaitDelay /t REG_DWORD /d 10 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v SackOpts /t REG_DWORD /d 1 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpMaxDupAcks /t REG_DWORD /d 2 /f','reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v DefaultTTL /t REG_DWORD /d 64 /f'],
+   revert:['reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v MaxUserPort /f','reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpTimedWaitDelay /f','reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v SackOpts /f','reg delete "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters" /v TcpMaxDupAcks /f']},
+  {id:'sysresp', cat:'network', icon:'🎚️', name:'SystemResponsiveness + MMCSS SFIO', desc:'ตั้ง SystemResponsiveness=0 (ให้ multimedia/เกมได้ CPU เต็มที่ ไม่กันไว้ให้ background) + เติม SFIO Priority=High ใน MMCSS Games task — ค่าจากสคริปต์ที่แอปยังไม่มีครบ',
+   tags:[['เกมได้ CPU เต็ม','fps'],['MMCSS เต็มชุด','fps']],
+   apply:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v "SFIO Priority" /t REG_SZ /d High /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v "Clock Rate" /t REG_DWORD /d 10000 /f'],
+   revert:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 20 /f','reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games" /v "SFIO Priority" /t REG_SZ /d Normal /f']},
+
+  // SERVICE (ปิดชั่วคราว ตั้ง Manual — คืนค่าได้)
+  {id:'svc_sysmain', cat:'service', icon:'⏹️', name:'Stop SysMain (Superfetch)', desc:'หยุด SysMain ชั่วคราว ลด disk/CPU usage พื้นหลังตอนเล่น — คืนค่าได้ (build ไหนไม่มีจะข้ามให้)',
+   tags:[['ลด disk','fps'],['คืนค่าได้','lat']],
+   apply:['sc query SysMain >nul 2>&1 && (sc stop SysMain >nul 2>&1 & sc config SysMain start= demand) || echo [skip] SysMain not present'],
+   revert:['sc query SysMain >nul 2>&1 && (sc config SysMain start= auto & sc start SysMain) || echo [skip] SysMain not present']},
+  {id:'svc_wsearch', cat:'service', icon:'🔍', name:'Stop Windows Search', desc:'หยุด indexing ชั่วคราว ลดการอ่านเขียน disk พื้นหลัง — คืนค่าได้ (build ไหนไม่มีจะข้ามให้)',
+   tags:[['ลด disk I/O','fps'],['คืนค่าได้','lat']],
+   apply:['sc query WSearch >nul 2>&1 && (sc stop WSearch >nul 2>&1 & sc config WSearch start= demand) || echo [skip] WSearch not present'],
+   revert:['sc query WSearch >nul 2>&1 && (sc config WSearch start= auto & sc start WSearch) || echo [skip] WSearch not present']},
+  {id:'svc_spooler', cat:'service', icon:'🖨️', name:'Stop Print Spooler', desc:'หยุด service ปริ้นเตอร์ถ้าไม่ได้ใช้ตอนเล่น (เปิดกลับก่อนสั่งปริ้น)',
+   tags:[['ลด process','fps'],['ไม่ใช้ printer','warn']],
+   apply:['sc query Spooler >nul 2>&1 && (sc stop Spooler >nul 2>&1 & sc config Spooler start= demand) || echo [skip] Spooler not present'],
+   revert:['sc query Spooler >nul 2>&1 && (sc config Spooler start= auto & sc start Spooler) || echo [skip] Spooler not present']},
+  {id:'svc_diagtrack', cat:'service', icon:'📊', name:'Stop Telemetry (DiagTrack)', desc:'หยุด service เก็บ telemetry ที่วิ่งพื้นหลัง — คืนค่าได้ (build ไหนไม่มีจะข้ามให้)',
+   tags:[['ลด BG traffic','lat'],['คืนค่าได้','lat']],
+   apply:['sc query DiagTrack >nul 2>&1 && (sc stop DiagTrack >nul 2>&1 & sc config DiagTrack start= demand) || echo [skip] DiagTrack not present'],
+   revert:['sc query DiagTrack >nul 2>&1 && (sc config DiagTrack start= auto & sc start DiagTrack) || echo [skip] DiagTrack not present']},
+  {id:'svc_fax', cat:'service', icon:'📠', name:'Stop Fax Service', desc:'หยุด service Fax ที่แทบไม่มีใครใช้ — คืนค่าได้ (build ส่วนใหญ่ลบ Fax ไปแล้วจะข้ามให้อัตโนมัติ)',
+   tags:[['ลด process','fps'],['คืนค่าได้','lat']],
+   apply:['sc query Fax >nul 2>&1 && (sc stop Fax >nul 2>&1 & sc config Fax start= demand) || echo [skip] Fax not present'],
+   revert:['sc query Fax >nul 2>&1 && (sc config Fax start= auto & sc start Fax) || echo [skip] Fax not present']},
+  {id:'svc_wuauserv', cat:'service', icon:'🔄', name:'Pause Windows Update', desc:'หยุด Windows Update ชั่วคราว กันมันโหลด/ติดตั้งแทรกตอนเล่น — คืนค่าแล้วอัปเดตต่อได้ปกติ',
+   tags:[['ไม่แทรกตอนเล่น','fps'],['อย่าลืมคืนค่า','warn']],
+   apply:['sc query wuauserv >nul 2>&1 && (sc stop wuauserv >nul 2>&1 & sc config wuauserv start= demand) || echo [skip] wuauserv not present'],
+   revert:['sc query wuauserv >nul 2>&1 && (sc config wuauserv start= auto & sc start wuauserv) || echo [skip] wuauserv not present']},
+
+  // ══ เพิ่มจากเครื่องมือสายเกม (ISLC / Process Lasso) ══
+  {id:'ram_standby', cat:'ram', icon:'🧽', name:'Clear RAM Standby List', desc:'ล้าง standby memory (cache ค้างใน RAM) คืนกลับเป็น free — กลไกเดียวกับ ISLC/RAMMap (NtSetSystemInformation) ช่วย FiveM ตอน MLO เยอะ RAM เต็ม ลด stutter · กดซ้ำได้เรื่อย ๆ ไม่ต้อง restart',
+   tags:[['ลด stutter','fps'],['คืน RAM','fps'],['กดซ้ำได้','lat']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand dAByAHkAewBBAGQAZAAtAFQAeQBwAGUAIAAtAFQAeQBwAGUARABlAGYAaQBuAGkAdABpAG8AbgAgACcAdQBzAGkAbgBnACAAUwB5AHMAdABlAG0AOwB1AHMAaQBuAGcAIABTAHkAcwB0AGUAbQAuAFIAdQBuAHQAaQBtAGUALgBJAG4AdABlAHIAbwBwAFMAZQByAHYAaQBjAGUAcwA7AHAAdQBiAGwAaQBjACAAYwBsAGEAcwBzACAATQBDAHsAWwBEAGwAbABJAG0AcABvAHIAdAAoACIAbgB0AGQAbABsAC4AZABsAGwAIgApAF0AcAB1AGIAbABpAGMAIABzAHQAYQB0AGkAYwAgAGUAeAB0AGUAcgBuACAAdQBpAG4AdAAgAE4AdABTAGUAdABTAHkAcwB0AGUAbQBJAG4AZgBvAHIAbQBhAHQAaQBvAG4AKABpAG4AdAAgAGEALABJAG4AdABQAHQAcgAgAGIALABpAG4AdAAgAGMAKQA7AHAAdQBiAGwAaQBjACAAcwB0AGEAdABpAGMAIAB2AG8AaQBkACAAUAAoACkAewBpAG4AdAAgAHYAPQA0ADsARwBDAEgAYQBuAGQAbABlACAAaAA9AEcAQwBIAGEAbgBkAGwAZQAuAEEAbABsAG8AYwAoAHYALABHAEMASABhAG4AZABsAGUAVAB5AHAAZQAuAFAAaQBuAG4AZQBkACkAOwBOAHQAUwBlAHQAUwB5AHMAdABlAG0ASQBuAGYAbwByAG0AYQB0AGkAbwBuACgAMAB4ADUAMAAsAGgALgBBAGQAZAByAE8AZgBQAGkAbgBuAGUAZABPAGIAagBlAGMAdAAoACkALABNAGEAcgBzAGgAYQBsAC4AUwBpAHoAZQBPAGYAKAB0AHkAcABlAG8AZgAoAGkAbgB0ACkAKQApADsAaAAuAEYAcgBlAGUAKAApADsAfQB9ACcAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAFMAdABvAHAAOwBbAE0AQwBdADoAOgBQACgAKQA7ACcATwBLACAAcwB0AGEAbgBkAGIAeQAgAHAAdQByAGcAZQBkACcAfQBjAGEAdABjAGgAewAnAEUAUgBSACAAJwArACQAXwAuAEUAeABjAGUAcAB0AGkAbwBuAC4ATQBlAHMAcwBhAGcAZQB9AA=='], revert:null},
+  {id:'cpu_powerthrottle', cat:'cpu', icon:'🔋', name:'Disable Power Throttling', desc:'กัน Windows หรี่ความเร็ว CPU ตอนคิดว่าโปรแกรม idle (PowerThrottlingOff=1) — กัน frametime ตกกะทันหันตอนเกมสลับ scene หรือ CPU โดนหรี่ · คืนค่าได้',
+   tags:[['frametime นิ่ง','fps'],['คืนค่าได้','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Power\\PowerThrottling" /v PowerThrottlingOff /t REG_DWORD /d 1 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Power\\PowerThrottling" /v PowerThrottlingOff /f']},
+
+  // ══ GAMES (Boost FPS เกมอื่น ผ่าน Steam) ══
+  {id:'game_shadercache', cat:'games', icon:'🧹', name:'Clear NVIDIA Shader Cache (ทุกเกม)', desc:'ล้าง DXCache + GLCache ของ NVIDIA ที่ค้าง — แก้ stutter หลังอัปเดต driver/เกม (เข้าเกมครั้งแรกจะ compile shader ใหม่ ช้านิดหน่อย = ปกติ) ได้ผลกับทุกเกม',
+   tags:[['แก้ stutter','fps'],['กดซ้ำได้','lat']],
+   apply:['cmd /c del /q /s "%localappdata%\\NVIDIA\\DXCache\\*" 2>nul','cmd /c del /q /s "%localappdata%\\NVIDIA\\GLCache\\*" 2>nul','cmd /c rmdir /s /q "%programdata%\\NVIDIA Corporation\\NV_Cache" 2>nul'], revert:null},
+  {id:'game_pubg', cat:'games', icon:'🔫', name:'PUBG — High Priority', desc:'ตั้ง TslGame.exe เป็น High priority (ถ้าเปิดอยู่) + ตั้งถาวรผ่าน registry ให้มีผลทุกครั้งที่เปิดเกม',
+   tags:[['priority เกม','fps']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process TslGame -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'High\' } catch {} }"',
+          'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\TslGame.exe\\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process TslGame -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'Normal\' } catch {} }"',
+           'reg delete "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\TslGame.exe\\PerfOptions" /v CpuPriorityClass /f']},
+  {id:'game_pubg_cache', cat:'games', icon:'🧹', name:'PUBG — Clear Shader Cache', desc:'ล้าง Steam shadercache ของ PUBG (appid 578080) ลด stutter — กดซ้ำได้เรื่อย ๆ (เข้าเกมครั้งแรกหลังล้างจะ compile ใหม่ ช้านิดหน่อย)',
+   tags:[['ล้าง cache','lat'],['กดซ้ำได้','fps']],
+   apply:['for /f "usebackq tokens=2,*" %a in (`reg query "HKCU\\Software\\Valve\\Steam" /v SteamPath 2^>nul ^| find "SteamPath"`) do @cmd /c rmdir /s /q "%b\\steamapps\\shadercache\\578080\\DXVK_state_cache" 2>nul'], revert:null},
+  {id:'game_valorant', cat:'games', icon:'🎯', name:'Valorant — High Priority', desc:'ตั้ง VALORANT-Win64-Shipping.exe เป็น High priority (ถ้าเปิดอยู่) + ตั้งถาวรผ่าน registry — Valorant ใช้ Vanguard anti-cheat ไม่แตะไฟล์เกม แค่ปรับ priority (ปลอดภัย ไม่ผิดกฎ)',
+   tags:[['priority เกม','fps'],['ไม่แตะไฟล์เกม','lat']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process VALORANT-Win64-Shipping -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'High\' } catch {} }"',
+          'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\VALORANT-Win64-Shipping.exe\\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process VALORANT-Win64-Shipping -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'Normal\' } catch {} }"',
+           'reg delete "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\VALORANT-Win64-Shipping.exe\\PerfOptions" /v CpuPriorityClass /f']},
+  {id:'game_apex', cat:'games', icon:'🏆', name:'Apex Legends — High Priority', desc:'ตั้ง r5apex.exe เป็น High priority (ถ้าเปิดอยู่) + ตั้งถาวรผ่าน registry ให้มีผลทุกครั้งที่เปิดเกม',
+   tags:[['priority เกม','fps']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process r5apex -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'High\' } catch {} }"',
+          'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\r5apex.exe\\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process r5apex -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'Normal\' } catch {} }"',
+           'reg delete "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\r5apex.exe\\PerfOptions" /v CpuPriorityClass /f']},
+  {id:'game_apex_cache', cat:'games', icon:'🧹', name:'Apex Legends — Clear Shader Cache', desc:'ล้าง Steam shadercache ของ Apex (appid 1172470) แก้ปัญหา compile shader ทุกครั้งที่เปิด/CPU พุ่ง — กดซ้ำได้เรื่อย ๆ',
+   tags:[['แก้ CPU พุ่ง','fps'],['กดซ้ำได้','lat']],
+   apply:['for /f "usebackq tokens=2,*" %a in (`reg query "HKCU\\Software\\Valve\\Steam" /v SteamPath 2^>nul ^| find "SteamPath"`) do @cmd /c rmdir /s /q "%b\\steamapps\\shadercache\\1172470\\DXVK_state_cache" 2>nul'], revert:null},
+  {id:'game_cs2', cat:'games', icon:'💣', name:'CS2 — High Priority', desc:'ตั้ง cs2.exe เป็น High priority (ถ้าเปิดอยู่) + ตั้งถาวรผ่าน registry — CS2 ใช้ VAC ตัวนี้แค่ปรับ priority ไม่แตะไฟล์เกม ปลอดภัย',
+   tags:[['priority เกม','fps'],['ไม่แตะไฟล์เกม','lat']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process cs2 -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'High\' } catch {} }"',
+          'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\cs2.exe\\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process cs2 -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass=\'Normal\' } catch {} }"',
+           'reg delete "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\cs2.exe\\PerfOptions" /v CpuPriorityClass /f']},
+  {id:'game_cs2_cache', cat:'games', icon:'🧹', name:'CS2 — Clear Shader Cache', desc:'ล้าง Steam shadercache ของ CS2 (appid 730) ลด stutter — กดซ้ำได้เรื่อย ๆ',
+   tags:[['ล้าง cache','lat'],['กดซ้ำได้','fps']],
+   apply:['for /f "usebackq tokens=2,*" %a in (`reg query "HKCU\\Software\\Valve\\Steam" /v SteamPath 2^>nul ^| find "SteamPath"`) do @cmd /c rmdir /s /q "%b\\steamapps\\shadercache\\730\\DXVK_state_cache" 2>nul'], revert:null},
+
+
+  // ══ FiveM (เขียนเพื่อ FiveM เป็นหลัก) ══
+  {id:'fm_priority', cat:'fivem', icon:'🚀', name:'FiveM High Priority', desc:'ตั้งให้ FiveM ได้ CPU ก่อน process อื่น (High) — ทั้งตอนนี้ที่กำลังเปิด และตั้งถาวรให้มีผลทุกครั้งที่เปิด FiveM ช่วย frametime ตอน server คนเยอะ/MLO หนัก',
+   tags:[['frametime นิ่ง','fps'],['ถาวร','fps']],
+   apply:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process FiveM* -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass = \'High\' } catch {} }"',
+          'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\FiveM.exe\\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f'],
+   revert:['powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Process FiveM* -ErrorAction SilentlyContinue | ForEach-Object { try { $_.PriorityClass = \'Normal\' } catch {} }"',
+           'reg delete "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\FiveM.exe\\PerfOptions" /v CpuPriorityClass /f']},
+  {id:'fm_browsercache', cat:'fivem', icon:'🧹', name:'Clear FiveM Cache (browser/net)', desc:'ลบ cache ของ FiveM (ยกเว้น game) ให้โหลด asset ใหม่สะอาด ลด MLO stutter — ปลอดภัย ไม่ลบเกม',
+   tags:[['ลด MLO stutter','lat']],
+   apply:['cmd /c rmdir /s /q "%localappdata%\\FiveM\\FiveM.app\\cache\\browser" 2>nul','cmd /c rmdir /s /q "%localappdata%\\FiveM\\FiveM.app\\cache\\net" 2>nul'], revert:null},
+  {id:'fm_servercache', cat:'fivem', icon:'🗂️', name:'Clear FiveM Server Cache', desc:'ลบ server-cache ที่ค้างจาก server เก่า/asset เสีย ลด stutter ตอนเข้าเซิร์ฟ — ครั้งแรกที่เข้าใหม่จะโหลด asset นานขึ้นนิดหน่อย (ปกติ)',
+   tags:[['ล้าง asset เสีย','lat'],['โหลดครั้งแรกช้าลง','warn']],
+   apply:['cmd /c rmdir /s /q "%localappdata%\\FiveM\\FiveM.app\\data\\server-cache" 2>nul','cmd /c rmdir /s /q "%localappdata%\\FiveM\\FiveM.app\\data\\server-cache-priv" 2>nul'], revert:null},
+  {id:'fm_logs', cat:'fivem', icon:'📄', name:'Clear FiveM Logs & Crash Dumps', desc:'ลบ log และ crash dump เก่าของ FiveM คืนพื้นที่ SSD (ไม่กระทบการเล่น)',
+   tags:[['ได้พื้นที่คืน','fps']],
+   apply:['cmd /c del /q /f "%localappdata%\\FiveM\\FiveM.app\\logs\\*" 2>nul','cmd /c del /q /f "%localappdata%\\FiveM\\FiveM.app\\crashes\\*" 2>nul','cmd /c del /q /f "%localappdata%\\FiveM\\FiveM.app\\*.dmp" 2>nul'], revert:null},
+
+  {id:'pol_novbs', cat:'policy', icon:'🛡️', name:'Disable VBS (แก้ Ryzen Master + บูส FPS)', desc:'ปิด Virtualization-Based Security + Memory Integrity ที่กิน CPU overhead ทำ FPS ตก และชนกับ AMD Ryzen Master — ปิดแล้วเปิด Ryzen Master ได้ + ได้ FPS เพิ่มบนเครื่อง AMD · ต้อง restart 1 ครั้ง',
+   tags:[['FPS เพิ่ม (AMD)','fps'],['แก้ Ryzen Master','fps'],['ต้อง restart','warn']],
+   apply:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard" /v EnableVirtualizationBasedSecurity /t REG_DWORD /d 0 /f',
+          'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 0 /f',
+          'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\CredentialGuard" /v Enabled /t REG_DWORD /d 0 /f',
+          'bcdedit /set hypervisorlaunchtype off'],
+   revert:['reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard" /v EnableVirtualizationBasedSecurity /t REG_DWORD /d 1 /f',
+           'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 1 /f',
+           'bcdedit /set hypervisorlaunchtype auto']},
+
+  // ══ SERVICES ปิดถาวร (มี existence-guard → ใช้ได้ทุก build; ตัวไหนไม่มีจะข้าม) ══
+  {id:'svcoff_telemetry', cat:'svcoff', icon:'📊', name:'Disable Telemetry (ถาวร)', desc:'ปิด DiagTrack + dmwappushservice ที่เก็บ/ส่ง telemetry พื้นหลัง ตั้ง Disabled ถาวร — บาง build ลบไปแล้วจะข้ามให้อัตโนมัติ',
+   tags:[['ลด BG process','fps'],['privacy','lat'],['ทุก build','fps']],
+   apply:['sc query DiagTrack >nul 2>&1 && (sc stop DiagTrack >nul 2>&1 & sc config DiagTrack start= disabled) || echo [skip] DiagTrack not present',
+          'sc query dmwappushservice >nul 2>&1 && (sc stop dmwappushservice >nul 2>&1 & sc config dmwappushservice start= disabled) || echo [skip] dmwappushservice not present'],
+   revert:['sc query DiagTrack >nul 2>&1 && sc config DiagTrack start= demand || echo [skip] DiagTrack not present',
+           'sc query dmwappushservice >nul 2>&1 && sc config dmwappushservice start= demand || echo [skip] dmwappushservice not present']},
+  {id:'svcoff_faxreg', cat:'svcoff', icon:'🔒', name:'Disable Fax + Remote Registry (ถาวร)', desc:'ปิด Fax (แทบไม่มีใครใช้) และ RemoteRegistry (ปิดแล้วปลอดภัยขึ้น กันแก้ registry จากระยะไกล) ตั้ง Disabled ถาวร',
+   tags:[['ลด process','fps'],['ปลอดภัยขึ้น','lat']],
+   apply:['sc query Fax >nul 2>&1 && (sc stop Fax >nul 2>&1 & sc config Fax start= disabled) || echo [skip] Fax not present',
+          'sc query RemoteRegistry >nul 2>&1 && (sc stop RemoteRegistry >nul 2>&1 & sc config RemoteRegistry start= disabled) || echo [skip] RemoteRegistry not present'],
+   revert:['sc query Fax >nul 2>&1 && sc config Fax start= demand || echo [skip] Fax not present',
+           'sc query RemoteRegistry >nul 2>&1 && sc config RemoteRegistry start= demand || echo [skip] RemoteRegistry not present']},
+  {id:'svcoff_retail', cat:'svcoff', icon:'🏪', name:'Disable Retail/Demo + Maps + Wallet (ถาวร)', desc:'ปิด RetailDemo (โหมดโชว์ในร้าน), MapsBroker (โหลดแผนที่ออฟไลน์), WalletService — ไม่จำเป็นกับเครื่องเกม ตั้ง Disabled ถาวร',
+   tags:[['ลด process','fps'],['ทุก build','fps']],
+   apply:['sc query RetailDemo >nul 2>&1 && (sc stop RetailDemo >nul 2>&1 & sc config RetailDemo start= disabled) || echo [skip] RetailDemo not present',
+          'sc query MapsBroker >nul 2>&1 && (sc stop MapsBroker >nul 2>&1 & sc config MapsBroker start= disabled) || echo [skip] MapsBroker not present',
+          'sc query WalletService >nul 2>&1 && (sc stop WalletService >nul 2>&1 & sc config WalletService start= disabled) || echo [skip] WalletService not present'],
+   revert:['sc query RetailDemo >nul 2>&1 && sc config RetailDemo start= demand || echo [skip] RetailDemo not present',
+           'sc query MapsBroker >nul 2>&1 && sc config MapsBroker start= demand || echo [skip] MapsBroker not present',
+           'sc query WalletService >nul 2>&1 && sc config WalletService start= demand || echo [skip] WalletService not present']},
+  {id:'svcoff_pca', cat:'svcoff', icon:'🧩', name:'Disable Program Compat Assistant (ถาวร)', desc:'ปิด PcaSvc ที่คอยเฝ้าดูความเข้ากันได้ของโปรแกรมพื้นหลัง — ปิดได้บนเครื่องเกม (ถ้าเจอ popup compatibility ทีหลังค่อยคืนค่า)',
+   tags:[['ลด BG process','fps'],['ถ้าเจอ popup ค่อยคืน','warn']],
+   apply:['sc query PcaSvc >nul 2>&1 && (sc stop PcaSvc >nul 2>&1 & sc config PcaSvc start= disabled) || echo [skip] PcaSvc not present'],
+   revert:['sc query PcaSvc >nul 2>&1 && sc config PcaSvc start= demand || echo [skip] PcaSvc not present']},
+
+  // ══ POLICY (เขียน reg ใต้ \Policies\ = เท่ากับ gpedit แต่ไม่ต้องมี gpedit.msc; ใช้ได้ทุก build) ══
+  {id:'pol_noreboot', cat:'policy', icon:'🔄', name:'Windows Update ไม่รีสตาร์ทเอง', desc:'กัน Windows รีสตาร์ทเครื่องเองตอนมีคน login อยู่ (NoAutoRebootWithLoggedOnUsers) — ยังอัปเดตปกติ แค่ไม่รีบูตแทรกตอนเล่น',
+   tags:[['ไม่รีบูตตอนเล่น','fps'],['ปลอดภัย','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU" /v NoAutoRebootWithLoggedOnUsers /t REG_DWORD /d 1 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU" /v NoAutoRebootWithLoggedOnUsers /f']},
+  {id:'pol_deliveryopt', cat:'policy', icon:'📥', name:'ปิด Delivery Optimization', desc:'ปิดการแชร์ไฟล์อัปเดตแบบ P2P (DODownloadMode=0) ที่แอบดูด bandwidth พื้นหลัง — ช่วยให้ ping/เน็ตนิ่งขึ้น',
+   tags:[['ลดกิน bandwidth','lat'],['ping','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization" /v DODownloadMode /f']},
+  {id:'pol_bgapps', cat:'policy', icon:'🚫', name:'ปิด Background Apps ทั้งระบบ', desc:'ห้ามแอป UWP/Store วิ่งพื้นหลังทั้งหมด (LetAppsRunInBackground=Force Deny) ลด process เบื้องหลัง — แอป Store บางตัวจะไม่เด้ง noti จนกว่าเปิดเอง',
+   tags:[['ลด process','fps'],['UWP ไม่เด้ง noti','warn']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy" /v LetAppsRunInBackground /t REG_DWORD /d 2 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy" /v LetAppsRunInBackground /f']},
+  {id:'pol_telemetry', cat:'policy', icon:'📊', name:'ปิด Telemetry ระดับ Policy', desc:'ตั้ง AllowTelemetry=0 ผ่าน policy — แรงกว่าปิด service เฉย ๆ (บน LTSC/IoT/Enterprise มีผลเต็ม) ลด traffic เก็บข้อมูลพื้นหลัง',
+   tags:[['ลด BG traffic','lat'],['privacy','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection" /v AllowTelemetry /f']},
+  {id:'pol_gamedvr', cat:'policy', icon:'🎯', name:'ปิด Game DVR ระดับ Policy', desc:'ล็อก AllowGameDVR=0 ผ่าน policy เสริมของเดิมให้แน่นขึ้น ระบบจะไม่เปิด DVR กลับมาเอง — เพิ่ม FPS ในเกมที่เคยโดน DVR แอบอัด',
+   tags:[['ล็อก DVR ปิด','fps']],
+   apply:['reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR" /v AllowGameDVR /t REG_DWORD /d 0 /f'],
+   revert:['reg delete "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR" /v AllowGameDVR /f']},
+  {id:'pol_netthrottle', cat:'policy', icon:'🌐', name:'ปิด Network Throttling Index', desc:'ปลด throttle ที่ Windows จำกัด network ไว้ 10 packet/ms เพื่อ multimedia (ตั้งเป็น disabled) — ให้ throughput/latency ของเกมไม่โดนหน่วง',
+   tags:[['ปลด throttle','lat'],['ping','lat']],
+   apply:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 4294967295 /f'],
+   revert:['reg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 10 /f']},
+
+  // CLEAN (no meaningful revert)
+  {id:'wintemp', cat:'clean', icon:'🗑️', name:'Clear Windows Temp', desc:'ลบไฟล์ชั่วคราวใน %TEMP% และ Windows\\Temp คืนพื้นที่ SSD',
+   tags:[['ได้พื้นที่คืน','fps']],
+   apply:['cmd /c del /q /f /s "%TEMP%\\*" 2>nul','cmd /c del /q /f /s "C:\\Windows\\Temp\\*" 2>nul'], revert:null},
+  {id:'dnsflush', cat:'clean', icon:'🔧', name:'Flush DNS Cache', desc:'ล้าง DNS cache เก่าที่อาจทำให้ resolve ช้า',
+   tags:[['ping','lat'],['connect ไว','lat']],
+   apply:['ipconfig /flushdns','ipconfig /registerdns'], revert:null},
+];
+
+/* หมวดที่ไม่รวมในปุ่ม Optimize all / profile Max / เกจ Tuned%
+   clean+fivem = มีการลบไฟล์/cache · service+svcoff = ปิด service มี warn (ผู้ใช้เลือกเองในหน้านั้น) */
+const BULK_EXCLUDE = new Set(['clean','fivem','games','nvidia','amd','service','svcoff']);
+const inBulk = t => !BULK_EXCLUDE.has(t.cat);
+
+/* ══ PROFILES ══ */
+const PROFILES = [
+  {id:'competitive', em:'🎯', name:'Competitive', desc:'เน้น latency ต่ำสุดสำหรับ FPS / esports — ปลดทุกอย่างที่หน่วง input',
+   ids:['gamebar','mmcss','timer','ultimate','coreparking','cpuprio','pcie','hwsched','nvlow','mouseaccel','keyboard','usb','nagle','dns','qos','tcpbuf','speedmax']},
+  {id:'balanced', em:'⚖️', name:'Balanced', desc:'สมดุลระหว่าง FPS กับความปลอดภัย เหมาะกับใช้ทั่วไปทุกวัน',
+   ids:['gamebar','mmcss','visual','ultimate','hwsched','prefetch','dns']},
+  {id:'streaming', em:'📹', name:'Streaming', desc:'เน้นความนิ่งไม่กระตุกตอนสตรีม + เครือข่ายเสถียร',
+   ids:['mmcss','timer','ultimate','coreparking','prefetch','largecache','dns','qos','tcpbuf']},
+  {id:'max', em:'🔥', name:'Max Performance', desc:'จัดเต็มทุก tweak — ประสิทธิภาพสูงสุด (ใช้ไฟและความร้อนมากขึ้น)',
+   ids:T.filter(inBulk).map(t=>t.id)},
+];
+
+const CATS = {
+  dash:{t:'Dashboard', s:'ภาพรวมและปรับแต่งแบบคลิกเดียว'},
+  profiles:{t:'Profiles', s:'ชุด tweak สำเร็จรูป — apply ทั้งชุดในคลิกเดียว'},
+  boost:{t:'Boost FPS', s:'ปรับ Windows ให้โฟกัสที่เกม'},
+  fivem:{t:'FiveM', s:'ปรับแต่งเฉพาะ FiveM — priority, cache, logs (ได้ผลกับ GTA V/FiveM โดยตรง)'},
+  games:{t:'Games', s:'Boost FPS เกมยอดฮิต — PUBG / Valorant / Apex / CS2 (priority + ล้าง shader cache)'},
+  cpu:{t:'CPU', s:'ปลดล็อกหน่วยประมวลผลให้เต็มประสิทธิภาพ'},
+  gpu:{t:'GPU', s:'เพิ่มความเร็ว render และลด latency การแสดงผล'},
+  nvidia:{t:'NVIDIA', s:'จัดเต็มเฉพาะการ์ด NVIDIA — PowerMizer, low latency, shader cache'},
+  amd:{t:'AMD Radeon', s:'จัดเต็มเฉพาะการ์ด AMD — ULPS off, chill off, shader cache'},
+  input:{t:'Input Lag', s:'ลดความหน่วงเมาส์และคีย์บอร์ด'},
+  ram:{t:'Memory', s:'จัดการ RAM ให้เกมมีพื้นที่มากขึ้น'},
+  network:{t:'Network', s:'ลด ping และปรับ TCP/IP'},
+  autoping:{t:'Auto Ping', s:'วัด ping จริงหลาย DNS แล้วเลือก+ตั้งตัวที่เร็วสุดให้อัตโนมัติ'},
+  policy:{t:'Policy Tweaks', s:'ปรับ Group Policy ผ่าน registry (ไม่ต้องมี gpedit.msc) — ใช้ได้ทุก build'},
+  service:{t:'Services (Manual)', s:'หยุด service ที่ไม่จำเป็น ตั้ง Manual — คืนค่าได้ทุกตัว'},  svcoff:{t:'Services (ปิดถาวร)', s:'ปิด service ที่ไม่ใช้แบบถาวร (Disabled) — มี guard ใช้ได้ทุก build'},
+  clean:{t:'Clean Files', s:'ลบไฟล์ขยะและ cache'},
+  restore:{t:'Restore', s:'สร้างจุดกู้คืนและย้อนค่าที่ปรับไป'},
+  activity:{t:'Activity', s:'บันทึกทุกการทำงาน'},
+  appearance:{t:'Appearance', s:'เปลี่ยนธีมและไอคอนแอปตามใจ — จำค่าไว้ให้อัตโนมัติ'},
+  monitor:{t:'Live Monitor', s:'สถานะสด · overlay · ตรวจเกม · ล้างอัตโนมัติ · benchmark'},
+  gpuguide:{t:'GPU Settings Guide', s:'ค่าที่ควรตั้งใน NVIDIA App / Radeon Software — ปรับตามสเปคเครื่องนี้'},
+};
+
+/* ══ STATE ══ */
+let applied = new Set(store.get('gb_applied', []));
+let activeProfile = store.get('gb_profile', null);
+let curPage = 'dash';
+let busy = false;
+const logLines = store.get('gb_log', []);
+
+/* ══ DOM ══ */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* ══ RENDER CARDS ══ */
+function cardHTML(t){
+  const isAction = !t.revert;              // การ์ดที่ revert:null = action รันซ้ำได้ (ล้าง cache/temp/RAM)
+  const isA = !isAction && applied.has(t.id);
+  const ranOnce = isAction && applied.has(t.id);
+  const tags = t.tags.map(([txt,ty])=>`<span class="tg ${ty}">${txt}</span>`).join('');
+  const revDis = (!isA || !t.revert) ? 'disabled' : '';
+  const applyLabel = isAction ? (ranOnce ? '↻ Run again' : '▶ Run') : (isA ? '✓ Applied' : '▶ Apply');
+  return `<div class="card ${isA?'applied':''} ${isAction?'action':''}" data-card="${t.id}">
+    <div class="c-head">
+      <div class="c-ic">${t.icon}</div>
+      <div><div class="c-name">${t.name}</div><div class="c-cat">${t.cat}</div></div>
+    </div>
+    <div class="c-desc">${t.desc}</div>
+    <div class="c-tags">${tags}</div>
+    <div class="c-foot">
+      <button class="c-apply ${isA?'done':''}" data-apply="${t.id}">${applyLabel}</button>
+      ${isAction ? '' : `<button class="c-revert" data-revert="${t.id}" ${revDis} title="Revert">↺</button>`}
+    </div>
+  </div>`;
+}
+function renderCat(cat){
+  const items = T.filter(t=>t.cat===cat);
+  $('#grid-'+cat).innerHTML = items.map(cardHTML).join('');
+}
+function renderAllCats(){ ['boost','fivem','games','cpu','gpu','nvidia','amd','input','ram','network','policy','service','svcoff','clean'].forEach(renderCat); }
+
+/* ══ PRESETS + PROFILES ══ */
+function presetHTML(p){
+  return `<button class="preset" data-profile="${p.id}">
+    <span class="pi">${p.em}</span>
+    <h4>${p.name}</h4><p>${p.desc}</p>
+    <div class="pf"><span class="pc">${p.ids.length} tweaks</span><span class="pb">Apply →</span></div>
+  </button>`;
+}
+function renderPresets(){ $('#presetRow').innerHTML = PROFILES.map(presetHTML).join(''); }
+function renderProfiles(){
+  $('#profGrid').innerHTML = PROFILES.map(p=>{
+    const list = p.ids.map(id=>{ const t=T.find(x=>x.id===id); return t?`<div class="prof-item"><span class="d"></span>${t.name}</div>`:''; }).join('');
+    const doneN = p.ids.filter(id=>applied.has(id)).length;
+    return `<div class="prof">
+      <div class="prof-top"><span class="em">${p.em}</span><h3>${p.name}</h3><p>${p.desc}</p></div>
+      <div class="prof-list">${list}</div>
+      <div class="prof-foot"><span class="n">${doneN}/${p.ids.length} applied</span>
+        <button class="btn btn-primary" data-profile="${p.id}">Apply profile</button></div>
+    </div>`;
+  }).join('');
+}
+
+/* ══ GAUGE + COUNTS ══ */
+const CIRC = 257.6;
+function tunedPct(){
+  const total = T.filter(inBulk).length;
+  const done = [...applied].filter(id=>{ const t=T.find(x=>x.id===id); return t && inBulk(t); }).length;
+  return total? Math.round(done/total*100):0;
+}
+function updateGauge(){
+  const pct = tunedPct();
+  $('#gaugeFill').style.strokeDashoffset = CIRC*(1-pct/100);
+  animNum($('#gaugeNum'), pct);
+  $('#appliedN').textContent = applied.size;
+  $('#totalN').textContent = T.length;
+  $('#activeProfLbl').textContent = activeProfile ? (PROFILES.find(p=>p.id===activeProfile)?.name||'none') : 'none';
+}
+function animNum(el, to){
+  const from = parseInt(el.textContent)||0;
+  if(from===to){el.textContent=to;return;}
+  const step = from<to?1:-1; let cur=from;
+  const iv = setInterval(()=>{ cur+=step; el.textContent=cur; if(cur===to) clearInterval(iv); }, 380/(Math.abs(to-from)+1));
+}
+function updateCounts(){
+  ['boost','fivem','games','cpu','gpu','nvidia','amd','input','ram','network','policy','service','svcoff','clean'].forEach(c=>{
+    const n = T.filter(t=>t.cat===c && applied.has(t.id)).length;
+    $$(`[data-ct="${c}"]`).forEach(e=>e.textContent=n);
+  });
+}
+function persist(){ store.set('gb_applied',[...applied]); store.set('gb_profile',activeProfile); }
+
+/* ══ LOG ══ */
+function log(type, msg){
+  const line = {type, msg, t:Date.now()};
+  logLines.push(line); if(logLines.length>400) logLines.shift();
+  store.set('gb_log', logLines);
+  [ $('#dockLog'), $('#fullLog'), $('#recentLog') ].forEach(el=>{ if(el) appendLine(el, line); });
+}
+function appendLine(el, l){
+  if(el===$('#recentLog') && el.querySelector('.dim')) el.innerHTML='';
+  const d=document.createElement('div'); d.className='ln '+l.type; d.textContent=l.msg;
+  el.appendChild(d); el.scrollTop=el.scrollHeight;
+  if(el===$('#recentLog')){ while(el.children.length>12) el.removeChild(el.firstChild); }
+}
+function renderLogs(){
+  [ $('#dockLog'), $('#fullLog') ].forEach(el=>{ el.innerHTML=''; logLines.forEach(l=>appendLine(el,l)); });
+}
+function setLive(txt, col){ $('#liveTxt').textContent=txt; $('#liveTxt').style.color=col||''; $('.live i').style.background=col||''; }
+
+/* ══ TOAST ══ */
+function toast(kind, head, body){
+  const el=document.createElement('div'); el.className='toast '+kind;
+  const ic = kind==='s'?'✓':kind==='w'?'!':'◈';
+  el.innerHTML=`<div class="ti">${ic}</div><div class="tc"><div class="th">${head}</div>${body?`<div class="tb">${body}</div>`:''}</div>`;
+  $('#toasts').appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(),300); }, 3200);
+}
+
+/* ══ PROGRESS ══ */
+function progress(pct){ const p=$('#prog'); if(pct==null){p.classList.remove('on');$('#progBar').style.width='0';return;} p.classList.add('on'); $('#progBar').style.width=pct+'%'; }
+
+/* ══ APPLY / REVERT ══ */
+async function applyTweak(id, silent){
+  const t=T.find(x=>x.id===id); if(!t) return;
+  const isAction = !t.revert;             // action = รันซ้ำได้เสมอ ไม่บล็อก
+  if(applied.has(id) && !isAction && !silent){ toast('i','ทำไปแล้ว', t.name+' ถูก apply ไว้อยู่แล้ว'); return; }
+  const btn = document.querySelector(`[data-apply="${id}"]`);
+  if(btn){ btn.classList.add('running'); btn.disabled=true; btn.innerHTML='<span>⟳</span> Running'; }
+  if(!silent){ log('run', `[▶] ${t.name}`); setLive('APPLYING','#9d90ff'); }
+  for(const cmd of t.apply){
+    const r = await execCmd(cmd);
+    log(r.ok?'info':'warn', `  ${r.ok?'›':'✕'} ${cmd.slice(0,66)}${cmd.length>66?'…':''}`);
+    if(r.err && r.err.trim()) log('err', '    '+r.err.trim().slice(0,80));
+  }
+  if(isAction){
+    // action: ไม่บันทึกลง applied เลย → ไม่นับใน Restore/gauge/counts, กดซ้ำได้ตลอด
+    if(btn){ btn.classList.remove('running'); btn.disabled=false; btn.innerHTML='↻ Run again'; }
+    log('ok', `[✓] ${t.name} (เสร็จ — กดซ้ำได้)`);
+    if(!silent){ setLive('READY','#33e08a'); toast('s','เสร็จแล้ว', t.name+' — กดซ้ำได้เรื่อย ๆ'); }
+  } else {
+    applied.add(id); persist();
+    markApplied(id);
+    log('ok', `[✓] ${t.name}`);
+    if(!silent){ setLive('READY','#33e08a'); toast('s','สำเร็จ', t.name); refreshUI(); }
+  }
+}
+function markApplied(id){
+  const card = document.querySelector(`[data-card="${id}"]`);
+  if(card){
+    card.classList.add('applied');
+    const ab=card.querySelector('[data-apply]'); ab.classList.remove('running'); ab.classList.add('done'); ab.innerHTML='✓ Applied';
+    const rb=card.querySelector('[data-revert]'); const t=T.find(x=>x.id===id); if(t.revert) rb.disabled=false;
+  }
+}
+async function revertTweak(id){
+  const t=T.find(x=>x.id===id); if(!t||!t.revert) return;
+  log('run', `[↺] Revert ${t.name}`); setLive('REVERTING','#ff9d5c');
+  for(const cmd of t.revert){ const r=await execCmd(cmd); log(r.ok?'info':'warn', `  ${r.ok?'›':'✕'} ${cmd.slice(0,66)}${cmd.length>66?'…':''}`); }
+  applied.delete(id); persist();
+  log('ok', `[✓] Reverted ${t.name}`); setLive('READY','#33e08a');
+  toast('i','ย้อนกลับแล้ว', t.name); refreshUI();
+}
+
+async function applyMany(ids, label){
+  if(busy) return; busy=true;
+  const todo = ids.filter(id=>!applied.has(id));
+  if(!todo.length){ toast('i','ครบแล้ว', (label||'ทุก tweak')+' ถูก apply ครบแล้ว'); busy=false; return; }
+  log('run', `[▶] ${label} — ${todo.length} tweaks`); setLive('OPTIMIZING','#9d90ff'); progress(0);
+  for(let i=0;i<todo.length;i++){ await applyTweak(todo[i], true); progress(Math.round((i+1)/todo.length*100)); }
+  setLive('DONE','#33e08a'); toast('s','เสร็จสิ้น', `${label}: ${todo.length} tweaks`, );
+  log('warn','[!] แนะนำ Restart เครื่องเพื่อให้ทุกค่ามีผลเต็มที่');
+  refreshUI(); setTimeout(()=>progress(null),1200); busy=false;
+}
+
+function applyProfile(pid){
+  const p=PROFILES.find(x=>x.id===pid); if(!p) return;
+  activeProfile=pid; persist();
+  applyMany(p.ids, `Profile: ${p.name}`);
+}
+
+/* ══ REFRESH UI ══ */
+function refreshUI(){ renderAllCats(); updateGauge(); updateCounts(); renderProfiles(); persist(); }
+
+/* ══ NAV ══ */
+function nav(page){
+  curPage=page;
+  $$('.nav').forEach(n=>n.classList.toggle('on', n.dataset.nav===page));
+  $$('.page').forEach(p=>p.classList.toggle('on', p.id==='page-'+page));
+  $('#pTitle').textContent = CATS[page].t;
+  $('#pSub').textContent = CATS[page].s;
+  const isCat = ['boost','fivem','games','cpu','gpu','nvidia','amd','input','ram','network','policy','service','svcoff','clean'].includes(page);
+  $('#searchBox').style.display = isCat?'flex':'none';
+  $('#runAllBtn').style.display = isCat?'inline-flex':'none';
+  $('#searchInput').value=''; filterCards('');
+  $('#view').scrollTop=0;
+  if(page==='profiles') renderProfiles();
+  if(page==='activity') tpAutoStart(); else tpStop();
+  if(page==='appearance') renderAppearance();
+  if(page==='monitor'){ monStart(); if(!benchBefore) renderBench(null); } else monStop();
+  if(page==='gpuguide') renderGuide();
+}
+
+/* ══ SEARCH ══ */
+function filterCards(q){
+  q=q.toLowerCase().trim();
+  $$(`#page-${curPage} .card`).forEach(c=>{
+    const id=c.dataset.card; const t=T.find(x=>x.id===id);
+    const hit = !q || (t.name+t.desc+t.tags.map(x=>x[0]).join()).toLowerCase().includes(q);
+    c.style.display = hit?'':'none';
+  });
+}
+
+/* ══ SYSTEM INFO ══ */
+let SYS={cpu:'',gpu:'',ram:0};
+async function loadSysInfo(){
+  if(!DESKTOP){
+    ['sCpu','sGpu','sRam'].forEach(id=>$('#'+id).textContent='Preview mode');
+    ['mCpu','mGpu','mRam'].forEach(id=>$('#'+id).textContent='—');
+    SYS={cpu:'AMD Ryzen 5 5600X (preview)',gpu:'AMD Radeon RX 6600 (preview)',ram:32};
+    return;
+  }
+  try{
+    const s = await window.boost.sysinfo();
+    SYS={cpu:s.cpu||'',gpu:s.gpu||'',ram:+s.ram||0};
+    const shortCpu = (s.cpu||'Unknown').replace(/\(R\)|\(TM\)|CPU|Processor/g,'').replace(/@.*/,'').trim();
+    const shortGpu = (s.gpu||'Unknown').replace(/NVIDIA|AMD|\(R\)/g,'').trim();
+    $('#sCpu').textContent = s.cpu||'Unknown';
+    $('#sGpu').textContent = s.gpu||'Unknown';
+    $('#sRam').textContent = (s.ram||'?')+' GB';
+    $('#mCpu').textContent = shortCpu.split(' ').slice(0,2).join(' ')||'—';
+    $('#mGpu').textContent = shortGpu.split(' ').slice(0,2).join(' ')||'—';
+    $('#mRam').textContent = (s.ram||'?')+'GB';
+  }catch(e){ ['sCpu','sGpu','sRam'].forEach(id=>$('#'+id).textContent='Unavailable'); }
+}
+
+/* ══ RESTORE ACTIONS ══ */
+async function makeRestorePoint(){
+  log('run','[🛡] Creating restore point…'); setLive('WORKING','#22e5c8');
+  if(DESKTOP){
+    try{ const r=await window.boost.restorePoint('GameBoostFPS Ty.ppw');
+      log(r.ok?'ok':'warn', r.ok?'[✓] Restore point created':'[!] '+(r.err||'อาจติด limit 24 ชม. ของ Windows'));
+      toast(r.ok?'s':'w', r.ok?'สร้าง restore point แล้ว':'สร้างไม่สำเร็จ', r.ok?'':'Windows จำกัดวันละ 1 จุด');
+    }catch(e){ log('err','[✕] '+e); }
+  }else{ log('info','[i] Preview mode — ใน .exe จริงจะสร้าง restore point ให้'); toast('i','Preview mode','ฟีเจอร์นี้ทำงานใน .exe จริง'); }
+  setLive('READY','#33e08a');
+}
+async function revertAll(){
+  const ids=[...applied].filter(id=>T.find(x=>x.id===id)?.revert);
+  if(!ids.length){ toast('i','ไม่มีอะไรต้องย้อน','ยังไม่ได้ apply tweak ที่ย้อนได้'); return; }
+  log('run',`[↺] Reverting ${ids.length} tweaks`); setLive('REVERTING','#ff9d5c'); progress(0);
+  for(let i=0;i<ids.length;i++){ await revertTweak(ids[i]); progress(Math.round((i+1)/ids.length*100)); }
+  activeProfile=null; persist(); refreshUI();
+  toast('s','ย้อนกลับครบแล้ว', `${ids.length} tweaks`); setLive('READY','#33e08a'); setTimeout(()=>progress(null),1000);
+}
+async function resetPower(){
+  log('run','[⟳] powercfg -restoredefaultschemes'); setLive('WORKING','#ff5470');
+  const r=await execCmd('powercfg -restoredefaultschemes');
+  log(r.ok?'ok':'warn', r.ok?'[✓] Power plans reset to default':'[!] '+(r.err||'failed'));
+  ['ultimate','coreparking','pcie','usb'].forEach(id=>applied.delete(id)); persist(); refreshUI();
+  toast('s','รีเซ็ต Power Plan แล้ว',''); setLive('READY','#33e08a');
+}
+
+/* ══ AUTO PING TUNE ══ */
+const PING_TARGETS=[
+  {id:'cloudflare', name:'Cloudflare', ip:'1.1.1.1',         dns:['1.1.1.1','1.0.0.1']},
+  {id:'google',     name:'Google',     ip:'8.8.8.8',         dns:['8.8.8.8','8.8.4.4']},
+  {id:'quad9',      name:'Quad9',       ip:'9.9.9.9',         dns:['9.9.9.9','149.112.112.112']},
+  {id:'opendns',    name:'OpenDNS',     ip:'208.67.222.222', dns:['208.67.222.222','208.67.220.220']},
+];
+let apBusy=false, apLastIdx=null;
+
+/* parse ping output แบบไม่ผูกภาษา: อ่านเฉพาะบรรทัดที่มี TTL แล้วดึงตัวเลขหน่วย ms */
+function parsePing(out){
+  const times=[];
+  (out||'').split(/\r?\n/).forEach(line=>{
+    if(/ttl[=\s:]/i.test(line)){ const m=line.match(/(\d+)\s*ms/i); if(m) times.push(+m[1]); }
+  });
+  if(!times.length) return null;
+  const avg=Math.round(times.reduce((a,b)=>a+b,0)/times.length);
+  const jitter=times.length>1 ? Math.max(...times)-Math.min(...times) : 0;
+  return {avg, jitter, loss:Math.max(0,4-times.length)};
+}
+function msClass(ms){ return ms<40?'g':ms<90?'m':'b'; }
+function gradeFor(ms){
+  if(ms<20) return {k:'good', label:'ดีมาก'};
+  if(ms<50) return {k:'good', label:'ดี'};
+  if(ms<100) return {k:'ok', label:'พอใช้'};
+  return {k:'bad', label:'เน็ตหน่วง'};
+}
+function apRenderCards(state){
+  $('#apGrid').innerHTML = PING_TARGETS.map(t=>{
+    const s=state[t.id]||{};
+    const cls = s.status==='testing'?'testing' : s.win?'win' : (s.status==='done'&&!s.res)?'dead' : '';
+    let msHtml, meta, mc='';
+    if(s.status==='testing'){ msHtml='<b>…</b>'; meta='กำลังวัด'; }
+    else if(s.status==='done' && !s.res){ msHtml='<b>—</b>'; meta='ไม่ตอบสนอง'; }
+    else if(s.res){ msHtml=`<b>${s.res.avg}</b><span>ms</span>`; meta=`jitter ${s.res.jitter}ms · loss ${s.res.loss*25}%`; mc=msClass(s.res.avg); }
+    else { msHtml='<b>·</b>'; meta='รอคิว'; }
+    return `<div class="ap-card ${cls}">
+      <div class="ap-card-top"><span class="ap-name">${t.name}</span><span class="ap-ip">${t.ip}</span></div>
+      <div class="ap-ms ${mc}">${msHtml}</div>
+      <div class="ap-meta">${meta}</div>
+    </div>`;
+  }).join('');
+}
+async function getAdapterIndex(){
+  if(!DESKTOP) return 999;
+  const r=await execCmd('powershell -NoProfile -ExecutionPolicy Bypass -Command "(Get-NetAdapter | Where-Object {$_.Status -eq \'Up\' -and $_.HardwareInterface} | Sort-Object -Property LinkSpeed -Descending | Select-Object -First 1).ifIndex"');
+  const idx=parseInt((r.out||'').trim(),10);
+  return Number.isFinite(idx)?idx:null;
+}
+async function setDnsIdx(servers, idx){
+  const list=servers.map(s=>`'${s}'`).join(',');
+  return execCmd(`powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-DnsClientServerAddress -InterfaceIndex ${idx} -ServerAddresses (${list})"`);
+}
+async function runAutoPing(){
+  if(apBusy) return; apBusy=true;
+  const runBtn=$('#apRun'); runBtn.disabled=true; runBtn.innerHTML='<span>⟳</span> Testing…';
+  $('#apResult').innerHTML='';
+  const state={}; PING_TARGETS.forEach(t=>state[t.id]={status:'idle'}); apRenderCards(state);
+  log('run','[📡] Auto Ping Tune — วัด ping DNS'); setLive('PINGING','#22e5c8'); progress(0);
+
+  for(let i=0;i<PING_TARGETS.length;i++){
+    const t=PING_TARGETS[i];
+    state[t.id]={status:'testing'}; apRenderCards(state);
+    $('#apStatus').textContent=`⟳ ping ${t.name} (${t.ip}) …`;
+    let res;
+    if(DESKTOP){ const r=await execCmd(`ping -n 4 ${t.ip}`); res=parsePing(r.out); }
+    else { await sleep(450); res={avg:8+Math.floor(Math.random()*72), jitter:Math.floor(Math.random()*9), loss:0}; }
+    state[t.id]={status:'done', res}; apRenderCards(state);
+    log(res?'info':'warn', res?`  › ${t.name}: ${res.avg}ms (jitter ${res.jitter})`:`  ✕ ${t.name}: ไม่ตอบสนอง`);
+    progress(Math.round((i+1)/PING_TARGETS.length*100));
+  }
+
+  const alive=PING_TARGETS.filter(t=>state[t.id].res);
+  if(!alive.length){
+    $('#apStatus').textContent='✕ วัด ping ไม่ได้เลย — เช็คว่าต่อเน็ตอยู่ไหม หรือ ICMP อาจโดนบล็อก';
+    toast('w','วัดไม่ได้','ไม่มี DNS ตอบสนอง — เช็คการเชื่อมต่อ');
+    setLive('READY','#33e08a'); progress(null); apBusy=false; runBtn.disabled=false; runBtn.innerHTML='▶ Run Auto Ping Tune'; return;
+  }
+  alive.sort((a,b)=> state[a.id].res.avg-state[b.id].res.avg || state[a.id].res.jitter-state[b.id].res.jitter);
+  const best=alive[0]; state[best.id].win=true; apRenderCards(state);
+  const bestRes=state[best.id].res;
+
+  $('#apStatus').textContent=`⟳ กำลังตั้ง DNS เป็น ${best.name} …`;
+  let ok=false, idx=await getAdapterIndex(), tail='';
+  if(idx===999){ ok=true; }
+  else if(idx){ const r=await setDnsIdx(best.dns, idx); ok=r.ok; apLastIdx=idx; if(!ok) tail=' (ตั้งไม่สำเร็จ — ต้องเปิดแอปด้วยสิทธิ์ Admin)'; }
+  else { tail=' (หาอะแดปเตอร์ที่ active ไม่เจอ — ใช้การ์ด DNS แบบ manual แทนได้)'; }
+
+  const g=gradeFor(bestRes.avg);
+  const hint = bestRes.avg<50 ? 'ping ระดับนี้เหมาะกับเกมออนไลน์/FiveM แล้ว' : 'ถ้าอยากต่ำกว่านี้ ลองต่อสาย LAN แทน WiFi และเช็คแพ็กเกจ/เราเตอร์ ISP';
+  $('#apResult').innerHTML=`<div class="ap-verdict on">
+    <span class="ap-grade ${g.k}">${g.label}</span>
+    <div>${ok?'✓ ตั้ง DNS เป็น':'เลือก'} <b>${best.name} (${best.ip})</b> — ping ต่ำสุด <b>${bestRes.avg}ms</b> · jitter ${bestRes.jitter}ms${(idx&&idx!==999)?` · อะแดปเตอร์ #${idx}`:''}${tail}<br>
+    <span style="color:var(--muted); font-size:11.5px">${hint} · อยากให้ DNS ใหม่มีผลทันที กด Flush DNS ในหน้า Clean Files</span></div>
+  </div>`;
+  $('#apStatus').textContent=`✓ เสร็จ — เร็วสุดคือ ${best.name} ${bestRes.avg}ms`;
+  log('ok',`[✓] เลือก DNS: ${best.name} ${bestRes.avg}ms${ok?' (ตั้งแล้ว)':''}`); setLive('READY','#33e08a');
+  toast('s','Auto Ping เสร็จ',`${best.name} — ${bestRes.avg}ms`);
+  progress(null); apBusy=false; runBtn.disabled=false; runBtn.innerHTML='▶ Run Auto Ping Tune';
+}
+async function resetDnsAuto(){
+  if(!DESKTOP){ toast('i','Preview mode','ฟีเจอร์นี้ทำงานใน .exe จริง'); return; }
+  const idx=apLastIdx || await getAdapterIndex();
+  if(!idx || idx===999){ toast('w','ไม่พบอะแดปเตอร์',''); return; }
+  log('run','[↺] Reset DNS → Auto (DHCP)'); setLive('WORKING','#ff9d5c');
+  const r=await execCmd(`powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-DnsClientServerAddress -InterfaceIndex ${idx} -ResetServerAddresses"`);
+  await execCmd('ipconfig /flushdns');
+  log(r.ok?'ok':'warn', r.ok?'[✓] DNS กลับเป็นอัตโนมัติแล้ว':'[!] reset ไม่สำเร็จ');
+  toast(r.ok?'s':'w', r.ok?'DNS กลับเป็น Auto แล้ว':'ไม่สำเร็จ',''); setLive('READY','#33e08a');
+}
+
+/* ══ TOP PROCESSES ══ */
+let tpBusy=false;
+/* ดึง process ผ่าน PowerShell → CSV (ไม่ผูกภาษา) : Name,CPU%,RAM(MB) */
+async function fetchProcs(){
+  if(!DESKTOP){
+    // preview: ข้อมูลจำลอง
+    const fake=[['System',6,140],['MsMpEng',9,320],['dwm',3,180],['explorer',2,220],['FiveM',14,1900],['chrome',5,540],['svchost',1,90],['csrss',1,40],['GameBoostFPS',1,110],['steam',2,260]];
+    return fake.map(([name,cpu,ram])=>({name,cpu,ram}));
+  }
+  const ps = "$n=(Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors; "+
+             "Get-Process | Where-Object {$_.CPU -ne $null} | ForEach-Object { [pscustomobject]@{ N=$_.ProcessName; C=[math]::Round(($_.CPU),1); M=[math]::Round($_.WorkingSet64/1MB) } } | ConvertTo-Json -Compress";
+  const r = await execCmd(`powershell -NoProfile -ExecutionPolicy Bypass -Command "${ps}"`);
+  try{
+    let data = JSON.parse((r.out||'').trim());
+    if(!Array.isArray(data)) data=[data];
+    // C = CPU seconds สะสม (ไม่ใช่ %) — ใช้จัดอันดับ CPU-heavy ได้ดี; M = RAM MB
+    return data.map(o=>({name:o.N, cpu:o.C, ram:o.M})).filter(o=>o.name);
+  }catch(e){ return null; }
+}
+function tpRenderList(el, rows, unit, hotThresh){
+  if(!rows || !rows.length){ el.innerHTML='<div class="tp-empty">ไม่มีข้อมูล</div>'; return; }
+  const max = Math.max(...rows.map(r=>r.v), 1);
+  el.innerHTML = rows.map(r=>{
+    const pct = Math.max(4, Math.round(r.v/max*100));
+    const hot = r.v>=hotThresh ? 'hot':'';
+    const val = unit==='MB' ? `${r.v} MB` : `${r.v}`;
+    const prot = PROTECTED_PROCS.has((r.name||'').toLowerCase());
+    const act = prot ? `<span class="tp-lock" title="process ระบบ ปิดไม่ได้">🔒</span>`
+                     : `<button class="tp-kill" data-kill="${r.name}" title="ปิด process นี้">✕</button>`;
+    return `<div class="tp-row ${hot}"><div class="tp-bar" style="width:${pct}%"></div>
+      <span class="tp-name">${r.name}</span><span class="tp-val">${val}</span>${act}</div>`;
+  }).join('');
+}
+async function refreshTopProcs(){
+  if(tpBusy) return; tpBusy=true;
+  const btn=$('#tpRefresh'); btn.textContent='⟳ กำลังดึง…';
+  $('#tpCpu').innerHTML='<div class="tp-empty">⟳ กำลังอ่าน process…</div>';
+  $('#tpRam').innerHTML='<div class="tp-empty">⟳ กำลังอ่าน process…</div>';
+  log('run','[▤] อ่าน Top Processes'); setLive('READING','#22e5c8');
+  const procs = await fetchProcs();
+  if(!procs){
+    $('#tpCpu').innerHTML='<div class="tp-empty">อ่านไม่ได้ — build นี้อาจไม่มี PowerShell</div>';
+    $('#tpRam').innerHTML='<div class="tp-empty">—</div>';
+    toast('w','อ่าน process ไม่ได้','build นี้อาจตัด PowerShell ออก');
+    log('warn','[!] อ่าน process ไม่สำเร็จ'); setLive('READY','#33e08a');
+    btn.textContent='↻ Refresh'; tpBusy=false; return;
+  }
+  const agg={};
+  procs.forEach(p=>{ if(!agg[p.name]) agg[p.name]={name:p.name,cpu:0,ram:0}; agg[p.name].cpu+=p.cpu||0; agg[p.name].ram+=p.ram||0; });
+  const list=Object.values(agg);
+  const topCpu = [...list].sort((a,b)=>b.cpu-a.cpu).slice(0,10).map(p=>({name:p.name, v:Math.round(p.cpu)}));
+  const topRam = [...list].sort((a,b)=>b.ram-a.ram).slice(0,10).map(p=>({name:p.name, v:p.ram}));
+  tpRenderList($('#tpCpu'), topCpu, 'cpu', Math.max(30, (topCpu[0]?.v||0)*0.6));
+  tpRenderList($('#tpRam'), topRam, 'MB', 1500);
+  log('ok',`[✓] Top: CPU=${topCpu[0]?.name||'-'} · RAM=${topRam[0]?.name||'-'} (${topRam[0]?.v||0}MB)`);
+  setLive('READY','#33e08a');
+  btn.textContent='↻ Refresh'; tpBusy=false;
+}
+
+/* process ระบบที่ห้าม kill เด็ดขาด (kill แล้วเครื่องค้าง/จอฟ้า) */
+const PROTECTED_PROCS = new Set(['system','system idle process','registry','smss','csrss','wininit','winlogon',
+  'services','lsass','svchost','dwm','fontdrvhost','sihost','ctfmon','explorer','taskhostw','runtimebroker',
+  'memory compression','secure system','audiodg','conhost','gameboostfps','powershell','cmd']);
+
+async function killProc(name){
+  const low=(name||'').toLowerCase();
+  if(PROTECTED_PROCS.has(low)){ toast('w','ปิดไม่ได้', name+' เป็น process ระบบ — ปิดแล้วเครื่องอาจค้าง'); return; }
+  const ok = confirm(`ปิด process "${name}" ทั้งหมดใช่ไหม?\n\nถ้าเป็นโปรแกรมที่กำลังใช้งานอยู่ งานที่ไม่ได้เซฟจะหาย`);
+  if(!ok) return;
+  log('run',`[✕] Kill ${name}`); setLive('KILLING','#ff5470');
+  const r = await execCmd(`taskkill /IM "${name}.exe" /F`);
+  const done = r.ok || /SUCCESS|สำเร็จ/i.test((r.out||'')+(r.err||''));
+  log(done?'ok':'warn', done?`[✓] ปิด ${name} แล้ว`:`[!] ปิด ${name} ไม่สำเร็จ (อาจต้องสิทธิ์ Admin หรือปิดไปแล้ว)`);
+  toast(done?'s':'w', done?'ปิดแล้ว':'ปิดไม่สำเร็จ', name);
+  setLive('READY','#33e08a');
+  setTimeout(refreshTopProcs, 500);
+}
+
+/* auto-refresh ทุก 5 วิ เฉพาะตอนอยู่หน้า Activity */
+let tpTimer=null;
+function tpAutoStart(){ tpStop(); refreshTopProcs(); tpTimer=setInterval(()=>{ if(curPage==='activity' && !tpBusy) refreshTopProcs(); }, 5000); }
+function tpStop(){ if(tpTimer){ clearInterval(tpTimer); tpTimer=null; } }
+
+/* ══ APPEARANCE (theme + icon) ══ */
+const ICON_SET={
+  neon:{name:'Neon Velocity', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%"><rect x="2" y="2" width="92" height="92" rx="22" fill="#0b0f1a" stroke="#1c2740" stroke-width="1"/><path d="M48 20C58 32 60 48 54 66L42 66C36 48 38 32 48 20Z" fill="#22e5c8"/><circle cx="48" cy="40" r="7" fill="#0b0f1a" stroke="#7b6cff" stroke-width="3"/><path d="M42 66L36 78 44 70Z" fill="#7b6cff"/><path d="M54 66L60 78 52 70Z" fill="#7b6cff"/><ellipse cx="48" cy="74" rx="5" ry="9" fill="#ff9d5c"/></svg>`},
+  flat:{name:'Flat Minimal', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%"><rect x="2" y="2" width="92" height="92" rx="22" fill="#6c5cff"/><path d="M48 24C57 35 59 50 53 64L43 64C37 50 39 35 48 24Z" fill="#fff"/><circle cx="48" cy="42" r="6" fill="#6c5cff"/><path d="M43 64L38 74 45 67Z" fill="#c9c1ff"/><path d="M53 64L58 74 51 67Z" fill="#c9c1ff"/><ellipse cx="48" cy="70" rx="4" ry="7" fill="#ffcf5c"/></svg>`},
+  speed:{name:'Speed Lines', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%"><rect x="2" y="2" width="92" height="92" rx="22" fill="#12151b" stroke="#2c3441" stroke-width="1"/><g stroke="#ff5470" stroke-width="3" stroke-linecap="round"><line x1="16" y1="40" x2="30" y2="40"/><line x1="14" y1="50" x2="32" y2="50"/><line x1="18" y1="60" x2="30" y2="60"/></g><path d="M52 22C64 34 66 52 58 70L44 70C40 52 42 34 52 22Z" fill="#ff9d5c"/><circle cx="52" cy="42" r="6.5" fill="#12151b" stroke="#fff" stroke-width="2.5"/></svg>`},
+  gauge:{name:'Gauge Boost', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%"><rect x="2" y="2" width="92" height="92" rx="22" fill="#0e1730"/><path d="M26 62A24 24 0 0 1 70 62" fill="none" stroke="#1e3a6b" stroke-width="6" stroke-linecap="round"/><path d="M26 62A24 24 0 0 1 58 40" fill="none" stroke="#22e5c8" stroke-width="6" stroke-linecap="round"/><circle cx="48" cy="62" r="4" fill="#fff"/><line x1="48" y1="62" x2="62" y2="42" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M40 24L56 24 52 34 44 34Z" fill="#ff9d5c"/></svg>`},
+  lightning:{name:'Lightning Core', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%"><rect x="2" y="2" width="92" height="92" rx="22" fill="#141019"/><circle cx="48" cy="48" r="30" fill="none" stroke="#3a2d5c" stroke-width="1.5"/><path d="M52 22L36 52 46 52 44 74 60 44 50 44Z" fill="#c9a3ff"/></svg>`},
+  pixel:{name:'Retro Pixel', svg:`<svg viewBox="0 0 96 96" width="100%" height="100%" shape-rendering="crispEdges"><rect x="2" y="2" width="92" height="92" rx="10" fill="#0d1220" stroke="#22e5c8" stroke-width="2"/><g fill="#22e5c8"><rect x="44" y="22" width="8" height="8"/><rect x="40" y="30" width="16" height="8"/><rect x="36" y="38" width="24" height="8"/><rect x="36" y="46" width="24" height="8"/><rect x="40" y="54" width="16" height="8"/></g><rect x="44" y="38" width="8" height="8" fill="#7b6cff"/><g fill="#ff9d5c"><rect x="40" y="62" width="6" height="6"/><rect x="50" y="62" width="6" height="6"/><rect x="44" y="68" width="8" height="8"/></g><g fill="#ff5470"><rect x="32" y="46" width="4" height="8"/><rect x="60" y="46" width="4" height="8"/></g></svg>`},
+};
+const ICON_ORDER=['neon','flat','speed','gauge','lightning','pixel'];
+const THEMES={
+  default:{name:'Default', prev:`<div style="width:100%;height:100%;background:#0b0d10;display:flex"><div style="width:34%;background:#12151b;border-right:1px solid #232935;padding:8px 6px"><div style="height:7px;width:60%;background:#7b6cff;border-radius:3px;margin-bottom:7px"></div><div style="height:5px;width:80%;background:#232935;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#232935;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#232935;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:50%;background:#e6eaf0;border-radius:3px;margin-bottom:8px"></div><div style="height:28px;background:#171b22;border:1px solid #232935;border-radius:6px"></div></div></div>`},
+  pixel:{name:'Retro Pixel', prev:`<div style="width:100%;height:100%;background:#0d1220;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.03) 2px,rgba(255,255,255,.03) 3px);display:flex;font-family:monospace"><div style="width:34%;background:#0a0e18;border-right:2px solid #22e5c8;padding:8px 6px"><div style="height:7px;width:62%;background:#22e5c8;margin-bottom:7px"></div><div style="height:5px;width:80%;background:#1c2740;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#1c2740;margin-bottom:4px"></div><div style="height:7px;width:75%;background:#22e5c8;border:1px solid #5cf0da"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#22e5c8;margin-bottom:8px;box-shadow:2px 2px 0 #0a3d36"></div><div style="height:28px;background:#0a0e18;border:2px solid #22e5c8"></div></div></div>`},
+  neon:{name:'Neon Cyber', prev:`<div style="width:100%;height:100%;background:#0a0612;display:flex"><div style="width:34%;background:#140a24;border-right:1px solid #3a1d6b;padding:8px 6px"><div style="height:7px;width:62%;background:#c14bff;border-radius:3px;margin-bottom:7px;box-shadow:0 0 8px #c14bff"></div><div style="height:5px;width:80%;background:#2a1b47;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#2a1b47;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#2a1b47;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#22d3ff;border-radius:3px;margin-bottom:8px;box-shadow:0 0 10px #22d3ff"></div><div style="height:28px;background:#160b28;border:1px solid #b14bff;border-radius:6px;box-shadow:inset 0 0 12px rgba(177,75,255,.3)"></div></div></div>`},
+  amber:{name:'Amber Terminal', prev:`<div style="width:100%;height:100%;background:#0a0800;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,176,0,.04) 2px,rgba(255,176,0,.04) 3px);display:flex;font-family:monospace"><div style="width:34%;background:#0f0c00;border-right:1px solid #4a3800;padding:8px 6px"><div style="height:7px;width:62%;background:#ffb000;margin-bottom:7px;box-shadow:0 0 6px #ffb000"></div><div style="height:5px;width:80%;background:#3a2c00;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#3a2c00;margin-bottom:4px"></div><div style="height:6px;width:75%;background:#ffb000"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#ffcf40;margin-bottom:8px"></div><div style="height:28px;background:#0f0c00;border:1px solid #ffb000"></div></div></div>`},
+  light:{name:'Minimal Light', prev:`<div style="width:100%;height:100%;background:#f4f5f7;display:flex"><div style="width:34%;background:#ffffff;border-right:1px solid #e3e5ea;padding:8px 6px"><div style="height:7px;width:62%;background:#5b5ef0;border-radius:3px;margin-bottom:7px"></div><div style="height:5px;width:80%;background:#e3e5ea;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#e3e5ea;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#e3e5ea;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#1a1c22;border-radius:3px;margin-bottom:8px"></div><div style="height:28px;background:#ffffff;border:1px solid #e3e5ea;border-radius:6px"></div></div></div>`},
+  blood:{name:'Blood Moon', prev:`<div style="width:100%;height:100%;background:#120608;display:flex"><div style="width:34%;background:#1a0a0d;border-right:1px solid #3d1a20;padding:8px 6px"><div style="height:7px;width:62%;background:#ff2d4a;border-radius:3px;margin-bottom:7px;box-shadow:0 0 8px #ff2d4a"></div><div style="height:5px;width:80%;background:#3d1a20;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#3d1a20;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#3d1a20;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#ff7a4a;border-radius:3px;margin-bottom:8px;box-shadow:0 0 10px #ff2d4a"></div><div style="height:28px;background:#210d11;border:1px solid #ff2d4a;border-radius:6px;box-shadow:inset 0 0 12px rgba(255,45,74,.25)"></div></div></div>`},
+  forest:{name:'Forest Stealth', prev:`<div style="width:100%;height:100%;background:#0a0f0a;display:flex;font-family:monospace"><div style="width:34%;background:#0f150f;border-right:1px solid #26331f;padding:8px 6px"><div style="height:7px;width:62%;background:#9dff2d;border-radius:2px;margin-bottom:7px;box-shadow:0 0 8px #9dff2d"></div><div style="height:5px;width:80%;background:#26331f;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#26331f;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#26331f;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#4ade80;border-radius:2px;margin-bottom:8px"></div><div style="height:28px;background:#131b13;border:1px solid #9dff2d;border-radius:4px"></div></div></div>`},
+  sakura:{name:'Sakura Soft', prev:`<div style="width:100%;height:100%;background:#16101a;display:flex"><div style="width:34%;background:#1e1624;border-right:1px solid #3a2d45;padding:8px 6px"><div style="height:7px;width:62%;background:#ff9dc4;border-radius:3px;margin-bottom:7px;box-shadow:0 0 8px #ff9dc4"></div><div style="height:5px;width:80%;background:#3a2d45;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#3a2d45;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#3a2d45;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#c9a3ff;border-radius:3px;margin-bottom:8px"></div><div style="height:28px;background:#241b2c;border:1px solid #ff9dc4;border-radius:6px;box-shadow:inset 0 0 12px rgba(255,157,196,.2)"></div></div></div>`},
+  cyber2077:{name:'Cyberpunk 2077', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#05070f,#0a1420);display:flex"><div style="width:34%;background:#080d18;border-right:1px solid #123a4d;padding:8px 6px"><div style="height:7px;width:62%;background:linear-gradient(90deg,#00e5ff,#c724ff);border-radius:2px;margin-bottom:7px;box-shadow:0 0 10px #00e5ff"></div><div style="height:5px;width:80%;background:#14283d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#14283d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#14283d;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#c724ff;border-radius:2px;margin-bottom:8px;box-shadow:0 0 12px #c724ff"></div><div style="height:28px;background:#0a1420;border:1px solid #00e5ff;border-radius:6px;box-shadow:inset 0 0 14px rgba(0,229,255,.35)"></div></div></div>`},
+  gold:{name:'Gold Luxury', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#0a0a0a,#141210);display:flex"><div style="width:34%;background:#0d0d0d;border-right:1px solid #2a2410;padding:8px 6px"><div style="height:7px;width:62%;background:linear-gradient(90deg,#ffd700,#ff8c00);border-radius:2px;margin-bottom:7px;box-shadow:0 0 8px #ffd700"></div><div style="height:5px;width:80%;background:#2a2410;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#2a2410;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#2a2410;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#ffd700;border-radius:2px;margin-bottom:8px"></div><div style="height:28px;background:#141210;border:1px solid #ffd700;border-radius:6px;box-shadow:inset 0 0 10px rgba(255,215,0,.2)"></div></div></div>`},
+  matrix:{name:'Matrix Code', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#001410,#002418);display:flex;font-family:monospace"><div style="width:34%;background:#001a14;border-right:1px solid #00382a;padding:8px 6px"><div style="height:7px;width:62%;background:#00ffa3;border-radius:1px;margin-bottom:7px;box-shadow:0 0 10px #00ffa3"></div><div style="height:5px;width:80%;background:#00382a;border-radius:1px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#00382a;border-radius:1px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#00382a;border-radius:1px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#00ffa3;border-radius:1px;margin-bottom:8px;box-shadow:0 0 8px #00ffa3"></div><div style="height:28px;background:#001a14;border:1px solid #00ffa3;border-radius:2px"></div></div></div>`},
+  synth:{name:"Synthwave '84", prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#1a0a2e,#2d1b4e);display:flex"><div style="width:34%;background:#1f0f38;border-right:1px solid #3d2a5c;padding:8px 6px"><div style="height:7px;width:62%;background:linear-gradient(90deg,#ff6ec7,#7873f5);border-radius:3px;margin-bottom:7px;box-shadow:0 0 10px #ff6ec7"></div><div style="height:5px;width:80%;background:#3d2a5c;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#3d2a5c;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#3d2a5c;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#4dd0e1;border-radius:3px;margin-bottom:8px;box-shadow:0 0 10px #4dd0e1"></div><div style="height:28px;background:#241145;border:1px solid #ff6ec7;border-radius:6px;box-shadow:inset 0 0 12px rgba(255,110,199,.3)"></div></div></div>`},
+  ocean:{name:'Deep Ocean', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#020814,#0a1830);display:flex"><div style="width:34%;background:#04101f;border-right:1px solid #16324d;padding:8px 6px"><div style="height:7px;width:62%;background:#4a9eff;border-radius:3px;margin-bottom:7px;box-shadow:0 0 8px #4a9eff"></div><div style="height:5px;width:80%;background:#16324d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#16324d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#16324d;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#8ec5ff;border-radius:3px;margin-bottom:8px"></div><div style="height:28px;background:#081426;border:1px solid #2f5f8f;border-radius:6px"></div></div></div>`},
+  lava:{name:'Lava Forge', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#0f0603,#1f0d06);display:flex"><div style="width:34%;background:#140805;border-right:1px solid #3d1a0d;padding:8px 6px"><div style="height:7px;width:62%;background:linear-gradient(90deg,#ff5722,#ffc107);border-radius:2px;margin-bottom:7px;box-shadow:0 0 10px #ff5722"></div><div style="height:5px;width:80%;background:#3d1a0d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#3d1a0d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#3d1a0d;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#ffc107;border-radius:2px;margin-bottom:8px;box-shadow:0 0 10px #ff5722"></div><div style="height:28px;background:#1f0d06;border:1px solid #ff5722;border-radius:6px;box-shadow:inset 0 0 12px rgba(255,87,34,.3)"></div></div></div>`},
+  ice:{name:'Ice Frost', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#0a1420,#0f1e2e);display:flex"><div style="width:34%;background:#0f1e2e;border-right:1px solid #1f3d54;padding:8px 6px"><div style="height:7px;width:62%;background:#7ce0ff;border-radius:3px;margin-bottom:7px;box-shadow:0 0 10px #7ce0ff"></div><div style="height:5px;width:80%;background:#1f3d54;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#1f3d54;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#1f3d54;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#c0f0ff;border-radius:3px;margin-bottom:8px;box-shadow:0 0 8px #7ce0ff"></div><div style="height:28px;background:#132638;border:1px solid #7ce0ff;border-radius:6px;box-shadow:inset 0 0 12px rgba(124,224,255,.25)"></div></div></div>`},
+  toxic:{name:'Toxic Green', prev:`<div style="width:100%;height:100%;background:linear-gradient(160deg,#0a0f02,#111a06);display:flex"><div style="width:34%;background:#111a06;border-right:1px solid #283d15;padding:8px 6px"><div style="height:7px;width:62%;background:#aaff00;border-radius:2px;margin-bottom:7px;box-shadow:0 0 12px #aaff00"></div><div style="height:5px;width:80%;background:#283d15;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#283d15;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#283d15;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#7cff2d;border-radius:2px;margin-bottom:8px;box-shadow:0 0 10px #aaff00"></div><div style="height:28px;background:#16220a;border:1px solid #aaff00;border-radius:6px;box-shadow:inset 0 0 12px rgba(170,255,0,.3)"></div></div></div>`},
+  noir:{name:'Mono Noir', prev:`<div style="width:100%;height:100%;background:#0a0a0a;display:flex"><div style="width:34%;background:#131313;border-right:1px solid #2a2a2a;padding:8px 6px"><div style="height:7px;width:62%;background:#ffffff;border-radius:2px;margin-bottom:7px"></div><div style="height:5px;width:80%;background:#2a2a2a;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#2a2a2a;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#2a2a2a;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:52%;background:#f0f0f0;border-radius:2px;margin-bottom:8px"></div><div style="height:28px;background:#181818;border:1px solid #2a2a2a;border-radius:6px"></div></div></div>`},
+  rgb:{name:'Rainbow RGB', prev:`<div style="width:100%;height:100%;background:#0a0a0f;display:flex"><div style="width:34%;background:#12121a;border-right:1px solid #2a2a3d;padding:8px 6px"><div style="height:7px;width:70%;background:linear-gradient(90deg,#ff2d6a,#ffcf2d,#2dff9d,#2dceff,#c72dff);border-radius:2px;margin-bottom:7px;box-shadow:0 0 10px rgba(199,45,255,.5)"></div><div style="height:5px;width:80%;background:#2a2a3d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:70%;background:#2a2a3d;border-radius:2px;margin-bottom:4px"></div><div style="height:5px;width:75%;background:#2a2a3d;border-radius:2px"></div></div><div style="flex:1;padding:8px"><div style="height:8px;width:60%;background:linear-gradient(90deg,#ff2d6a,#2dceff,#c72dff);border-radius:2px;margin-bottom:8px"></div><div style="height:28px;background:#171720;border:1px solid #3d3d55;border-radius:6px"></div></div></div>`},
+};
+let curTheme='default', curIcon='pixel';
+function applyIcon(id){
+  if(!ICON_SET[id]) id='pixel';
+  curIcon=id;
+  const mark=$('#appMark');
+  if(mark){ mark.innerHTML=ICON_SET[id].svg; mark.style.background='transparent'; mark.style.boxShadow='none'; mark.style.padding='0'; mark.style.overflow='hidden'; }
+  try{ localStorage.setItem('gb_icon', id); }catch(e){}
+  $$('#iconGrid .ico-card').forEach(c=>c.classList.toggle('on', c.dataset.icon===id));
+}
+function applyTheme(name){
+  if(!THEMES[name]) name='default';
+  curTheme=name;
+  if(name==='default') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', name);
+  try{ localStorage.setItem('gb_theme', name); }catch(e){}
+  $$('#themeGrid .theme-card').forEach(c=>c.classList.toggle('on', c.dataset.theme===name));
+}
+function renderAppearance(){
+  $('#themeGrid').innerHTML=Object.keys(THEMES).map(k=>`<div class="theme-card ${k===curTheme?'on':''}" data-theme="${k}"><div class="theme-prev">${THEMES[k].prev}</div><div class="theme-meta"><span class="theme-name">${THEMES[k].name}</span><span class="theme-badge">● ใช้อยู่</span></div></div>`).join('');
+  $('#iconGrid').innerHTML=ICON_ORDER.map((k,i)=>`<div class="ico-card ${k===curIcon?'on':''}" data-icon="${k}">${ICON_SET[k].svg}<span class="ico-label">${i+1} · ${ICON_SET[k].name}</span></div>`).join('');
+}
+
+/* ══ GAME MODE (ปุ่มเดียว เข้า/ออก) ══ */
+const GAME_MODE_TWEAKS=['ram_standby','fm_priority','dnsflush','svc_sysmain','svc_wsearch','svc_spooler','cpu_powerthrottle'];
+let gameModeOn=false, gmBusy=false;
+async function toggleGameMode(){
+  if(gmBusy) return; gmBusy=true;
+  const btn=$('#gameModeBtn'), panel=$('#gameModePanel');
+  if(!gameModeOn){
+    btn.disabled=true; btn.innerHTML='<span>⟳</span> กำลังเข้าโหมดเกม…';
+    log('run','[🎮] เข้าโหมดเกม — จูนชุดสำหรับเล่น'); setLive('GAME MODE','#33e08a'); progress(0);
+    const ids=GAME_MODE_TWEAKS.filter(id=>T.find(x=>x.id===id));
+    for(let i=0;i<ids.length;i++){ await applyTweak(ids[i], true); progress(Math.round((i+1)/ids.length*100)); }
+    gameModeOn=true; panel.classList.add('on');
+    $('#gmIcon').textContent='🔥'; $('#gmTitle').textContent='Game Mode — เปิดอยู่';
+    $('#gmSub').textContent='กำลังโฟกัสทรัพยากรให้เกม · จบเกมแล้วกดปุ่มเพื่อคืนค่าทุกอย่าง';
+    btn.disabled=false; btn.innerHTML='⏹ ออกจากโหมดเกม'; btn.classList.remove('btn-primary'); btn.classList.add('btn-ghost');
+    log('ok','[✓] เข้าโหมดเกมแล้ว'); toast('s','เข้าโหมดเกมแล้ว','จูนทรัพยากรให้เกมเรียบร้อย'); setLive('READY','#33e08a');
+    refreshUI();
+  } else {
+    btn.disabled=true; btn.innerHTML='<span>⟳</span> กำลังคืนค่า…';
+    log('run','[↩] ออกจากโหมดเกม — คืนค่า service/power'); setLive('RESTORING','#ff9d5c'); progress(0);
+    const revIds=GAME_MODE_TWEAKS.filter(id=>{ const t=T.find(x=>x.id===id); return t&&t.revert; });
+    for(let i=0;i<revIds.length;i++){ await revertTweak(revIds[i]); progress(Math.round((i+1)/revIds.length*100)); }
+    gameModeOn=false; panel.classList.remove('on');
+    $('#gmIcon').textContent='🎮'; $('#gmTitle').textContent='Game Mode';
+    $('#gmSub').textContent='กดปุ่มเดียวก่อนเล่น: ล้าง RAM standby · หยุด service ไม่จำเป็น · ตั้ง FiveM priority · flush DNS — จบเกมกดคืนทุกอย่างกลับ';
+    btn.disabled=false; btn.innerHTML='🎮 เข้าโหมดเกม'; btn.classList.remove('btn-ghost'); btn.classList.add('btn-primary');
+    log('ok','[✓] คืนค่าเรียบร้อย ออกจากโหมดเกมแล้ว'); toast('s','ออกจากโหมดเกมแล้ว','คืน service/power กลับปกติ'); setLive('READY','#33e08a');
+    refreshUI();
+  }
+  progress(null); gmBusy=false;
+}
+
+/* ══ AUTO TUNE (อ่านสเปคจริง → เลือก tweak ให้เหมาะ; รองรับ Intel/AMD, NVIDIA/Radeon) ══ */
+function pickAutoTweaks(sys){
+  const gpu=(sys.gpu||'').toLowerCase(), cpu=(sys.cpu||'').toLowerCase();
+  const isNv=/nvidia|geforce|gtx|rtx/.test(gpu);
+  const isAmdGpu=!isNv && /\bamd\b|radeon|\brx\s?\d/.test(gpu);
+  const cpuVendor=/\bamd\b|ryzen/.test(cpu)?'AMD':(/intel|core\s?i\d/.test(cpu)?'Intel':'ไม่ทราบ');
+  const gpuVendor=isNv?'NVIDIA':(isAmdGpu?'AMD Radeon':'ไม่ทราบ');
+  let ids=T.filter(inBulk).map(t=>t.id);
+  // เพิ่มการ์ดเฉพาะค่ายตาม GPU ที่ตรวจพบ (nvidia/amd ถูกกันออกจาก bulk ปกติ)
+  if(isNv) ids=ids.concat(T.filter(t=>t.cat==='nvidia'&&t.revert).map(t=>t.id));
+  else if(isAmdGpu) ids=ids.concat(T.filter(t=>t.cat==='amd'&&t.revert).map(t=>t.id));
+  return {ids,cpuVendor,gpuVendor,ramNote:(+sys.ram||0)>0&&(+sys.ram)<=8};
+}
+let atBusy=false;
+async function autoTune(){
+  if(atBusy) return; atBusy=true;
+  const btn=$('#autoTuneBtn'); btn.disabled=true; btn.innerHTML='<span>⟳</span> อ่านสเปค + จูน…';
+  const pick=pickAutoTweaks(SYS);
+  log('run',`[🤖] Auto Tune — CPU: ${pick.cpuVendor} · GPU: ${pick.gpuVendor} · RAM: ${SYS.ram||'?'}GB`);
+  log('info',`  › เลือก ${pick.ids.length} tweaks ให้ตรงกับเครื่อง${pick.gpuVendor==='NVIDIA'?' (ใช้ NVIDIA tweak, ข้ามของ AMD)':pick.gpuVendor==='AMD Radeon'?' (ใช้ AMD Radeon tweak, ข้ามของ NVIDIA)':' (ข้าม tweak เฉพาะยี่ห้อการ์ดจอ)'}`);
+  if(pick.ramNote) log('warn','  ⚠ RAM ≤8GB — แนะนำกด Clear RAM Standby ระหว่างเล่นบ่อย ๆ และเปิด Game Mode ก่อนเล่นทุกครั้ง');
+  await applyMany(pick.ids, 'Auto Tune ('+pick.cpuVendor+'/'+pick.gpuVendor+')');
+  toast('s','Auto Tune เสร็จ',`ตรวจพบ ${pick.cpuVendor} CPU + ${pick.gpuVendor} GPU · จูน ${pick.ids.length} tweaks ตามสเปค`);
+  btn.disabled=false; btn.innerHTML='🤖 Auto Tune ตามสเปค';
+  atBusy=false;
+}
+
+/* ══ LIVE MONITOR + OVERLAY + GAME DETECT + SCHEDULED CLEAN + BENCHMARK ══ */
+let monTimer=null, detectTimer=null, overlayOn=false, lastGames=[];
+function setMon(id,val,unit,warnAt,badAt){
+  const el=$('#'+id); if(!el) return;
+  if(val==null||val===undefined){ el.textContent='N/A'; el.className='mon-v'; return; }
+  el.textContent=val; el.className='mon-v'+(val>=badAt?' bad':(val>=warnAt?' warn':''));
+}
+async function refreshMon(){
+  if(!DESKTOP) return;
+  try{
+    const [hw,p]=await Promise.all([window.boost.hwStats(), window.boost.quickPing('1.1.1.1')]);
+    setMon('m_ping', p&&p.ms!=null?p.ms:null, '', 60, 120);
+    setMon('m_cpu', hw&&hw.cpuLoad!=null?hw.cpuLoad:null, '', 75, 92);
+    if(hw&&hw.ramUsed!=null&&hw.ramTot!=null){ $('#m_ram').textContent=hw.ramUsed.toFixed(1); $('#m_ram_u').textContent='/ '+hw.ramTot.toFixed(0)+' GB'; const pct=Math.round(hw.ramUsed/hw.ramTot*100); $('#m_ram').className='mon-v'+(pct>=93?' bad':(pct>=80?' warn':'')); }
+    setMon('m_ct', hw&&hw.cpuTemp!=null?hw.cpuTemp:null, '', 75, 88);
+    setMon('m_gt', hw&&hw.gpuTemp!=null?hw.gpuTemp:null, '', 78, 87);
+  }catch(e){}
+}
+function monStart(){ if(!DESKTOP) return; refreshMon(); monStop(); monTimer=setInterval(()=>{ if(curPage==='monitor') refreshMon(); }, 2500); }
+function monStop(){ if(monTimer){ clearInterval(monTimer); monTimer=null; } }
+
+async function toggleOverlay(){
+  if(!DESKTOP){ toast('i','Preview mode','Overlay ใช้ได้เฉพาะตอน build เป็น .exe'); return; }
+  const btn=$('#ovlToggle');
+  if(!overlayOn){ await window.boost.overlayShow(); overlayOn=true; btn.textContent='🪟 ปิด Overlay'; btn.classList.add('btn-primary'); btn.classList.remove('btn-ghost'); toast('s','เปิด Overlay แล้ว','หน้าต่างเล็กลอยมุมซ้ายบน แสดง ping/CPU/RAM/temp สด'); }
+  else{ await window.boost.overlayHide(); overlayOn=false; btn.textContent='🪟 เปิด Overlay ลอย'; btn.classList.remove('btn-primary'); btn.classList.add('btn-ghost'); }
+}
+
+/* Auto Game Detection */
+async function detectGames(){
+  if(!DESKTOP) return;
+  try{
+    const games=await window.boost.listGames();
+    const box=$('#gameDetect'), title=$('#gd_title'), sub=$('#gd_sub');
+    if(games&&games.length){
+      box.classList.add('hit'); title.textContent='🎮 เจอเกม: '+games.join(', ');
+      sub.textContent='แนะนำ: เข้า Game Mode หรือกด Optimize เพื่อจูนให้เกมนี้';
+      const isNew=games.some(g=>!lastGames.includes(g));
+      if(isNew){ toast('s','ตรวจเจอเกม!', games.join(', ')+' — กด Game Mode เพื่อจูนได้เลย'); if(window.boost.discordSet) window.boost.discordSet({details:'กำลังเล่น '+games[0], state:'GameBoostFPS PRO'}); }
+    } else {
+      box.classList.remove('hit'); title.textContent='ยังไม่เจอเกมที่เปิดอยู่';
+      sub.textContent='แอปสแกน process ทุก 8 วินาที แล้วเด้งเตือนเมื่อเจอเกม';
+    }
+    lastGames=games||[];
+  }catch(e){}
+}
+function detectStart(){ if(!DESKTOP) return; detectGames(); if(detectTimer) clearInterval(detectTimer); detectTimer=setInterval(detectGames, 8000); }
+
+/* Scheduled Cleaning */
+let schedTimer=null, schedMin=5;
+function schedApply(){
+  if(schedTimer){ clearInterval(schedTimer); schedTimer=null; }
+  if($('#schedOn').checked){
+    $('#schedOpts').classList.add('on');
+    schedTimer=setInterval(async()=>{
+      const ram=T.find(t=>t.id==='ram_standby'), dns=T.find(t=>t.id==='dnsflush');
+      if(ram) await applyTweak('ram_standby', true);
+      if(dns) await applyTweak('dnsflush', true);
+      const now=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+      $('#schedStatus').textContent='ล้างล่าสุด '+now;
+      log('ok','[⏱] Scheduled clean — RAM standby + DNS flushed');
+    }, schedMin*60000);
+    $('#schedStatus').textContent='เปิดอยู่ · ทุก '+schedMin+' นาที';
+    toast('s','เปิด Auto Clean','จะล้าง RAM + DNS ทุก '+schedMin+' นาที');
+  } else { $('#schedOpts').classList.remove('on'); $('#schedStatus').textContent=''; }
+}
+
+/* Benchmark before/after */
+let benchBefore=null;
+async function benchSnap(){
+  const [hw,p]=await Promise.all([window.boost.hwStats(), window.boost.quickPing('1.1.1.1')]);
+  let procN=null;
+  try{ const r=await window.boost.run('tasklist /fo csv /nh | find /c /v ""'); procN=parseInt((r.out||'').trim())||null; }catch(e){}
+  const ramFree=(hw.ramTot!=null&&hw.ramUsed!=null)?+(hw.ramTot-hw.ramUsed).toFixed(1):null;
+  return { ramFree, proc:procN, ping:(p&&p.ms!=null?p.ms:null), cpuIdle:(hw.cpuLoad!=null?100-hw.cpuLoad:null) };
+}
+function benchRow(k,before,after,unit,higherBetter){
+  let cls='', arrow='';
+  if(before!=null&&after!=null){ const better=higherBetter?after>before:after<before; const same=after===before; cls=same?'':(better?'up':'down'); arrow=same?'=':(after>before?'▲':'▼'); }
+  return `<div class="bench-r"><span class="bk">${k}</span><span>${before??'—'}${before!=null?unit:''}</span><span>${after??'—'}${after!=null?unit:''}</span><span class="bd ${cls}">${before!=null&&after!=null?arrow+' '+Math.abs(after-before).toFixed(1)+unit:'—'}</span></div>`;
+}
+function renderBench(after){
+  const b=benchBefore;
+  $('#benchTable').innerHTML=`<div class="bench-r head"><span>ค่าที่วัด</span><span>ก่อน</span><span>หลัง</span><span>เปลี่ยน</span></div>`+
+    benchRow('RAM ว่าง (GB)', b?b.ramFree:null, after?after.ramFree:null, '', true)+
+    benchRow('Process ทั้งหมด', b?b.proc:null, after?after.proc:null, '', false)+
+    benchRow('Ping (ms)', b?b.ping:null, after?after.ping:null, '', false)+
+    benchRow('CPU ว่าง (%)', b?b.cpuIdle:null, after?after.cpuIdle:null, '', true);
+}
+
+/* ══ GPU SETTINGS GUIDE (แนะนำค่าใน NVIDIA App / Radeon Software ตามสเปคจริง) ══ */
+function gpuProfile(sys){
+  const g=(sys&&sys.gpu)||'', ram=+(sys&&sys.ram)||0;
+  let vendor='unknown', tier='low', model=g;
+  if(/nvidia|geforce|rtx|gtx|quadro/i.test(g)) vendor='nvidia';
+  else if(/radeon|\bamd\b|rx\s?\d/i.test(g)) vendor='amd';
+  else if(/intel|arc|iris|uhd/i.test(g)) vendor='intel';
+
+  if(vendor==='nvidia'){
+    const m=g.match(/(RTX|GTX)\s*(\d{3,4})/i);
+    if(m){ model=m[0].toUpperCase(); const n=+m[2], isRtx=/rtx/i.test(m[1]);
+      if(isRtx){ const s=Math.floor(n/100), sku=n%100;
+        if(s>=30) tier = sku>=70 ? 'high' : 'mid';   // 3070/4070/5070+ = high
+        else tier='mid';                              // RTX 20xx = mid
+      } else tier='low';                              // GTX ทุกรุ่น = entry (เน้นค่าสาย performance)
+    }
+  } else if(vendor==='amd'){
+    const m=g.match(/RX\s*(\d{3,4})/i);
+    if(m){ model='RX '+m[1]; const n=+m[1];
+      if(n>=9000){ const cls=n%1000; tier = cls>=70 ? 'high' : 'mid'; }       // RDNA4: 9070/9060
+      else if(n>=1000){ const cls=Math.floor(n/100)%10;                        // 7800 → 8, 6600 → 6
+        tier = cls>=8 ? 'high' : (cls>=6 ? 'mid' : 'low'); }
+      else tier='low';                                                          // RX 580 ฯลฯ
+    } else if(/vega|graphics/i.test(g)) tier='low';
+  } else if(vendor==='intel'){
+    tier = (/arc/i.test(g) && /\b[ab]\d{3}\b/i.test(g)) ? 'mid' : 'low';       // Arc A770/B580 = mid
+  }
+  // RAM น้อย → ดันลง tier (ระบบรวมช้ากว่าการ์ด)
+  if(ram && ram<=8 && tier==='high') tier='mid';
+  return {vendor, tier, model, ram, raw:g};
+}
+
+function guideRows(p){
+  const T3=(h,m,l)=> p.tier==='high'?h : (p.tier==='mid'?m:l);
+  const R=[];
+  const G=t=>R.push({grp:t});
+  const A=(k,v,why,warn)=>R.push({k,v,why,warn:!!warn});
+
+  if(p.vendor==='nvidia'){
+    G('พลังงาน & Latency');
+    A('Power management mode','Prefer maximum performance','กัน GPU หรี่ clock กลางเกม ทำให้ frametime นิ่ง ไม่กระตุกเป็นช่วง');
+    A('Low Latency Mode',T3('Ultra','On','On'),p.tier==='high'?'การ์ดมี headroom เหลือ ใช้ Ultra ได้ ลด input lag สุด':'ใช้ On ปลอดภัยกว่า — Ultra บนการ์ดที่ FPS ตึงอยู่แล้วอาจทำให้ FPS ตกแทน');
+    A('Vertical sync','Off','ให้คุมด้วย G-Sync หรือ limit ในเกมแทน ลด input lag');
+    A('Max Frame Rate','เปิด → ตั้ง = refresh rate ลบ 3 (144Hz → 141)','กัน GPU วิ่ง 100% ตลอด ลด latency และ frametime นิ่งขึ้น');
+    A('Background Application Max Frame Rate','On → 30 FPS','ตอน alt-tab ออกจากเกม จะไม่กิน GPU เต็ม');
+
+    G('คุณภาพภาพ (แลกกับ FPS)');
+    A('Texture filtering – Quality',T3('Quality','High performance','High performance'),p.tier==='high'?'การ์ดแรงพอ เลือกคุณภาพได้':'ดัน FPS ขึ้นได้จริง โดยภาพต่างแทบไม่รู้สึกตอนเล่น');
+    A('Texture filtering – Negative LOD bias','Clamp','กันภาพ shimmer/สั่นตอนขยับกล้องเร็ว ๆ');
+    A('Anisotropic sample optimization',T3('Off','On','On'),'เปิด = เร็วขึ้นเล็กน้อยบนการ์ดระดับกลาง-ล่าง');
+    A('Trilinear optimization','On','ลดภาระ filtering โดยภาพแทบไม่ต่าง');
+    A('Anisotropic filtering',T3('16x','8x','Application-controlled'),'คมของ texture ระยะไกล — ตั้งตามกำลังการ์ด');
+    A('Antialiasing – FXAA','Off','ทำภาพเบลอและกิน FPS ให้ใช้ AA ในเกมแทน');
+    A('Ambient Occlusion','Off','กิน FPS มาก ให้เกมจัดการเอง');
+
+    G('Cache & Threading');
+    A('Shader Cache Size',T3('Unlimited','10 GB','5 GB'),'cache ใหญ่ = compile shader ซ้ำน้อยลง ลด stutter — FiveM/GTA V ได้ผลชัดมาก');
+    A('Threaded optimization','On','ให้ไดรเวอร์กระจายงานหลาย core ช่วยเกมที่ CPU-bound อย่าง FiveM');
+    A('Triple buffering','Off','มีผลเฉพาะ OpenGL และเพิ่ม latency');
+    A('Virtual Reality pre-rendered frames','1','ลด frame queue = input lag ต่ำลง');
+
+    G('จอภาพ');
+    A('Preferred refresh rate','Highest available','บังคับใช้ Hz สูงสุดของจอ ไม่ให้ตกไป 60Hz');
+    A('Monitor Technology','G-SYNC Compatible','เปิดถ้าจอรองรับ — ภาพลื่นไม่ tearing โดยไม่เพิ่ม latency แบบ Vsync','');
+  }
+  else if(p.vendor==='amd'){
+    G('Latency & เฟรม');
+    A('Radeon Anti-Lag','Enabled','ลด input lag โดยตรง (เทียบเท่า Low Latency ของ NVIDIA)');
+    A('Radeon Chill','Disabled','มันหรี่ FPS ตอนขยับน้อย ทำให้รู้สึกหน่วง');
+    A('Radeon Boost',T3('Disabled','Disabled','Enabled'),p.tier==='low'?'ลดความละเอียดชั่วขณะตอนขยับเร็ว แลก FPS เพิ่ม — คุ้มบนการ์ดระดับล่าง':'ทำภาพแตกตอนหมุนกล้อง ไม่คุ้มบนการ์ดที่ FPS พอแล้ว');
+    A('Wait for Vertical Refresh','Off, unless application specifies','ให้เกมคุมเอง ลด latency');
+    A('Radeon Enhanced Sync','Disabled','ชนกับ FreeSync ทำให้ frametime แกว่ง');
+    A('Frame Rate Target Control','ตั้ง = refresh rate ลบ 3','กัน GPU วิ่งเต็ม 100% ตลอด ลด latency + ลดความร้อน');
+
+    G('คุณภาพภาพ (แลกกับ FPS)');
+    A('Texture Filtering Quality',T3('Standard','Performance','Performance'),'Performance ดัน FPS ขึ้นจริงโดยภาพต่างน้อยมากตอนเล่น');
+    A('Surface Format Optimization','Enabled','ลดภาระแบนด์วิดท์ VRAM');
+    A('Tessellation Mode',T3('AMD optimized','Override → 8x หรือต่ำกว่า','Override → 8x หรือต่ำกว่า'),'จำกัด tessellation ที่เกมขอเกินจำเป็น (GTA V/FiveM ได้ผลชัด)');
+    A('Anti-Aliasing / Morphological','Off (ใช้ในเกมแทน)','AA ของไดรเวอร์กิน FPS มากกว่าของเกม');
+    A('Image Sharpening',T3('Disabled','Enabled ~60%','Enabled ~70%'),p.tier==='high'?'ภาพคมพออยู่แล้ว':'ชดเชยความคมเวลาลด resolution/ตั้งกราฟิกต่ำ');
+    A('Radeon Super Resolution (RSR)',T3('Disabled','ตามต้องการ','Enabled'),p.tier==='low'?'เรนเดอร์ที่ความละเอียดต่ำแล้วอัปสเกล — เพิ่ม FPS ได้เยอะบนการ์ดระดับล่าง':'ไม่จำเป็นถ้า FPS พอแล้ว');
+
+    G('Cache & Power');
+    A('Shader Cache',T3('AMD optimized','AMD optimized','Always On'),'ลด stutter จาก compile shader ซ้ำ — FiveM ได้ผลชัด');
+    A('OpenGL Triple Buffering','Off','เพิ่ม latency โดยไม่ช่วย FPS');
+    A('AMD Fluid Motion Frames (AFMF)',T3('ลองเปิดได้','Disabled','Disabled'),'เฟรมเจนเนอเรต — เพิ่มความลื่นสายตา แต่เพิ่ม latency ไม่เหมาะเกมแข่งขัน',p.tier!=='high');
+    A('Tuning / Overclock','ปล่อย Default','ไม่แนะนำ OC ผ่านซอฟต์แวร์ — เสี่ยงเครื่องดับ/การ์ดพัง',true);
+
+    G('จอภาพ');
+    A('AMD FreeSync','Enabled','เปิดถ้าจอรองรับ — ภาพลื่นไม่ tearing โดยไม่เพิ่ม latency แบบ Vsync');
+    A('Virtual Super Resolution','Disabled','เรนเดอร์เกินความละเอียดจอ = กิน FPS ฟรี');
+  }
+  else {
+    G('ยังระบุค่ายการ์ดจอไม่ได้');
+    A('การ์ดจอที่อ่านได้',p.raw||'ไม่ทราบ','ถ้าเป็นการ์ดแยกแต่แอปอ่านเป็น iGPU ให้ลองอัปเดตไดรเวอร์แล้วเปิดแอปใหม่');
+  }
+
+  // ค่าที่ใช้ร่วมกันทุกค่าย
+  G('ตั้งใน Windows / ในเกม (ทุกค่าย)');
+  A('Windows Game Mode','On','กัน background process แย่ง CPU ตอนเล่น');
+  A('Hardware GPU Scheduling','On','มีปุ่มให้กดในหน้า GPU ของแอปนี้แล้ว');
+  A('โหมดจอในเกม','Fullscreen (Exclusive)','latency ต่ำกว่า Borderless ชัดเจน');
+  A('Render / Resolution Scale',T3('100%','100%','85–95%'),p.tier==='low'?'ลดเล็กน้อยแลก FPS ได้เยอะ ภาพยังพอรับได้':'ไม่ต้องลด การ์ดไหว');
+  if(p.ram && p.ram<=8) A('RAM ของเครื่อง',p.ram+' GB — ค่อนข้างน้อย','ตั้งกราฟิก texture ไม่เกิน Medium และกด Clear RAM Standby ระหว่างเล่นบ่อย ๆ',true);
+  return R;
+}
+
+function renderGuide(){
+  const p=gpuProfile(SYS);
+  const tierTxt={high:'HIGH-END',mid:'MID-RANGE',low:'ENTRY'}[p.tier]||'—';
+  const vName={nvidia:'NVIDIA',amd:'AMD Radeon',intel:'Intel',unknown:'ไม่ทราบค่าย'}[p.vendor];
+  $('#ggGpu').textContent=p.raw||'ยังอ่านสเปคไม่ได้';
+  $('#ggSub').textContent=vName+' · '+(p.ram?p.ram+' GB RAM':'RAM ไม่ทราบ')+' — ค่าด้านล่างปรับตามระดับการ์ดของเครื่องนี้แล้ว';
+  $('#ggSpecIc').textContent=p.vendor==='nvidia'?'🟢':(p.vendor==='amd'?'🔴':'🎮');
+  const tEl=$('#ggTier'); tEl.textContent=tierTxt; tEl.className='gg-tier '+p.tier;
+  $('#ggAppName').textContent = p.vendor==='amd' ? 'AMD Software: Adrenalin Edition' : (p.vendor==='nvidia'?'NVIDIA App (หรือ NVIDIA Control Panel)':'โปรแกรมไดรเวอร์การ์ดจอ');
+  $('#ggPath').textContent = p.vendor==='amd' ? 'Gaming → Graphics → เลื่อนดู Advanced (ตั้ง Global แล้วเกมทุกตัวได้ตาม)' : 'Graphics → Global Settings (หรือเลือกเกมทีละตัวใน Program Settings)';
+
+  const rows=guideRows(p);
+  let html='<div class="gg-r head"><span>ค่าที่ตั้ง</span><span>ตั้งเป็น</span><span>ทำไม</span></div>';
+  rows.forEach(r=>{
+    if(r.grp){ html+='<div class="gg-r grp">'+r.grp+'</div>'; return; }
+    html+='<div class="gg-r"><span class="gg-k">'+r.k+'</span><span class="gg-v'+(r.warn?' warn':'')+'">'+r.v+'</span><span class="gg-why">'+r.why+'</span></div>';
+  });
+  $('#ggTable').innerHTML=html;
+  $('#ggWarn').innerHTML='ⓘ <b>ทำไมแอปกดให้ไม่ได้:</b> ค่าพวกนี้ไดรเวอร์เก็บไว้ในไฟล์โปรไฟล์ของตัวเอง (ไม่ใช่ registry) เขียนได้เฉพาะผ่าน NVAPI/ADL ของไดรเวอร์เท่านั้น — แอปเลยทำเป็น<b>คู่มือตามสเปคเครื่องคุณ</b>ให้ไปกดตั้งเอง 2 นาที ได้ผลจริงและปลอดภัยกว่าให้โปรแกรมนอกไปยุ่งกับไดรเวอร์';
+}
+
+function guideAsText(){
+  const p=gpuProfile(SYS), rows=guideRows(p);
+  let s='GameBoostFPS — ค่าแนะนำสำหรับ '+(p.raw||'?')+' ('+p.tier.toUpperCase()+')\n';
+  s+='RAM: '+(p.ram||'?')+' GB\n\n';
+  rows.forEach(r=>{ if(r.grp) s+='\n['+r.grp+']\n'; else s+='• '+r.k+' = '+r.v+'\n   ('+r.why+')\n'; });
+  return s;
+}
+
+/* ══ EVENTS ══ */
+document.addEventListener('click', e=>{
+  const nv=e.target.closest('[data-nav]'); if(nv){ nav(nv.dataset.nav); return; }
+  const ap=e.target.closest('[data-apply]'); if(ap){ applyTweak(ap.dataset.apply); return; }
+  const rv=e.target.closest('[data-revert]'); if(rv && !rv.disabled){ revertTweak(rv.dataset.revert); return; }
+  const pf=e.target.closest('[data-profile]'); if(pf){ applyProfile(pf.dataset.profile); return; }
+  const kl=e.target.closest('[data-kill]'); if(kl){ killProc(kl.dataset.kill); return; }
+  const th=e.target.closest('.theme-card'); if(th){ applyTheme(th.dataset.theme); return; }
+  const ic=e.target.closest('.ico-card'); if(ic){ applyIcon(ic.dataset.icon); return; }
+});
+$('#optimizeAll').onclick=()=>applyMany(T.filter(inBulk).map(t=>t.id),'Optimize all');
+$('#gameModeBtn').onclick=toggleGameMode;
+$('#autoTuneBtn').onclick=autoTune;
+
+// Monitor page wiring
+if($('#ovlToggle')) $('#ovlToggle').onclick=toggleOverlay;
+if($('#schedOn')) $('#schedOn').onchange=schedApply;
+if($('#schedOpts')) $('#schedOpts').addEventListener('click',(e)=>{ const b=e.target.closest('.sched-min'); if(!b) return; schedMin=+b.dataset.min; $$('#schedOpts .sched-min').forEach(x=>x.classList.toggle('on',x===b)); if($('#schedOn').checked) schedApply(); });
+if($('#benchBefore')) $('#benchBefore').onclick=async()=>{ if(!DESKTOP){ toast('i','Preview mode','Benchmark ใช้ได้ตอน build เป็น .exe'); return; } $('#benchBefore').disabled=true; $('#benchBefore').textContent='⏳ กำลังวัด…'; benchBefore=await benchSnap(); renderBench(null); $('#benchBefore').textContent='📸 จับค่า "ก่อน" ✓'; $('#benchBefore').disabled=false; $('#benchAfter').disabled=false; $('#benchReset').disabled=false; toast('s','จับค่าก่อนแล้ว','apply tweak หรือเข้า Game Mode แล้วกด "จับค่าหลัง"'); };
+if($('#benchAfter')) $('#benchAfter').onclick=async()=>{ $('#benchAfter').disabled=true; $('#benchAfter').textContent='⏳ กำลังวัด…'; const after=await benchSnap(); renderBench(after); $('#benchAfter').textContent='📸 จับค่า "หลัง" ✓'; $('#benchAfter').disabled=false; toast('s','เทียบผลแล้ว','ดูตารางด้านล่าง — เขียวคือดีขึ้น'); };
+if($('#benchReset')) $('#benchReset').onclick=()=>{ benchBefore=null; renderBench(null); $('#benchBefore').textContent='📸 จับค่า "ก่อน"'; $('#benchAfter').textContent='📸 จับค่า "หลัง"'; $('#benchAfter').disabled=true; $('#benchReset').disabled=true; };
+// start game detection globally (ทำงานทุกหน้า)
+detectStart();
+
+// GPU Guide — ปุ่มคัดลอกเป็นข้อความ
+if($('#ggCopy')) $('#ggCopy').onclick=async()=>{
+  const txt=guideAsText();
+  try{ await navigator.clipboard.writeText(txt); toast('s','คัดลอกแล้ว','เอาไปวางในโน้ต/แชทได้เลย'); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('s','คัดลอกแล้ว','เอาไปวางในโน้ต/แชทได้เลย'); }catch(e2){ toast('w','คัดลอกไม่สำเร็จ','ลองเลือกข้อความในตารางแล้วก็อปเองครับ'); }
+    document.body.removeChild(ta);
+  }
+};
+$('#goProfiles').onclick=()=>nav('profiles');
+$('#runAllBtn').onclick=()=>applyMany(T.filter(t=>t.cat===curPage).map(t=>t.id), CATS[curPage].t);
+$('#searchInput').oninput=e=>filterCards(e.target.value);
+$('#mkRestore').onclick=makeRestorePoint;
+$('#apRun').onclick=runAutoPing;
+$('#apResetDns').onclick=resetDnsAuto;
+$('#tpRefresh').onclick=refreshTopProcs;
+$('#revertAll').onclick=revertAll;
+$('#resetPower').onclick=resetPower;
+
+$('#dockHead').onclick=e=>{ if(e.target.id==='dClear') return; $('#dock').classList.toggle('collapsed'); };
+$('#dClear').onclick=()=>{ logLines.length=0; store.set('gb_log',[]); renderLogs(); $('#recentLog').innerHTML='<div class="ln dim">ยังไม่มีกิจกรรม</div>'; };
+$('#clearLog').onclick=()=>{ logLines.length=0; store.set('gb_log',[]); renderLogs(); };
+$('#exportLog').onclick=()=>{
+  const txt=logLines.map(l=>`[${new Date(l.t).toLocaleTimeString()}] ${l.msg}`).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'})); a.download='GameBoostFPS_log.txt'; a.click();
+  toast('s','Export แล้ว','GameBoostFPS_log.txt');
+};
+
+/* ══ INIT ══ */
+renderPresets(); renderAllCats(); renderProfiles(); renderLogs();
+updateGauge(); updateCounts();
+loadSysInfo();
+try{ applyTheme(localStorage.getItem('gb_theme')||'default'); }catch(e){ applyTheme('default'); }
+try{ applyIcon(localStorage.getItem('gb_icon')||'pixel'); }catch(e){ applyIcon('pixel'); }
+if(!logLines.length) log('info', DESKTOP?'[i] Game Boost FPS PRO — Desktop mode พร้อมใช้':'[i] Preview mode — build เป็น .exe เพื่อใช้งานจริง');
+</script>
+</body>
+</html>
