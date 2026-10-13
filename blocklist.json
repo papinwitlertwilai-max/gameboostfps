@@ -1,0 +1,4 @@
+{
+ "payload": "{\"seq\":1,\"rules\":{\"net_bbr\":{\"maxBuild\":26100,\"why\":\"Windows 11 24H2 ขึ้นไป BBR2 ทำให้ Steam เปิดแล้วค้าง ผู้พัฒนาปิดการ์ดนี้ไว้\"}},\"issued\":\"2026-10-13\"}",
+ "sig": "7FpbVMn1BmoE/HZOamwFXeJ2qrZCwGS7zlUtCHa9+4vcdiM5gixYORjQv39dsHjMSsEO5YeqdvM8BnhCc4+DCA=="
+}
